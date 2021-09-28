@@ -1,0 +1,64 @@
+<template>
+    <div class="mapa">
+        <l-map :zoom="zoom" :center="center" :options="mapOptions">
+            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+            <l-marker :lat-lng="{lat, lng}" >
+                <l-tooltip>
+                    <div class="text-center">
+                        <img :src="`/images/fifa/32/${pais.nombre}.png`" alt="">
+                        <p>{{pais.nombre}}</p>
+                    </div>
+                </l-tooltip>
+            </l-marker>
+        </l-map>
+    </div>
+</template>
+
+<script>
+import { latLng } from "leaflet";
+import { LMap, LTileLayer, LMarker, LTooltip } from "vue2-leaflet";
+export default {
+    components: { LMap, LTileLayer, LMarker, LTooltip },
+    data() {
+        return {
+            zoom: 3,
+            center: latLng(0, 0),
+            markerLatLng: null,
+            url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            currentZoom: 11.5,
+            mapOptions: {
+                zoomSnap: 0.5
+            },
+            showMap: true,
+            lat: "",
+            lng: "",
+        };
+    },
+    created(){
+        setTimeout(() => {
+            this.lat = this.$store.getters.obtenerPais.lat
+            this.lng = this.$store.getters.obtenerPais.lng
+            this.center = latLng(this.lat, this.lng)
+        }, 500);
+    },
+    computed:{
+        pais(){
+            return this.$store.state.pais;
+        }
+    }
+
+}
+</script>
+
+<style scoped>
+    @import "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css";
+
+    .mapa{
+        height: 500px;
+        width: 100%;
+    }
+</style>
+
+
+

@@ -1,0 +1,352 @@
+.uefa { background-image: url(images/fifa/UEFA.png); }
+.conmebol { background-image: url(images/fifa/CONMEBOL.png); }
+.concacaf { background-image: url(images/fifa/CONCACAF.png); }
+.caf { background-image: url(images/fifa/CAF.png); }
+.ofc { background-image: url(images/fifa/OFC.png); }
+.afc { background-image: url(images/fifa/AFC.png); }
+
+.card-hover {
+    text-align: center;
+	background-position: center center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	position: relative;
+    height: 15rem;
+    div {
+        display: none;
+    }
+}
+
+.card-hover:hover {
+    content: '';
+	position: absolute;
+    top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.6);
+    div {
+        color: white;
+        display: block;
+    }
+}
+
+.main-title{
+    font-size: -webkit-xxx-large;
+    color: skyblue;
+}
+
+.bg-sky{
+    background-color: skyblue;
+}
+
+.card-pais {
+    text-align: center;
+	background-position: center center;
+	background-size: contain;
+	background-repeat: no-repeat;
+	position: relative;
+    height: 5rem;
+    div {
+        display: none;
+    }
+}
+
+.card-pais:hover {
+    content: '';
+	position: absolute;
+    top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.6);
+    div {
+        color: white;
+        display: block;
+    }
+}
+
+.card-img-sm {
+    background-size: cover;
+    width: 33% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.card-img-md {
+    background-size: cover;
+    width: 48% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.label-pais{
+    background-color: rgba(0,0,0,0.6);
+    position: relative;
+    bottom: 90%;
+}
+
+.col-5 {
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+
+.country div{
+    display: none;
+}
+
+.country{
+    text-align: center;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    height: 8rem;
+}
+
+.country:hover{
+    div {
+        background-color: rgba(0,0,0, 0.5);
+        display: block;
+    }
+}
+
+.conf-stats{
+    font-size: 20px;
+    color: skyblue;
+}
+
+.afg{ background-image: url('images/fifa/128/Afganistán.png'); }
+.alb{ background-image: url('images/fifa/128/Albania.png'); }
+.ger{ background-image: url('images/fifa/128/Alemania.png'); }
+.and{ background-image: url('images/fifa/128/Andorra.png'); }
+.ang{ background-image: url('images/fifa/128/Angola.png'); }
+.aia{ background-image: url('images/fifa/128/Anguila.png'); }
+.atg{ background-image: url('images/fifa/128/Antigua y Barbuda.png'); }
+.ksa{ background-image: url('images/fifa/128/Arabia Saudita.png'); }
+.alg{ background-image: url('images/fifa/128/Argelia.png'); }
+.arg{ background-image: url('images/fifa/128/Argentina.png'); }
+.arm{ background-image: url('images/fifa/128/Armenia.png'); }
+.aru{ background-image: url('images/fifa/128/Aruba.png'); }
+.aus{ background-image: url('images/fifa/128/Australia.png'); }
+.aut{ background-image: url('images/fifa/128/Austria.png'); }
+.aze{ background-image: url('images/fifa/128/Azerbaiyán.png'); }
+.bah{ background-image: url('images/fifa/128/Bahamas.png'); }
+.bhr{ background-image: url('images/fifa/128/Bahréin.png'); }
+.ban{ background-image: url('images/fifa/128/Bangladesh.png'); }
+.brb{ background-image: url('images/fifa/128/Barbados.png'); }
+.bel{ background-image: url('images/fifa/128/Bélgica.png'); }
+.blz{ background-image: url('images/fifa/128/Belice.png'); }
+.ben{ background-image: url('images/fifa/128/Benín.png'); }
+.ber{ background-image: url('images/fifa/128/Bermudas.png'); }
+.blr{ background-image: url('images/fifa/128/Bielorrusia.png'); }
+.bol{ background-image: url('images/fifa/128/Bolivia.png'); }
+.bih{ background-image: url('images/fifa/128/Bosnia y Herzegovina.png'); }
+.bot{ background-image: url('images/fifa/128/Botsuana.png'); }
+.bra{ background-image: url('images/fifa/128/Brasil.png'); }
+.bru{ background-image: url('images/fifa/128/Brunéi Darussalam.png'); }
+.bul{ background-image: url('images/fifa/128/Bulgaria.png'); }
+.bfa{ background-image: url('images/fifa/128/Burkina Faso.png'); }
+.bdi{ background-image: url('images/fifa/128/Burundi.png'); }
+.bhu{ background-image: url('images/fifa/128/Bután.png'); }
+.cpv{ background-image: url('images/fifa/128/Cabo Verde.png'); }
+.cam{ background-image: url('images/fifa/128/Camboya.png'); }
+.cmr{ background-image: url('images/fifa/128/Camerún.png'); }
+.can{ background-image: url('images/fifa/128/Canadá.png'); }
+.cha{ background-image: url('images/fifa/128/Chad.png'); }
+.chi{ background-image: url('images/fifa/128/Chile.png'); }
+.chn{ background-image: url('images/fifa/128/China.png'); }
+.cyp{ background-image: url('images/fifa/128/Chipre.png'); }
+.col{ background-image: url('images/fifa/128/Colombia.png'); }
+.com{ background-image: url('images/fifa/128/Comoras.png'); }
+.cgo{ background-image: url('images/fifa/128/Congo.png'); }
+.prk{ background-image: url('images/fifa/128/Corea del Norte.png'); }
+.kor{ background-image: url('images/fifa/128/Corea del Sur.png'); }
+.civ{ background-image: url('images/fifa/128/Costa de Marfil.png'); }
+.crc{ background-image: url('images/fifa/128/Costa Rica.png'); }
+.cro{ background-image: url('images/fifa/128/Croacia.png'); }
+.cub{ background-image: url('images/fifa/128/Cuba.png'); }
+.cuw{ background-image: url('images/fifa/128/Curazao.png'); }
+.den{ background-image: url('images/fifa/128/Dinamarca.png'); }
+.dma{ background-image: url('images/fifa/128/Dominica.png'); }
+.ecu{ background-image: url('images/fifa/128/Ecuador.png'); }
+.usa{ background-image: url('images/fifa/128/EE UU.png'); }
+.egy{ background-image: url('images/fifa/128/Egipto.png'); }
+.slv{ background-image: url('images/fifa/128/El Salvador.png'); }
+.uae{ background-image: url('images/fifa/128/Emiratos Árabes Unidos.png'); }
+.eri{ background-image: url('images/fifa/128/Eritrea.png'); }
+.sco{ background-image: url('images/fifa/128/Escocia.png'); }
+.svk{ background-image: url('images/fifa/128/Eslovaquia.png'); }
+.svn{ background-image: url('images/fifa/128/Eslovenia.png'); }
+.esp{ background-image: url('images/fifa/128/España.png'); }
+.est{ background-image: url('images/fifa/128/Estonia.png'); }
+.eth{ background-image: url('images/fifa/128/Etiopía.png'); }
+.phi{ background-image: url('images/fifa/128/Filipinas.png'); }
+.fin{ background-image: url('images/fifa/128/Finlandia.png'); }
+.fij{ background-image: url('images/fifa/128/Fiyi.png'); }
+.fra{ background-image: url('images/fifa/128/Francia.png'); }
+.gab{ background-image: url('images/fifa/128/Gabón.png'); }
+.wal{ background-image: url('images/fifa/128/Gales.png'); }
+.gam{ background-image: url('images/fifa/128/Gambia.png'); }
+.geo{ background-image: url('images/fifa/128/Georgia.png'); }
+.gha{ background-image: url('images/fifa/128/Ghana.png'); }
+.gib{ background-image: url('images/fifa/128/Gibraltar.png'); }
+.grn{ background-image: url('images/fifa/128/Granada.png'); }
+.gre{ background-image: url('images/fifa/128/Grecia.png'); }
+.gum{ background-image: url('images/fifa/128/Guam.png'); }
+.gua{ background-image: url('images/fifa/128/Guatemala.png'); }
+.gui{ background-image: url('images/fifa/128/Guinea.png'); }
+.eqg{ background-image: url('images/fifa/128/Guinea Ecuatorial.png'); }
+.gnb{ background-image: url('images/fifa/128/Guinea-Bissáu.png'); }
+.guy{ background-image: url('images/fifa/128/Guyana.png'); }
+.hai{ background-image: url('images/fifa/128/Haití.png'); }
+.hon{ background-image: url('images/fifa/128/Honduras.png'); }
+.hkg{ background-image: url('images/fifa/128/Hong Kong.png'); }
+.hun{ background-image: url('images/fifa/128/Hungría.png'); }
+.ind{ background-image: url('images/fifa/128/India.png'); }
+.idn{ background-image: url('images/fifa/128/Indonesia.png'); }
+.eng{ background-image: url('images/fifa/128/Inglaterra.png'); }
+.irq{ background-image: url('images/fifa/128/Irak.png'); }
+.irn{ background-image: url('images/fifa/128/Irán.png'); }
+.irl{ background-image: url('images/fifa/128/Irlanda.png'); }
+.nir{ background-image: url('images/fifa/128/Irlanda del Norte.png'); }
+.isl{ background-image: url('images/fifa/128/Islandia.png'); }
+.cay{ background-image: url('images/fifa/128/Islas Caimán.png'); }
+.cok{ background-image: url('images/fifa/128/Islas Cook.png'); }
+.fro{ background-image: url('images/fifa/128/Islas Feroe.png'); }
+.sol{ background-image: url('images/fifa/128/Islas Salomón.png'); }
+.vgb{ background-image: url('images/fifa/128/Islas Vírgenes Británicas.png'); }
+.vir{ background-image: url('images/fifa/128/Islas Vírgenes Estadounidenses.png'); }
+.isr{ background-image: url('images/fifa/128/Israel.png'); }
+.ita{ background-image: url('images/fifa/128/Italia.png'); }
+.jam{ background-image: url('images/fifa/128/Jamaica.png'); }
+.jpn{ background-image: url('images/fifa/128/Japón.png'); }
+.jor{ background-image: url('images/fifa/128/Jordania.png'); }
+.kaz{ background-image: url('images/fifa/128/Kazajstán.png'); }
+.ken{ background-image: url('images/fifa/128/Kenia.png'); }
+.kgz{ background-image: url('images/fifa/128/Kirguistán.png'); }
+.kvx{ background-image: url('images/fifa/128/Kosovo.png'); }
+.kuw{ background-image: url('images/fifa/128/Kuwait.png'); }
+.lao{ background-image: url('images/fifa/128/Laos.png'); }
+.les{ background-image: url('images/fifa/128/Lesoto.png'); }
+.lva{ background-image: url('images/fifa/128/Letonia.png'); }
+.lib{ background-image: url('images/fifa/128/Líbano.png'); }
+.lbr{ background-image: url('images/fifa/128/Liberia.png'); }
+.lby{ background-image: url('images/fifa/128/Libia.png'); }
+.lie{ background-image: url('images/fifa/128/Liechtenstein.png'); }
+.ltu{ background-image: url('images/fifa/128/Lituania.png'); }
+.lux{ background-image: url('images/fifa/128/Luxemburgo.png'); }
+.mac{ background-image: url('images/fifa/128/Macao.png'); }
+.mkd{ background-image: url('images/fifa/128/Macedonia.png'); }
+.mad{ background-image: url('images/fifa/128/Madagascar.png'); }
+.mas{ background-image: url('images/fifa/128/Malasia.png'); }
+.mwi{ background-image: url('images/fifa/128/Malaui.png'); }
+.mdv{ background-image: url('images/fifa/128/Maldivas.png'); }
+.mli{ background-image: url('images/fifa/128/Mali.png'); }
+.mlt{ background-image: url('images/fifa/128/Malta.png'); }
+.mar{ background-image: url('images/fifa/128/Marruecos.png'); }
+.mri{ background-image: url('images/fifa/128/Mauricio.png'); }
+.mtn{ background-image: url('images/fifa/128/Mauritania.png'); }
+.mex{ background-image: url('images/fifa/128/México.png'); }
+.mda{ background-image: url('images/fifa/128/Moldavia.png'); }
+.mng{ background-image: url('images/fifa/128/Mongolia.png'); }
+.mne{ background-image: url('images/fifa/128/Montenegro.png'); }
+.msr{ background-image: url('images/fifa/128/Montserrat.png'); }
+.moz{ background-image: url('images/fifa/128/Mozambique.png'); }
+.mya{ background-image: url('images/fifa/128/Myanmar.png'); }
+.nam{ background-image: url('images/fifa/128/Namibia.png'); }
+.nep{ background-image: url('images/fifa/128/Nepal.png'); }
+.nca{ background-image: url('images/fifa/128/Nicaragua.png'); }
+.nig{ background-image: url('images/fifa/128/Níger.png'); }
+.nga{ background-image: url('images/fifa/128/Nigeria.png'); }
+.nor{ background-image: url('images/fifa/128/Noruega.png'); }
+.ncl{ background-image: url('images/fifa/128/Nueva Caledonia.png'); }
+.nzl{ background-image: url('images/fifa/128/Nueva Zelanda.png'); }
+.oma{ background-image: url('images/fifa/128/Omán.png'); }
+.ned{ background-image: url('images/fifa/128/Países Bajos.png'); }
+.pak{ background-image: url('images/fifa/128/Pakistán.png'); }
+.ple{ background-image: url('images/fifa/128/Palestina.png'); }
+.pan{ background-image: url('images/fifa/128/Panamá.png'); }
+.png{ background-image: url('images/fifa/128/Papúa Nueva Guinea.png'); }
+.par{ background-image: url('images/fifa/128/Paraguay.png'); }
+.per{ background-image: url('images/fifa/128/Perú.png'); }
+.pol{ background-image: url('images/fifa/128/Polonia.png'); }
+.por{ background-image: url('images/fifa/128/Portugal.png'); }
+.pur{ background-image: url('images/fifa/128/Puerto Rico.png'); }
+.qat{ background-image: url('images/fifa/128/Qatar.png'); }
+.cod{ background-image: url('images/fifa/128/RD del Congo.png'); }
+.cta{ background-image: url('images/fifa/128/República Centroafricana.png'); }
+.cze{ background-image: url('images/fifa/128/República Checa.png'); }
+.dom{ background-image: url('images/fifa/128/República Dominicana.png'); }
+.rwa{ background-image: url('images/fifa/128/Ruanda.png'); }
+.rou{ background-image: url('images/fifa/128/Rumanía.png'); }
+.rus{ background-image: url('images/fifa/128/Rusia.png'); }
+.sam{ background-image: url('images/fifa/128/Samoa.png'); }
+.asa{ background-image: url('images/fifa/128/Samoa Estadounidense.png'); }
+.skn{ background-image: url('images/fifa/128/San Cristóbal y Nieves.png'); }
+.smr{ background-image: url('images/fifa/128/San Marino.png'); }
+.vin{ background-image: url('images/fifa/128/San Vicente y las Granadinas.png'); }
+.lca{ background-image: url('images/fifa/128/Santa Lucía.png'); }
+.stp{ background-image: url('images/fifa/128/Santo Tomé y Príncipe.png'); }
+.sen{ background-image: url('images/fifa/128/Senegal.png'); }
+.srb{ background-image: url('images/fifa/128/Serbia.png'); }
+.sey{ background-image: url('images/fifa/128/Seychelles.png'); }
+.sle{ background-image: url('images/fifa/128/Sierra Leona.png'); }
+.sin{ background-image: url('images/fifa/128/Singapur.png'); }
+.syr{ background-image: url('images/fifa/128/Siria.png'); }
+.som{ background-image: url('images/fifa/128/Somalia.png'); }
+.sri{ background-image: url('images/fifa/128/Sri Lanka.png'); }
+.swz{ background-image: url('images/fifa/128/Suazilandia.png'); }
+.rsa{ background-image: url('images/fifa/128/Sudáfrica.png'); }
+.sdn{ background-image: url('images/fifa/128/Sudán.png'); }
+.ssd{ background-image: url('images/fifa/128/Sudán del Sur.png'); }
+.swe{ background-image: url('images/fifa/128/Suecia.png'); }
+.sui{ background-image: url('images/fifa/128/Suiza.png'); }
+.sur{ background-image: url('images/fifa/128/Surinam.png'); }
+.tah{ background-image: url('images/fifa/128/Tahití.png'); }
+.tha{ background-image: url('images/fifa/128/Tailandia.png'); }
+.tpe{ background-image: url('images/fifa/128/Taipei.png'); }
+.tan{ background-image: url('images/fifa/128/Tanzania.png'); }
+.tjk{ background-image: url('images/fifa/128/Tayikistán.png'); }
+.tls{ background-image: url('images/fifa/128/Timor Oriental.png'); }
+.tog{ background-image: url('images/fifa/128/Togo.png'); }
+.tga{ background-image: url('images/fifa/128/Tonga.png'); }
+.tri{ background-image: url('images/fifa/128/Trinidad y Tobago.png'); }
+.tun{ background-image: url('images/fifa/128/Túnez.png'); }
+.tca{ background-image: url('images/fifa/128/Turcas y Caicos.png'); }
+.tkm{ background-image: url('images/fifa/128/Turkmenistán.png'); }
+.tur{ background-image: url('images/fifa/128/Turquía.png'); }
+.ukr{ background-image: url('images/fifa/128/Ucrania.png'); }
+.uga{ background-image: url('images/fifa/128/Uganda.png'); }
+.uru{ background-image: url('images/fifa/128/Uruguay.png'); }
+.uzb{ background-image: url('images/fifa/128/Uzbekistán.png'); }
+.van{ background-image: url('images/fifa/128/Vanuatu.png'); }
+.ven{ background-image: url('images/fifa/128/Venezuela.png'); }
+.vie{ background-image: url('images/fifa/128/Vietnam.png'); }
+.yem{ background-image: url('images/fifa/128/Yemen.png'); }
+.dji{ background-image: url('images/fifa/128/Yibuti.png'); }
+.zam{ background-image: url('images/fifa/128/Zambia.png'); }
+.zim{ background-image: url('images/fifa/128/Zimbabue.png'); }
+
+
+.table-head{
+    background-color: skyblue;
+    color: white;
+}
+
+.text-sky{
+    color: skyblue;
+}
+
+.bg-sky{
+    background-color: skyblue;
+}
+
+.center-align {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
