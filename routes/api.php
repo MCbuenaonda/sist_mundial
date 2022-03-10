@@ -27,5 +27,7 @@ Route::get('/paises/{pais}', 'ApiController@pais')->name('pais');
 Route::get('/mundiales/{mundial}', 'ApiController@mundial')->name('mundial');
 
 Route::get('/juegos', 'ApiController@juegos')->name('juegos');
-Route::get('/juegos/{juego}', 'ApiController@juego')->name('juego');
+Route::get('/juegos/play', 'ApiController@juego')->name('juego');
+Route::get('/juegos/{juego}', 'ApiController@juegoword');
 Route::post('/juegos', 'ApiController@store')->name('store');
+Route::get('/detalles/{juego}', 'ApiController@grupopais');

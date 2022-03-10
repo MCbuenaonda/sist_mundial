@@ -15,10 +15,12 @@ class CreateLogJuegosTable extends Migration
     {
         Schema::create('log_juegos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('historia_id')->references('id')->on('historias')->onDelete('cascade');
+            $table->bigInteger('historia_id')->nullable();
+            // $table->foreignId('historia_id')->references('id')->on('historias')->onDelete('cascade');
             $table->integer('minuto');
             $table->string('posesion');
-            $table->foreignId('jugador_id')->nullable()->references('id')->on('jugadors')->onDelete('cascade');
+            $table->bigInteger('jugador_id')->nullable();
+            // $table->foreignId('jugador_id')->nullable()->references('id')->on('jugadors')->onDelete('cascade');
             $table->tinyInteger('gol');
             $table->timestamps();
         });

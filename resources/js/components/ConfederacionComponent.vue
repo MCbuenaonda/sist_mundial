@@ -20,7 +20,7 @@
             <div class="col-md-2 mt-4" v-for="pais in this.paises" :key="pais.id">
                 <router-link :to="{name: 'pais', params: {id: pais.id}}">
                     <div class="card card-pais">
-                        <img class="card-img-md" :src="`images/fifa/128/${pais.nombre}.png`" alt="">
+                        <img class="card-img-md" :src="`${pais.images.bandera}.png`" alt="">
                         <div class="animate__animated animate__fadeIn label-pais">
                             <h3 class="font-weight-bold">{{ pais.nombre }}</h3>
                         </div>

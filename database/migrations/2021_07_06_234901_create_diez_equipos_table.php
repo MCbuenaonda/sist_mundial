@@ -15,7 +15,8 @@ class CreateDiezEquiposTable extends Migration
     {
         Schema::create('diez_equipos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jornada_id')->references('id')->on('jornadas')->onDelete('cascade');
+            $table->bigInteger('jornada_id')->nullable();
+            // $table->foreignId('jornada_id')->references('id')->on('jornadas')->onDelete('cascade');
             $table->integer('pos1');
             $table->integer('pos2');
             $table->integer('pos3');

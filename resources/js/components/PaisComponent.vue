@@ -13,7 +13,7 @@
 
         <h1 class="text-sky mb-2 row">
             <div class="col-2 text-center">
-                <img :src="`/images/fifa/escudos/${pais.nombre}.png`" alt="" width="100px">
+                <img :src="`${pais.images.escudo}`" alt="" width="100px">
             </div>
 
             <div class="col-10 center-align">
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="text-center border">
-                    <img :src="`/images/fifa/jersey/${pais.nombre}.png`" alt="">
+                    <img :src="`${pais.images.jersey}`" alt="">
                 </div>
 
                 <div class="p-4 bg-sky">

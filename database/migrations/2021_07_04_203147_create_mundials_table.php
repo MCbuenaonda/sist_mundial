@@ -15,7 +15,8 @@ class CreateMundialsTable extends Migration
     {
         Schema::create('mundials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
+            $table->bigInteger('pais_id')->nullable();
+            // $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
             $table->integer('anio');
             $table->integer('campeon')->default(0);
             $table->tinyInteger('activo')->default(1);

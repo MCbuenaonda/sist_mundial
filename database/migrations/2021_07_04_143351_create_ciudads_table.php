@@ -18,7 +18,8 @@ class CreateCiudadsTable extends Migration
             $table->string('nombre');
             $table->string('tipo');
             $table->string('estadio');
-            $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
+            $table->bigInteger('pais_id')->nullable();
+            // $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
         });
     }
 

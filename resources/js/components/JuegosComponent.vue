@@ -148,7 +148,8 @@ export default {
             return Math.floor(Math.random() * (10 - 0)) + 0;
         },
         _getJuego(){
-            axios.get(`/api/juegos/1`).then(res => {
+            axios.get(`/api/juegos/play`).then(res => {
+                console.log(res.data);
                 this.juego = res.data;
             }).catch(e => console.log(e.message));
         },

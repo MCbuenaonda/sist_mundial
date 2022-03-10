@@ -16,8 +16,10 @@ class CreateJugadorsTable extends Migration
         Schema::create('jugadors', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->foreignId('posicion_id')->references('id')->on('posicions')->onDelete('cascade');
-            $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
+            $table->bigInteger('posicion_id')->nullable();
+            $table->bigInteger('pais_id')->nullable();
+            // $table->foreignId('posicion_id')->references('id')->on('posicions')->onDelete('cascade');
+            // $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
             $table->integer('goles');
             $table->integer('goles_temp');
             $table->integer('botin');

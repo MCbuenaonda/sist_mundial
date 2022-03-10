@@ -15,9 +15,12 @@ class CreateInternacionalsTable extends Migration
     {
         Schema::create('internacionals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
-            $table->foreignId('fase_confederacion_id')->nullable()->references('id')->on('fases_confederacions')->onDelete('cascade');
-            $table->foreignId('grupo_id')->nullable()->references('id')->on('grupos')->onDelete('cascade');
+            $table->bigInteger('pais_id')->nullable();
+            $table->bigInteger('fase_confederacion_id')->nullable();
+            $table->bigInteger('grupo_id')->nullable();
+            // $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
+            // $table->foreignId('fase_confederacion_id')->nullable()->references('id')->on('fases_confederacions')->onDelete('cascade');
+            // $table->foreignId('grupo_id')->nullable()->references('id')->on('grupos')->onDelete('cascade');
             $table->integer('posicion')->nullable();
             $table->integer('puntos')->default(0);
             $table->integer('jj')->default(0);

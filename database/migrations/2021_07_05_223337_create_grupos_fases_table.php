@@ -15,9 +15,12 @@ class CreateGruposFasesTable extends Migration
     {
         Schema::create('grupos_fases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('confederacion_id')->references('id')->on('confederacions')->onDelete('cascade');
-            $table->foreignId('fase_id')->references('id')->on('fases')->onDelete('cascade');
-            $table->foreignId('grupo_id')->references('id')->on('grupos')->onDelete('cascade');
+            $table->bigInteger('confederacion_id')->nullable();
+            $table->bigInteger('fase_id')->nullable();
+            $table->bigInteger('grupo_id')->nullable();
+            // $table->foreignId('confederacion_id')->references('id')->on('confederacions')->onDelete('cascade');
+            // $table->foreignId('fase_id')->references('id')->on('fases')->onDelete('cascade');
+            // $table->foreignId('grupo_id')->references('id')->on('grupos')->onDelete('cascade');
             $table->integer('equipos');
             $table->tinyInteger('activo')->default(0);
             $table->timestamps();

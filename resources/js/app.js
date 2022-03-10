@@ -23,6 +23,8 @@
 
 Vue.component('pagina-inicio', require('./components/PaginaInicio.vue').default);
 Vue.component('confederacion-card', require('./components/mundial/ConfederacionCard.vue').default);
+Vue.component('pais-modal', require('./components/mundial/PaisModal.vue').default);
+Vue.component('bandera-modal', require('./components/mundial/BanderaModal.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

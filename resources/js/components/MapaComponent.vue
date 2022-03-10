@@ -5,7 +5,7 @@
             <l-marker :lat-lng="{lat, lng}" >
                 <l-tooltip>
                     <div class="text-center">
-                        <img :src="`/images/fifa/32/${pais.nombre}.png`" alt="">
+                        <img :src="`${pais.images.bandera}`" alt="">
                         <p>{{pais.nombre}}</p>
                     </div>
                 </l-tooltip>

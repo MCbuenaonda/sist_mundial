@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Afc;
+use App\Caf;
+use App\Ofc;
 use App\Pais;
+use App\Uefa;
 use App\Mundial;
+use App\Concacaf;
+use App\Conmebol;
 use App\Historia;
 use App\LogJuego;
 use App\Confederacion;
@@ -31,6 +37,47 @@ class ApiController extends Controller {
         return response()->json($confederacion);
     }
 
+    public function grupopais($id){
+        $historia = Historia::where('id', $id)->first();
+        $data = false;
+
+        switch ($historia->confederacion_id) {
+            case 1:
+                $data = Uefa::where('grupo_id', $historia->grupo_id)->orderby('puntos', 'DESC')->orderby('gf', 'DESC')->orderby('gc', 'ASC')->get();
+                break;
+            case 2:
+                $data = Conmebol::where('grupo_id', $historia->grupo_id)->orderby('puntos', 'DESC')->orderby('gf', 'DESC')->orderby('gc', 'ASC')->get();;
+                break;
+            case 3:
+                $data = Concacaf::where('grupo_id', $historia->grupo_id)->orderby('puntos', 'DESC')->orderby('gf', 'DESC')->orderby('gc', 'ASC')->get();
+                break;
+            case 4:
+                $data = Caf::where('grupo_id', $historia->grupo_id)->orderby('puntos', 'DESC')->orderby('gf', 'DESC')->orderby('gc', 'ASC')->get();;
+                break;
+            case 5:
+                $data = Ofc::where('grupo_id', $historia->grupo_id)->orderby('puntos', 'DESC')->orderby('gf', 'DESC')->orderby('gc', 'ASC')->get();;
+                break;
+            case 6:
+                $data = Afc::where('grupo_id', $historia->grupo_id)->orderby('puntos', 'DESC')->orderby('gf', 'DESC')->orderby('gc', 'ASC')->get();;
+                break;
+            default:
+                return 'uefa';
+                break;
+        }
+
+        foreach ($data as $key => $item) {
+            $item->pais = $item->pais;
+            $item->pais->images = $item->pais->images;
+            $item->pais->juegos = Historia::whereRaw('tag in (?, ?) AND activo = 1', [$historia->paisL->siglas.$historia->paisV->siglas, $historia->paisV->siglas.$historia->paisL->siglas])->get();
+            foreach ($item->pais->juegos as $k => $juego) {
+                $juego->paisL = $juego->paisL;
+                $juego->paisV = $juego->paisV;
+            }
+        }
+
+        return response()->json($data);
+    }
+
     public function pais(Pais $pais) {
         $pais->confederacion = $pais->confederacion;
         return response()->json($pais);
@@ -42,12 +89,19 @@ class ApiController extends Controller {
         return response()->json($mundial);
     }
 
-    public function juego(String $word) {
+    public function juegoword(String $word) {
         $word = Str::upper($word);
         $juegos = Historia::where('activo', 0)->where('tag', 'like', '%' . $word . '%')->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->get();
         $juegos = $this->_addDetails($juegos);
         //$anterior = Historia::where('activo', 1)->orderBy('fecha', 'DESC')->orderBy('id', 'DESC')->first();
         return response()->json($juegos);
+    }
+
+    public function juego() {
+        $juego = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
+        //$juegos = $this->_addDetails($juegos);
+        //$anterior = Historia::where('activo', 1)->orderBy('fecha', 'DESC')->orderBy('id', 'DESC')->first();
+        return response()->json($juego);
     }
 
     public function juegos() {

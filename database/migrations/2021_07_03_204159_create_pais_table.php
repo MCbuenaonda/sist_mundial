@@ -29,8 +29,10 @@ class CreatePaisTable extends Migration
             $table->float('lat');
             $table->float('lng');
             $table->string('federacion');
-            $table->foreignId('confederacion_id')->references('id')->on('confederacions')->onDelete('cascade');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('confederacion_id')->nullable();
+            $table->bigInteger('user_id')->nullable();
+            //$table->foreignId('confederacion_id')->references('id')->on('confederacions')->onDelete('cascade');
+            //$table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

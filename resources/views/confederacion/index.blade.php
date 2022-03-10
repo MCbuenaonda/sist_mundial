@@ -72,7 +72,7 @@
 
                 <tr>
                     <td scope="row">
-                        <img src="/images/fifa/32/{{$data->pais->nombre}}.png" alt="">
+                        <img src="{{$data->pais->images->icono}}" alt="" style="width: 35px;">
                         {{$data->pais->nombre}}
                     </td>
                     <td>{{$data->puntos}}</td>
@@ -100,7 +100,7 @@
                 @foreach ($confederacion->paises as $pais)
                     <div class="col-3">
                         <div class="animate__animated animate__fadeIn card text-left mb-5 shadow card-pais text-center">
-                            <img class="card-img-sm" src="/images/fifa/128/{{$pais->nombre}}.png" alt="Card image cap">
+                            <img class="card-img-sm" src="{{$pais->images->bandera}}" alt="Card image cap">
                             <div class="animate__animated animate__fadeIn label-pais">
                                 <h3 class="font-weight-bold">{{ $pais->nombre }}</h3>
                             </div>

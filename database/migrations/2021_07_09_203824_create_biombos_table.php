@@ -15,8 +15,10 @@ class CreateBiombosTable extends Migration
     {
         Schema::create('biombos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
-            $table->foreignId('confederacion_id')->nullable()->references('id')->on('confederacions')->onDelete('cascade');
+            $table->bigInteger('pais_id')->nullable();
+            $table->bigInteger('confederacion_id')->nullable();
+            // $table->foreignId('pais_id')->references('id')->on('pais')->onDelete('cascade');
+            // $table->foreignId('confederacion_id')->nullable()->references('id')->on('confederacions')->onDelete('cascade');
             $table->integer('rankin');
             $table->integer('biombo')->nullable();
             $table->timestamps();

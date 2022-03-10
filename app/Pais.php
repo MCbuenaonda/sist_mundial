@@ -29,4 +29,8 @@ class Pais extends Model
     public function partidosV() {
         return $this->hasMany(Historia::class, 'pais_id_v', 'id');
     }
+
+    public function images() {
+        return $this->hasOne(Image::class, 'pais_id', 'id');
+    }
 }
