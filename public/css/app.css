@@ -27,10 +27,9 @@
 .card-hover {
   text-align: center;
   background-position: center center;
-  background-size: contain;
+  background-size: inherit;
   background-repeat: no-repeat;
-  position: relative;
-  height: 15rem;
+  height: 5rem;
 }
 
 .card-hover div {
@@ -40,7 +39,7 @@
 .card-hover:hover {
   content: "";
   position: absolute;
-  top: 0;
+  top: 11px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -54,11 +53,15 @@
 
 .main-title {
   font-size: -webkit-xxx-large;
-  color: skyblue;
+  color: skyblue !important;
 }
 
 .bg-sky {
   background-color: skyblue;
+}
+
+.text-sky {
+  color: skyblue !important;
 }
 
 .bg-selected {
@@ -125,7 +128,7 @@
 .country {
   text-align: center;
   background-position: center center;
-  background-size: cover;
+  background-size: 115%;
   background-repeat: no-repeat;
   position: relative;
   height: 8rem;
@@ -418,43 +421,43 @@
 }
 
 .gab {
-  background-image: url(/images/Gabón.png?24cfabdd11e7c850bc1ef2dbe7af5f72);
+  background-image: url(/images/Gabón.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .wal {
-  background-image: url(/images/Gales.png?285d8d0d6f0f549c6b48f0de35219ada);
+  background-image: url(/images/Gales.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .gam {
-  background-image: url(/images/Gambia.png?24e931e9a883022573d6dafe6f38d606);
+  background-image: url(/images/Gambia.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .geo {
-  background-image: url(/images/Georgia.png?fee4cb86a71dd617f1d6ee58cefdc924);
+  background-image: url(/images/Georgia.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .gha {
-  background-image: url(/images/Ghana.png?9b063cead103fd10d129c0191f4aaff2);
+  background-image: url(/images/Ghana.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .gib {
-  background-image: url(/images/Gibraltar.png?569533ad7a99c6fc5e617513b1da55b9);
+  background-image: url(/images/Gibraltar.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .grn {
-  background-image: url(/images/Granada.png?fe11eb51e2be6bc027a81da50915afeb);
+  background-image: url(/images/Granada.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .gre {
-  background-image: url(/images/Grecia.png?1540b545c48cc251f430f62af2be0a6d);
+  background-image: url(/images/Grecia.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .gum {
-  background-image: url(/images/Guam.png?33dfed532ddbbf439e25893e4eaf91b6);
+  background-image: url(/images/Guam.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .gua {
-  background-image: url(/images/Guatemala.png?73799f20e77f63c9f474a012f4b64a4b);
+  background-image: url(/images/Guatemala.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .gui {
@@ -498,11 +501,11 @@
 }
 
 .eng {
-  background-image: url(/images/Inglaterra.png?e48bbf46caa3fd2c5aa21b9f46262e37);
+  background-image: url(/images/Inglaterra.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .irq {
-  background-image: url(/images/Irak.png?e91e896285d52df21bf0dd0ef342f681);
+  background-image: url(/images/Irak.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .irn {
@@ -650,15 +653,15 @@
 }
 
 .mlt {
-  background-image: url(/images/Malta.png?16c269248ca70877a75a53e130d87b31);
+  background-image: url(/images/Malta.png?abb61a94d27b9f0df429b0ff82493279);
 }
 
 .mar {
-  background-image: url(/images/Marruecos.png?ee69ba5cc1a7acd8ff0d4d13c477d42c);
+  background-image: url(/images/Marruecos.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .mri {
-  background-image: url(/images/Mauricio.png?d3a7e136a600179691df26c9bf02b43a);
+  background-image: url(/images/Mauricio.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 
 .mtn {
@@ -1001,6 +1004,50 @@
 .center-align {
   display: flex;
   align-items: center;
+}
+
+.text-especial {
+  text-shadow: 0 0 15px #000;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;
+}
+
+.bg-lightgreen {
+  background-color: #8fffbd;
+}
+
+.dark-mode {
+  background-color: #343a40 !important;
+}
+
+.dark-mode label,
+.dark-mode h5,
+.dark-mode h4,
+.dark-mode h3,
+.dark-mode b,
+.dark-mode td,
+.dark-mode p,
+.dark-mode small,
+.dark-mode a,
+.dark-mode ul > li {
+  color: white;
+}
+
+.dark-mode .conf-dark-mode,
+.dark-mode .table-head {
+  background-color: #1a202b !important;
+}
+
+.dark-mode .text-secondary {
+  color: white !important;
+}
+
+.dark-mode hr {
+  border-color: darkgray;
+}
+
+.dark-mode pre {
+  color: blue;
 }
 
 /*!

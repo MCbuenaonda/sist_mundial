@@ -8,10 +8,10 @@
 .card-hover {
     text-align: center;
 	background-position: center center;
-	background-size: contain;
+	background-size: inherit;
 	background-repeat: no-repeat;
-	position: relative;
-    height: 15rem;
+	//position: relative;
+    height: 5rem;
     div {
         display: none;
     }
@@ -20,7 +20,7 @@
 .card-hover:hover {
     content: '';
 	position: absolute;
-    top: 0;
+    top: 11px;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -33,11 +33,15 @@
 
 .main-title{
     font-size: -webkit-xxx-large;
-    color: skyblue;
+    color: skyblue !important;
 }
 
 .bg-sky{
     background-color: skyblue;
+}
+
+.text-sky {
+    color: skyblue !important;
 }
 
 .bg-selected{
@@ -102,7 +106,7 @@
 .country{
     text-align: center;
     background-position: center center;
-    background-size: cover;
+    background-size: 115%;
     background-repeat: no-repeat;
     position: relative;
     height: 8rem;
@@ -351,6 +355,40 @@
     align-items: center;
 }
 
+.text-especial {
+    text-shadow: 0 0 15px #000;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+}
+
+.bg-lightgreen {
+    background-color: #8fffbd;
+}
+
+.dark-mode {
+    background-color: #343a40 !important;
+
+    label, h5, h4, h3, b, td, p, small, a, ul > li{
+        color: white;
+    }
+
+    .conf-dark-mode, .table-head {
+        background-color: #1a202b !important;
+    }
+
+    .text-secondary {
+        color: white !important;
+    }
+
+    hr {
+        border-color: darkgray;
+    }
+
+    pre {
+         color: blue;
+    }
+
+}
 
 
 

@@ -32,5 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SeisEquipoSeed::class);
         $this->call(OchoEquipoSeed::class);
         $this->call(DiezEquipoSeed::class);
+        $this->call(AccionSeed::class);
+        $this->call(ConfiguracionSeed::class);
     }
 }

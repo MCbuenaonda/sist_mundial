@@ -21,8 +21,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//Route::resource('/mundial', MundialController ::class);
 Route::get('/mundial', 'MundialController@index')->name('mundial.index');
 Route::get('/mundial/{partido}', 'MundialController@jugar')->name('mundial.jugar');
+Route::get('/mundial/{partido}/detalle', 'MundialController@show')->name('mundial.show');
+Route::get('/mundial/{partido}/next', 'MundialController@next')->name('mundial.next');
+Route::resource('/configuracion', ConfiguracionController ::class);
 
 Route::group([ 'middleware' => ['auth', 'verified'] ], function() {
     Route::get('/confederacion/{confederacion}', 'ConfederacionController@index')->name('confederacion.index');

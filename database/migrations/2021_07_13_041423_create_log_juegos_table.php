@@ -22,6 +22,7 @@ class CreateLogJuegosTable extends Migration
             $table->bigInteger('jugador_id')->nullable();
             // $table->foreignId('jugador_id')->nullable()->references('id')->on('jugadors')->onDelete('cascade');
             $table->tinyInteger('gol');
+            $table->bigInteger('accion_id')->nullable();
             $table->timestamps();
         });
     }

@@ -2,99 +2,243 @@
 
 @section('content')
     <div class="mx-5 justify-content-center">
-        <h2 class="mt-2 main-title">{{$mundial->id}}ª Copa del Mundo - {{$mundial->pais->nombre}} {{$mundial->anio}}</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="mt-2 main-title">{{$mundial->id}}ª Copa del Mundo - {{$mundial->pais->nombre}} {{$mundial->anio}}</h3>
+            </div>
+
+            <div class="col-md-4 clearfix animate__animated animate__fadeIn">
+                <div class="float-left">
+                    @if($dataJugador != null)
+                        <table class="table table-bordered table-sm mb-0">
+                            <tr class="conf-dark-mode text-center">
+                                <td colspan="2"> <strong class="text-sky">Maximo goleador</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="conf-dark-mode">
+                                    <img src="{{$dataJugador->pais->images->bandera}}" alt="">
+                                </td>
+                                <td>
+                                    <table class="table table-bordered table-sm mb-0 conf-dark-mode">
+                                        <tr>
+                                            <td>
+                                                {{$dataJugador->nombre}}
+                                            </td>
+                                            <td>
+                                                {{$dataJugador->goles}} Goles
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {{$dataJugador->posicion->nombre}}
+                                            </td>
+                                            <td>
+                                                {{$dataJugador->pais->nombre}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    @endif
+                </div>
+
+                <div class="float-right">
+                    <table style="width: 250px;">
+                        @foreach ($podio as $key => $lugar)
+                            @php
+                                $key ++
+                            @endphp
+                            <tr>
+                                <td> <strong> {{$key}}. </strong> <img src="{{$lugar->pais->images->icono}}" alt="" style="width: 35px;"> {{$lugar->nombre}}</td>
+                                <td>{{$lugar->pais->rankin}} pts</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
         <hr>
 
         <section>
-            <div class="container">
-                <div class="card shadow">
-                    <div class="card-body">
+            <div class="">
+                <div class="row">
+                    <!-- SECCION: LISTA DE CONFEDERACIONES -->
+                    <div class="col-md-2">
                         <div class="row">
-                            <div class="col-md-2">
-                                <h5>{{$juego->fecha}}</h5>
-                            </div>
-                            <div class="col-md-8">
-                                <h4 class="card-title text-center">Estadio {{$juego->ciudad->estadio}} {{$juego->ciudad->nombre}}, {{$juego->paisL->siglas}}</h4>
-                            </div>
-                            <div class="col-md-2">
-                                <h5 class="float-right">Fase {{$juego->fase_id}}</h5>
-                            </div>
-                        </div>
+                            @foreach ($confederaciones as $confederacion)
+                                @php
+                                    $name = strtolower($confederacion->nombre);
+                                @endphp
 
-                        <div class="row text-center">
+                                <div class="col-md-12 p-3 animate__animated animate__slideInLeft" style="height: 100px;">
+                                    <a href="{{ route( 'confederacion.index', ['confederacion' => $confederacion->id] ) }}">
+                                        <confederacion-card confederacion="{{$confederacion}}"></confederacion-card>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <!-- SECCION: JUEGO  -->
+                    <div class="col-md-7">
+                        <div class="row animate__animated animate__fadeIn">
                             <div class="col-md-12">
-                                <p># {{ $juego->tag }}</p>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <pais-modal juego="{{ $juego }}" pais="{{ $juego->paisL }}" images="{{ $juego->paisL->images }}"></pais-modal>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <h4 class="mt-5">VS</h4>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <pais-modal juego="{{ $juego }}" pais="{{ $juego->paisV }}" images="{{ $juego->paisV->images }}"></pais-modal>
+
+                                <div class="card shadow conf-dark-mode">
+                                    <carousel-games partidos="{{$historia}}"></carousel-games>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <h5><small>{{$juego->fecha}}</small></h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h4 class="card-title text-center">Estadio {{$juego->ciudad->estadio}} {{$juego->ciudad->nombre}}, {{$juego->paisL->siglas}}</h4>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h5 class="float-right">Fase {{$juego->fase_id}} | <small>Jornada {{$juego->jornada_id}}</small> </h5>
+                                            </div>
+                                        </div>
+
+                                        <div class="row text-center">
+                                            <div class="col-md-12">
+                                                <p># {{ $juego->tag }}</p>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <pais-modal juego="{{ $juego }}" pais="{{ $juego->paisL }}" images="{{ $juego->paisL->images }}"></pais-modal>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <h4 class="mt-5">VS</h4>
+                                                        @if($juegoGlobal != null)
+                                                            <p>({{$juegoGlobal->gol_v}} - {{$juegoGlobal->gol_l}})</p>
+                                                        @endif
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <pais-modal juego="{{ $juego }}" pais="{{ $juego->paisV }}" images="{{ $juego->paisV->images }}"></pais-modal>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 pt-5">
+                                                <auto-timer tipo="ini" config="{{$config}}" partido-id="{{$juego->id}}"></auto-timer>
+                                                <!--
+                                                    <a href="{{ route('mundial.jugar', ['partido' => $juego->id]) }}" class="btn btn-primary btn-lg btn-block">Jugar</a>
+                                                -->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
 
+                        <!-- SECCION: PARTIDOS ANTERIOR Y SIGUIENTE -->
+                        <div class="row mt-2 text-center animate__animated animate__fadeIn">
+                            <div class="col-md-5">
+                                @if($anterior)
+                                    <h4 class="text-sky">Partido anterior</h4>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <bandera-modal juego="{{ $anterior }}" pais="{{ $anterior->paisL }}" images="{{ $anterior->paisL->images }}"></bandera-modal>
+                                        </div>
+                                        <div class="col-md-4 pt-3">
+                                            <h3>{{$anterior->gol_l}} - {{$anterior->gol_v}}</h3>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <bandera-modal juego="{{ $anterior }}" pais="{{ $anterior->paisV }}" images="{{ $anterior->paisV->images }}"></bandera-modal>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 clearfix">
+                                            @foreach ($logJuego as $action)
+                                                @php
+                                                    $float = ($action->posesion == 'L') ? 'float-left' : 'float-right' ;
+                                                @endphp
+
+                                                @if ($float == 'float-left')
+                                                    <div class="{{$float}}">
+                                                        <b>{{$action->minuto}}`</b>
+                                                        <small> {{$action->jugador->nombre}} </small>
+                                                    </div>
+                                                    <br>
+                                                @else
+                                                    <div class="{{$float}}">
+                                                        <small> {{$action->jugador->nombre}} </small>
+                                                        <b>{{$action->minuto}}`</b>
+                                                    </div>
+                                                    <br>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                            <div class="col-md-12">
-                                <h5 class="">Grupo {{$juego->grupo->nombre}}</h5>
-                                <h5 class=""> <small>Jornada {{$juego->jornada_id}}</small> </h5>
+
+                            <div class="col-md-7">
+                                <h4 class="text-sky">Calendario de partidos</h4>
+                                <calendario-view juegos="{{$juegos}}"></calendario-view>
                             </div>
-                            <div class="col-md-12 pt-5">
-                                <a href="{{ route('mundial.jugar', ['partido' => $juego->id]) }}" class="btn btn-success btn-lg btn-block">Jugar</a>
+                        </div>
+                    </div>
+                    <!-- SECCION: DETALLES  -->
+                    <div class="col-md-3 animate__animated animate__fadeIn">
+                        <h4 class="text-sky">Grupo {{$grupo[0]->grupo->nombre}}</h4>
+
+                        <table class="table table-hover table-sm">
+                            <thead class="table-head conf-dark-mode">
+                                <tr>
+                                    <th>Pais</th>
+                                    <th>Pts</th>
+                                    <th>JJ</th>
+                                    <th>JG</th>
+                                    <th>JE</th>
+                                    <th>JP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($grupo as $data)
+                                    @php
+                                        $fondo = (($data->pais->nombre == $juego->paisL->nombre) || ($data->pais->nombre == $juego->paisV->nombre)) ? 'bg-success' : '';
+                                    @endphp
+                                    <tr class="{{$fondo}}">
+                                        <td scope="row">
+                                            <img src="{{$data->pais->images->icono}}" alt="" style="width: 35px;">
+                                            {{$data->pais->nombre}}
+                                        </td>
+                                        <td class="font-weight-bold">{{$data->puntos}}</td>
+                                        <td>{{$data->jj}}</td>
+                                        <td>{{$data->jg}}</td>
+                                        <td>{{$data->je}}</td>
+                                        <td>{{$data->jp }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <hr>
+
+                        <h5 class="text-sky">Dream Team</h5>
+                        <div class="conf-dark-mode text-white p-2">
+                            @foreach ($teamog as $jug)
+                            <div class="row">
+                                <div class="col-md-9" data-toggle="tooltip" data-placement="top" title="{{$jug[0]->pais->nombre}}">
+                                    <img src="{{$jug[0]->image->bandera}}" alt="" style="width: 12%">
+                                    {{$jug[0]->nombre}}
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="my-auto">{{$jug[0]->posicion}}</span>
+                                </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="clearfix container mt-5">
-                @if($anterior)
-                    <div class="text-center float-left">
-                        <h5 class="bg-sky text-white">Partido anterior</h5>
-
-                        <div class="row text-center">
-                            <div class="col-md-4">
-                                <bandera-modal juego="{{ $anterior }}" pais="{{ $anterior->paisL }}" images="{{ $anterior->paisL->images }}"></bandera-modal>
-                            </div>
-                            <div class="col-md-4 pt-3">
-                                <h3>{{$anterior->gol_l}} - {{$anterior->gol_v}}</h3>
-                            </div>
-                            <div class="col-md-4">
-                                <bandera-modal juego="{{ $anterior }}" pais="{{ $anterior->paisV }}" images="{{ $anterior->paisV->images }}"></bandera-modal>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
-                {{-- <div class="text-center float-right">
-                    <h2 class="bg-sky text-white">Proximo partido <small># {{ $juego->id }}</small></h2>
-                    <div class="clearfix">
-                        <small class="float-left">Fase {{$juego->fase_id}}</small>
-                        <small class="float-right">Grupo {{$juego->grupo->nombre}}</small>
-                    </div>
-                    <h5>{{$juego->fecha}}</h5>
-                    <h4>Estadio {{$juego->ciudad->estadio}} {{$juego->ciudad->nombre}}, {{$juego->paisL->siglas}}</h4>
-                    <h3>{{$juego->paisL->nombre}} - {{$juego->paisV->nombre}}</h3>
-                    <a href="{{ route('mundial.jugar', ['partido' => $juego->id]) }}" class="btn btn-success">Jugar</a>
-                </div> --}}
-            </div>
-        </section>
-
-        <section>
-            <div class="row mt-5">
-                @foreach ($confederaciones as $confederacion)
-                @php
-                    $name = strtolower($confederacion->nombre);
-                @endphp
-                <div class="col-4">
-                    <a href="{{ route( 'confederacion.index', ['confederacion' => $confederacion->id] ) }}">
-                        <confederacion-card confederacion="{{$confederacion}}"></confederacion-card>
-                    </a>
-                </div>
-                @endforeach
-            </div>
         </section>
     </div>
 @endsection

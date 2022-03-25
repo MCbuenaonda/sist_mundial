@@ -10,6 +10,12 @@
  window.Vue = require('vue');
 
  import router from './router'
+ import Calendar from 'v-calendar/lib/components/calendar.umd'
+ import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+import Vue from 'vue';
+import VueGoogleCharts from 'vue-google-charts'
+
+Vue.use(VueGoogleCharts)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -25,7 +31,12 @@ Vue.component('pagina-inicio', require('./components/PaginaInicio.vue').default)
 Vue.component('confederacion-card', require('./components/mundial/ConfederacionCard.vue').default);
 Vue.component('pais-modal', require('./components/mundial/PaisModal.vue').default);
 Vue.component('bandera-modal', require('./components/mundial/BanderaModal.vue').default);
-
+Vue.component('acciones-list', require('./components/mundial/AccionesList.vue').default);
+Vue.component('calendario-view', require('./components/mundial/CalendarioView.vue').default);
+Vue.component('auto-timer', require('./components/mundial/AutoTimer.vue').default);
+Vue.component('carousel-games', require('./components/mundial/CarouselGames.vue').default);
+Vue.component('v-calendar', Calendar);
+//Vue.component('v-date-picker', DatePicker);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -34,5 +45,8 @@ Vue.component('bandera-modal', require('./components/mundial/BanderaModal.vue').
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data: {
+        selectedDate: null,
+    }
 });

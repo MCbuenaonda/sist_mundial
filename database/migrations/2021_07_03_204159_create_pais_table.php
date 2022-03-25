@@ -31,6 +31,7 @@ class CreatePaisTable extends Migration
             $table->string('federacion');
             $table->bigInteger('confederacion_id')->nullable();
             $table->bigInteger('user_id')->nullable();
+            $table->integer('poder')->default(0);
             //$table->foreignId('confederacion_id')->references('id')->on('confederacions')->onDelete('cascade');
             //$table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -7,13 +7,18 @@ use App\Caf;
 use App\Ofc;
 use App\Pais;
 use App\Uefa;
+use stdClass;
 use App\Fecha;
+use App\Image;
 use App\Ciudad;
+use App\Jugador;
 use App\Mundial;
 use App\Concacaf;
 use App\Conmebol;
 use App\FasesLog;
 use App\Historia;
+use App\LogJuego;
+use App\Posicion;
 use App\DosEquipo;
 use App\Repechaje;
 use Carbon\Carbon;
@@ -29,6 +34,7 @@ use App\Confederacion;
 use App\Internacional;
 use App\FasesConfederacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MundialResources {
     public $true = 1;
@@ -302,13 +308,18 @@ class MundialResources {
                 foreach ($tabla_jornadas as $jornada) {
                     $fecha = Fecha::where(['confederacion_id' => $rel->confederacion_id, 'fase_id' => $rel->fase_id, 'jornada_id' => $jornada->jornada_id])->first();
 
+
+
+                    //$finalFecha = Carbon::createFromDate($fechaSeedX[0], $fechaSeedX[1], $fechaSeedX[2]);
+
+
                     $data = [
                         'mundial_id' => $mundial->id,
                         'confederacion_id' => $rel->confederacion_id,
                         'fase_id' => $rel->fase_id,
                         'jornada_id' => $jornada->jornada_id,
                         'grupo_id' => $rel_grupo->grupo->id,
-                        'fecha' => $this->_ajustarFecha($fecha->fecha)
+                        'fecha' => $fecha->fecha
                     ];
 
                     if ($rel_grupo->equipos == 2 || $rel_grupo->equipos == 3) {
@@ -397,7 +408,6 @@ class MundialResources {
 
             FasesConfederacion::where(['confederacion_id' => $rel->confederacion_id, 'fase_id' => $rel->fase_id])->update(['activo' => 2]);
         }
-
     }
 
     /**
@@ -717,7 +727,7 @@ class MundialResources {
         if ($nextFase) {
             FasesConfederacion::where(['confederacion_id' => $confederacionId, 'fase_id' => $nextFase->fase_id])->update(['activo' => 1]);
         }else{
-            $this->_jugarPartidos();
+            //$this->_jugarPartidos();
         }
     }
 
@@ -732,62 +742,63 @@ class MundialResources {
         $confederacion = null;
         $paises = null;
         $fase = FasesConfederacion::where('confederacion_id', $conf->id)->where('activo', 1)->first();
-        $grupos_fases = GruposFase::where([ ['confederacion_id', $conf->id], ['fase_id', $fase->fase_id] ])->get();
 
-        $confederacion = $this->asignarConfederacion($conf->nombre);
+        if ($fase) {
+            $grupos_fases = GruposFase::where([ ['confederacion_id', $conf->id], ['fase_id', $fase->fase_id] ])->get();
 
-        if ($conf->id == 1) {
-            if($fase->fase_id == 2 || $fase->fase_id == 3){
-                $paises = $confederacion::whereNull('posicion')->inRandomOrder()->get();
-            }
-        }
+            $confederacion = $this->asignarConfederacion($conf->nombre);
 
-        if ($conf->id == 4 || $conf->id == 5 || $conf->id == 6) {
-            if($fase->fase_id == 2){
-                $paises = $confederacion::inRandomOrder()->get();
-            }
-        }
-
-
-        if ($conf->id == 4 || $conf->id == 5 || $conf->id == 6) {
-            if($fase->fase_id == 3){
-                $paises = $confederacion::inRandomOrder()->get();
-            }
-        }
-
-        if ($conf->id == 3) {
-            if($fase->fase_id == 2){
-                $paises = $confederacion::whereNotNull('fase_confederacion_id')->get();
+            if ($conf->id == 1) {
+                if($fase->fase_id == 2 || $fase->fase_id == 3){
+                    $paises = $confederacion::whereNull('posicion')->inRandomOrder()->get();
+                }
             }
 
-            if($fase->fase_id == 3){
-                $paises = $confederacion::inRandomOrder()->get();
-            }
-        }
-
-        if ($conf->id == 6) {
-            if($fase->fase_id == 4){
-                $paises = $confederacion::whereNull('posicion')->inRandomOrder()->get();
-            }
-        }
-
-        if ($conf->id == 8) {
-            if($fase->fase_id > 1){
-                $paises = $confederacion::inRandomOrder()->get();
-            }
-        }
-
-
-        foreach ($grupos_fases as $k => $grupo) {
-            $for_end = $for_end + $grupo->equipos;
-
-            for ($i=$for_init; $i < $for_end; $i++) {
-                $pais_id = $paises[$ind]->pais_id;
-                $confederacion::where('pais_id', $pais_id)->update(['grupo_id' => $grupo->grupo->id]);
-                $ind++;
+            if ($conf->id == 4 || $conf->id == 5 || $conf->id == 6) {
+                if($fase->fase_id == 2){
+                    $paises = $confederacion::inRandomOrder()->get();
+                }
             }
 
-            $for_init = $for_init + $grupo->equipos;
+            if ($conf->id == 4 || $conf->id == 5 || $conf->id == 6) {
+                if($fase->fase_id == 3){
+                    $paises = $confederacion::inRandomOrder()->get();
+                }
+            }
+
+            if ($conf->id == 3) {
+                if($fase->fase_id == 2){
+                    $paises = $confederacion::whereNotNull('fase_confederacion_id')->get();
+                }
+
+                if($fase->fase_id == 3){
+                    $paises = $confederacion::inRandomOrder()->get();
+                }
+            }
+
+            if ($conf->id == 6) {
+                if($fase->fase_id == 4){
+                    $paises = $confederacion::whereNull('posicion')->inRandomOrder()->get();
+                }
+            }
+
+            if ($conf->id == 8) {
+                if($fase->fase_id > 1){
+                    $paises = $confederacion::inRandomOrder()->get();
+                }
+            }
+
+            foreach ($grupos_fases as $k => $grupo) {
+                $for_end = $for_end + $grupo->equipos;
+
+                for ($i=$for_init; $i < $for_end; $i++) {
+                    $pais_id = $paises[$ind]->pais_id;
+                    $confederacion::where('pais_id', $pais_id)->update(['grupo_id' => $grupo->grupo->id]);
+                    $ind++;
+                }
+
+                $for_init = $for_init + $grupo->equipos;
+            }
         }
     }
 
@@ -795,46 +806,49 @@ class MundialResources {
      * asigna la nueva fase en la confederacion
      */
     protected function _asignarFaseEnConfederacion($confederacionId){
-        $fase = FasesConfederacion::where(['confederacion_id' => $confederacionId, 'activo' => 1])->first();
-        $confederacion = $this->asignarConfederacion($fase->confederacion->nombre);
         $paises = null;
+        $fase = FasesConfederacion::where(['confederacion_id' => $confederacionId, 'activo' => 1])->first();
 
-        switch ($fase->confederacion->nombre) {
-            case 'UEFA':
-                if ($fase->fase_id == 2 || $fase->fase_id == 3) {
-                    $paises = Uefa::whereNull('posicion')->inRandomOrder()->get();
-                }
-                break;
-            case 'CONCACAF':
-                if ($fase->fase_id == 2) {
-                    $paises = Concacaf::where('posicion', 2)->inRandomOrder()->limit(6)->get();
-                }
-                if ($fase->fase_id == 3) {
-                    $paises = Concacaf::inRandomOrder()->get();
-                }
-                break;
-            case 'CAF':
-                $paises = Caf::inRandomOrder()->get();
-                break;
-            case 'OFC':
-                $paises = Ofc::inRandomOrder()->get();
-                break;
-            case 'AFC':
-                if ($fase->fase_id == 4) {
-                    $paises = Afc::whereNull('posicion')->inRandomOrder()->get();
-                }else{
-                    $paises = Afc::inRandomOrder()->get();
-                }
-                break;
-            case 'MUNDIAL':
-                $paises = Internacional::inRandomOrder()->get();
-                break;
-            default:
-                break;
-        }
+        if ($fase) {
+            $confederacion = $this->asignarConfederacion($fase->confederacion->nombre);
 
-        foreach ($paises as $pais) {
-            $confederacion::where('pais_id', $pais->pais_id)->update(['fase_confederacion_id' => $fase->id, 'posicion' => NULL]);
+            switch ($fase->confederacion->nombre) {
+                case 'UEFA':
+                    if ($fase->fase_id == 2 || $fase->fase_id == 3) {
+                        $paises = Uefa::whereNull('posicion')->inRandomOrder()->get();
+                    }
+                    break;
+                case 'CONCACAF':
+                    if ($fase->fase_id == 2) {
+                        $paises = Concacaf::where('posicion', 2)->inRandomOrder()->limit(6)->get();
+                    }
+                    if ($fase->fase_id == 3) {
+                        $paises = Concacaf::inRandomOrder()->get();
+                    }
+                    break;
+                case 'CAF':
+                    $paises = Caf::inRandomOrder()->get();
+                    break;
+                case 'OFC':
+                    $paises = Ofc::inRandomOrder()->get();
+                    break;
+                case 'AFC':
+                    if ($fase->fase_id == 4) {
+                        $paises = Afc::whereNull('posicion')->inRandomOrder()->get();
+                    }else{
+                        $paises = Afc::inRandomOrder()->get();
+                    }
+                    break;
+                case 'MUNDIAL':
+                    $paises = Internacional::inRandomOrder()->get();
+                    break;
+                default:
+                    break;
+            }
+
+            foreach ($paises as $pais) {
+                $confederacion::where('pais_id', $pais->pais_id)->update(['fase_confederacion_id' => $fase->id, 'posicion' => NULL]);
+            }
         }
     }
 
@@ -885,28 +899,32 @@ class MundialResources {
      * Ajusta la fecha para el partido
      */
     public function _ajustarFecha($date) {
-        $fechaData = explode('-', $date);
-        $fechaSeed = Carbon::createFromDate($fechaData[0], $fechaData[1], $fechaData[2]);
+        $fechaDataX = explode('-', $date);
+        $fechaSeedX = Carbon::createFromDate($fechaDataX[0], $fechaDataX[1], $fechaDataX[2]);
 
         if ($this->random(0, 1) == 0) {
-            $fechaInfo = explode(' ', $fechaSeed->add($this->random(0, 7), 'day'));
+            $fechaInfoX = $fechaSeedX->add($this->random(0, 7), 'day');
         } else {
-            $fechaInfo = explode(' ', $fechaSeed->sub($this->random(0, 7), 'day'));
+            $fechaInfoX = $fechaSeedX->sub($this->random(0, 7), 'day');
         }
-        return $fechaInfo[0];
+
+        $fechaLogX = explode(' ', $fechaInfoX);
+
+        return $fechaLogX[0];
     }
 
     /**
      * Guarda el partido creado
      */
     public function _guardarPartido($data, $local, $visita) {
+
         Historia::create([
             'mundial_id' => $data['mundial_id'],
             'confederacion_id' => $data['confederacion_id'],
             'fase_id' => $data['fase_id'],
             'jornada_id' => $data['jornada_id'],
             'grupo_id' => $data['grupo_id'],
-            'fecha' => $data['fecha'],
+            'fecha' => $this->_ajustarFecha($data['fecha']),
             'pais_id_l' => $local->id,
             'pais_id_v' => $visita->id,
             'ciudad_id' => $this->_obtenerCiudad($local->id),
@@ -923,7 +941,7 @@ class MundialResources {
     }
 
     /**
-     *
+     * guarda la informacion de la fase ya finalizada
      */
     public function _guardarFaseConfederacion($confederacion, $confederacionId, $faseId) {
         $mundial = Mundial::where('activo', 1)->first();
@@ -1000,5 +1018,213 @@ class MundialResources {
             'gc' => 0,
             'posicion' => 0
         ]);
+    }
+
+    public function _parseFecha($fecha){
+        $fechaTemp = explode('-', $fecha);
+        $meses = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        $newFecha = $fechaTemp[2].' de '.$meses[ (int)$fechaTemp[1] ].' de '.$fechaTemp[0];
+        return $newFecha;
+    }
+
+    public function _parseFechaSmall($fecha){
+        $fechaTemp = explode('-', $fecha);
+        $meses = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        $newFecha = $fechaTemp[2].' '.$meses[ (int)$fechaTemp[1] ].' '.$fechaTemp[0];
+        return $newFecha;
+    }
+
+    public function getJugador($log, $partido){
+        if($log->posesion == 'L'){
+            return Jugador::where('pais_id', $partido->pais_id_l)->whereNotIn('id', [$log->jugador_id])->inRandomOrder()->first();
+        }else{
+           return Jugador::where('pais_id', $partido->pais_id_v)->whereNotIn('id', [$log->jugador_id])->inRandomOrder()->first();
+        }
+    }
+
+    public function setLogJuego($dataCreate, $accion_id, $jugador_id, $min, $posesion){
+        $dataCreate['accion_id'] = $accion_id;
+        $dataCreate['jugador_id'] = $jugador_id;
+        $dataCreate['minuto'] = $min;
+        $dataCreate['posesion'] = $posesion;
+        return $dataCreate;
+    }
+
+    public function getGrupoPartido($juego){
+        $grupo = null;
+        switch ($juego->confederacion_id) {
+            case 1:
+                $grupo = Uefa::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+            case 2:
+                $grupo = Conmebol::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+            case 3:
+                $grupo = Concacaf::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+            case 4:
+                $grupo = Caf::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+            case 5:
+                $grupo = Ofc::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+            case 6:
+                $grupo = Afc::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+            case 7:
+                $grupo = Repechaje::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+            default:
+                $grupo = Internacional::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+                break;
+        }
+        return $grupo;
+    }
+
+    public function getDataJugador(){
+        $dataJugador = null;
+
+        $jugadorTemp = DB::table('log_juegos')
+             ->select('log_juegos.jugador_id', DB::raw('count(*) as goles'))
+             ->join('jugadors', 'jugadors.id', '=', 'log_juegos.jugador_id')
+             ->join('pais', 'pais.id', '=', 'jugadors.pais_id')
+             ->where('log_juegos.gol', 1)
+             ->groupBy('log_juegos.jugador_id')
+             ->orderBy('goles', 'DESC')
+             ->orderBy('pais.rankin', 'DESC')
+             ->orderBy('pais.puntos', 'DESC')
+             ->orderBy('pais.gf', 'DESC')
+             ->orderBy('pais.gc', 'ASC')
+             ->first();
+
+        if($jugadorTemp){
+            $jugador = Jugador::select('jugadors.nombre as nombre', 'pais.id as pais_id', 'goles', 'jugadors.posicion_id')->where('jugadors.id', $jugadorTemp->jugador_id)->join('pais', 'pais.id', '=', 'jugadors.pais_id')->first();
+            $dataJugador = new stdClass;
+            $dataJugador->nombre = $jugador->nombre;
+            $dataJugador->pais = Pais::where('id', $jugador->pais_id)->first();
+            $dataJugador->goles = $jugadorTemp->goles;
+            $dataJugador->posicion = Posicion::where('id', $jugador->posicion_id)->first();
+        }
+
+        return $dataJugador;
+    }
+
+    public function getAnterior($anterior){
+        $logJuego = null;
+        if ($anterior) {
+            $logJuego = LogJuego::where('historia_id', $anterior->id)->where('gol', 1)->get();
+
+            foreach ($logJuego as $key => $log) {
+                $log->Jugador = Jugador::where('id', $log->jugador_id)->first();
+            }
+        }
+        return $logJuego;
+    }
+
+    public function getTeamog(){
+        $team = DB::table('log_juegos')
+        ->join('acciones', 'acciones.id', '=', 'log_juegos.accion_id')
+        ->join('jugadors', 'jugadors.id', '=', 'log_juegos.jugador_id')
+        ->join('posicions', 'posicions.id', '=', 'jugadors.posicion_id')
+        ->join('pais', 'pais.id', '=', 'jugadors.pais_id')
+        ->select('jugadors.nombre','posicions.siglas as posicion','pais.nombre as pais',DB::raw('count(jugadors.nombre) as pts'),'jugadors.pais_id')
+        ->where('acciones.tipo_var', 'pos')
+        ->groupBy('jugadors.nombre')->groupBy('posicions.siglas')->groupBy('pais.nombre')->groupBy('jugadors.pais_id')
+        ->orderBy('jugadors.posicion_id')
+        ->orderBy('pts', 'DESC')
+        ->get();
+
+        $teamog = $team->groupBy('posicion');
+        foreach ($teamog as $key => $value) {
+            $value[0]->image = Image::where('pais_id', $value[0]->pais_id)->first();
+            $value[0]->pais = Pais::where('id', $value[0]->pais_id)->first();
+        }
+        return $teamog;
+    }
+
+    public function getHistoria($juego){
+        $historia = Historia::whereIn('tag', [$juego->paisL->siglas.$juego->paisV->siglas, $juego->paisV->siglas.$juego->paisL->siglas])->where('activo', 1)->orderBy('fecha', 'DESC')->get();
+        foreach ($historia as $item) {
+            $item->paisL = $item->paisL; //Pais::where('id', $item->pais_id_l)->first();
+            $item->paisL->images = $item->paisL->images;
+            $item->paisV = $item->paisV; //Pais::where('id', $item->pais_id_v)->first();
+            $item->paisV->images = $item->paisV->images;
+            $item->grupo = $item->grupo;
+            $item->fecha = $this->_parseFechaSmall($item->fecha);
+            $item->ciudad = $item->ciudad;
+            $item->jornada = $item->jornada;
+            $item->fase = $item->fase;
+        }
+
+        return $historia;
+    }
+
+    public function getJuegos(){
+        $juegos = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->get();
+        foreach ($juegos as $key => $value) {
+            $value->paisL = $value->paisL;
+            $value->paisV = $value->paisV;
+        }
+        return $juegos;
+    }
+
+    public function getJuego(){
+        $juego = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
+        if (isset($juego->fecha)){
+            $juego->fecha = $this->_parseFecha($juego->fecha);
+        }
+        return $juego;
+    }
+
+    public function getPodio(){
+        $podio = Pais::orderBy('rankin', 'DESC')->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->limit(3)->get();
+        foreach ($podio as $key => $pod) {
+            $pod->pais = Pais::where('id', $pod->id)->first();
+        }
+        return $podio;
+    }
+
+    public function getJuegoGlobal($grupo, $juego){
+        $juegoGlobal = null;
+        if (count($grupo) == 2 && $juego->confederacion_id <= 7 && $juego->jornada_id == 2) {
+            $juegoGlobal = Historia::where('tag', $juego->PaisV->siglas.$juego->PaisL->siglas)->where('fase_id', $juego->fase_id)->first();
+        }
+        return $juegoGlobal;
+    }
+
+    public function getGame($partido){
+        $game = $partido;
+        $game->paisL = $partido->paisL;
+        $game->paisV = $partido->paisV;
+        $game->paisL->images = $partido->paisL->images;
+        $game->paisV->images = $partido->paisV->images;
+        $game->fecha = $this->_parseFecha($game->fecha);
+        return $game;
+    }
+
+    public function getRelato($partido){
+        $relato = DB::table('log_juegos')
+            ->join('jugadors', 'jugadors.id', '=', 'log_juegos.jugador_id')
+            ->join('pais', 'pais.id', '=', 'jugadors.pais_id')
+            ->join('acciones', 'acciones.id', '=', 'log_juegos.accion_id')
+            ->select('log_juegos.minuto', 'pais.nombre as pais', DB::raw('REPLACE(acciones.accion, "{name}", jugadors.nombre) as accion'), 'log_juegos.gol', 'log_juegos.posesion', 'acciones.grupo')
+            ->where('log_juegos.historia_id', $partido->id)
+            ->orderBy('log_juegos.minuto', 'ASC')
+            ->get();
+
+        foreach ($relato as $linea) {
+            $linea->pais = Pais::where('nombre', $linea->pais)->first();
+            $linea->pais->images = Image::where('pais_id', $linea->pais->id)->first();
+        }
+        return $relato;
+    }
+
+    public function getConfederaciones(){
+        $confederaciones = Confederacion::get();
+        foreach ($confederaciones as $key => $conf) {
+            $time = Historia::where('confederacion_id', $conf->id)->where('activo', 0)->get();
+            $conf->activo = count($time);
+        }
+        return $confederaciones;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Pais;
 use App\Uefa;
+use App\Historia;
 use App\Confederacion;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -22,11 +23,27 @@ class ConfederacionController extends Controller
     {
         $conf = $this->lib->asignarConfederacion($confederacion->nombre);
         $confederacion->paisesFase = $conf::whereNotNull('fase_confederacion_id')->orderBy('grupo_id', 'ASC')->orderby('puntos', 'DESC')->orderby('gf', 'DESC')->orderby('gc', 'ASC')->get();
-        $confederacion->paisRankinMundial = Pais::where('confederacion_id', $confederacion->id)->orderBy('rankin', 'DESC')->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->first();
-        $confederacion->paisPuntosFase = $conf::whereNotNull('fase_confederacion_id')->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->first();
-        $confederacion->PaisMasGoles = $conf::whereNotNull('fase_confederacion_id')->orderBy('gf', 'DESC')->first();
+        $confederacion->paisRankinMundial = Pais::where('confederacion_id', $confederacion->id)->orderBy('rankin', 'DESC')->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->first();
+        $confederacion->paisPuntosFase = Pais::where('confederacion_id', $confederacion->id)->orderBy('poder', 'DESC')->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->first();
+        $confederacion->PaisMasGoles = Pais::where('confederacion_id', $confederacion->id)->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->first();
+        $partidos = Historia::where('confederacion_id', $confederacion->id)->where('activo', 0)->orderBy('fecha', 'ASC')->get();
 
-        return view('confederacion.index', compact('confederacion'));
+        if (count($confederacion->paisesFase) == 0) {
+            $confederacion->paisesFase = $conf::orderby('posicion', 'DESC')->get();
+        }
+
+        foreach ($partidos as $item) {
+            $item->paisL = $item->paisL; //Pais::where('id', $item->pais_id_l)->first();
+            $item->paisL->images = $item->paisL->images;
+            $item->paisV = $item->paisV; //Pais::where('id', $item->pais_id_v)->first();
+            $item->paisV->images = $item->paisV->images;
+            $item->grupo = $item->grupo;
+            $item->fecha = $this->lib->_parseFechaSmall($item->fecha);
+            $item->ciudad = $item->ciudad;
+            $item->jornada = $item->jornada;
+        }
+
+        return view('confederacion.index', compact('confederacion','partidos'));
     }
 
     /**
