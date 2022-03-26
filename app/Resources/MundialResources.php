@@ -5,6 +5,7 @@ namespace App\Resources;
 use App\Afc;
 use App\Caf;
 use App\Ofc;
+use App\Fase;
 use App\Pais;
 use App\Uefa;
 use stdClass;
@@ -307,12 +308,7 @@ class MundialResources {
 
                 foreach ($tabla_jornadas as $jornada) {
                     $fecha = Fecha::where(['confederacion_id' => $rel->confederacion_id, 'fase_id' => $rel->fase_id, 'jornada_id' => $jornada->jornada_id])->first();
-
-
-
                     //$finalFecha = Carbon::createFromDate($fechaSeedX[0], $fechaSeedX[1], $fechaSeedX[2]);
-
-
                     $data = [
                         'mundial_id' => $mundial->id,
                         'confederacion_id' => $rel->confederacion_id,
@@ -678,7 +674,7 @@ class MundialResources {
             }
 
             if($partido->confederacion_id == 7) {
-                if($partido->fase_id == 1) {
+                if($partido->fase_id == 6) {
                     $grupos = GruposFase::where([ 'confederacion_id' => $partido->confederacion_id, 'fase_id' => $partido->fase_id ])->get();
                     $paises = null;
 
@@ -691,7 +687,7 @@ class MundialResources {
             }
 
             if($partido->confederacion_id == 8) {
-                if($partido->fase_id == 1) {
+                if($partido->fase_id == 7) {
                     $grupos = GruposFase::where([ 'confederacion_id' => $partido->confederacion_id, 'fase_id' => $partido->fase_id ])->get();
                     $paises = null;
 
@@ -704,7 +700,7 @@ class MundialResources {
                     }
                 }
 
-                if($partido->fase_id > 1) {
+                if($partido->fase_id > 7) {
                     $grupos = GruposFase::where([ 'confederacion_id' => $partido->confederacion_id, 'fase_id' => $partido->fase_id ])->get();
                     $this->_eliminarUnEquipo($grupos, $confederacion);
                 }
@@ -927,7 +923,7 @@ class MundialResources {
             'fecha' => $this->_ajustarFecha($data['fecha']),
             'pais_id_l' => $local->id,
             'pais_id_v' => $visita->id,
-            'ciudad_id' => $this->_obtenerCiudad($local->id),
+            'ciudad_id' => $this->_obtenerCiudad($local->id, $data['confederacion_id']),
             'tag' => $local->siglas.$visita->siglas,
         ]);
     }
@@ -935,7 +931,11 @@ class MundialResources {
     /**
      * Obtiene la ciudad para el partido
      */
-    public function _obtenerCiudad($pais_id) {
+    public function _obtenerCiudad($pais_id, $confederacion_id) {
+        if ($confederacion_id == 8) {
+            $mundial = Mundial::where('activo', 1)->first();
+            $pais_id = $mundial->pais_id;
+        }
         $ciudad = Ciudad::where('pais_id', $pais_id)->inRandomOrder()->first();
         return $ciudad->id;
     }
@@ -1098,12 +1098,13 @@ class MundialResources {
              ->first();
 
         if($jugadorTemp){
-            $jugador = Jugador::select('jugadors.nombre as nombre', 'pais.id as pais_id', 'goles', 'jugadors.posicion_id')->where('jugadors.id', $jugadorTemp->jugador_id)->join('pais', 'pais.id', '=', 'jugadors.pais_id')->first();
+            $jugador = Jugador::select('jugadors.nombre as nombre','pais.id as pais_id','goles','jugadors.posicion_id','jugadors.id')->where('jugadors.id', $jugadorTemp->jugador_id)->join('pais', 'pais.id', '=', 'jugadors.pais_id')->first();
             $dataJugador = new stdClass;
             $dataJugador->nombre = $jugador->nombre;
             $dataJugador->pais = Pais::where('id', $jugador->pais_id)->first();
             $dataJugador->goles = $jugadorTemp->goles;
             $dataJugador->posicion = Posicion::where('id', $jugador->posicion_id)->first();
+            $dataJugador->jugador_id = $jugador->id;
         }
 
         return $dataJugador;
@@ -1127,9 +1128,9 @@ class MundialResources {
         ->join('jugadors', 'jugadors.id', '=', 'log_juegos.jugador_id')
         ->join('posicions', 'posicions.id', '=', 'jugadors.posicion_id')
         ->join('pais', 'pais.id', '=', 'jugadors.pais_id')
-        ->select('jugadors.nombre','posicions.siglas as posicion','pais.nombre as pais',DB::raw('count(jugadors.nombre) as pts'),'jugadors.pais_id')
+        ->select('jugadors.nombre','posicions.siglas as posicion','pais.nombre as pais',DB::raw('count(jugadors.nombre) as pts'),'jugadors.pais_id','jugadors.id as jugador_id')
         ->where('acciones.tipo_var', 'pos')
-        ->groupBy('jugadors.nombre')->groupBy('posicions.siglas')->groupBy('pais.nombre')->groupBy('jugadors.pais_id')
+        ->groupBy('jugadors.nombre')->groupBy('posicions.siglas')->groupBy('pais.nombre')->groupBy('jugadors.pais_id')->groupBy('jugadors.id')
         ->orderBy('jugadors.posicion_id')
         ->orderBy('pts', 'DESC')
         ->get();
@@ -1172,6 +1173,12 @@ class MundialResources {
         $juego = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
         if (isset($juego->fecha)){
             $juego->fecha = $this->_parseFecha($juego->fecha);
+
+            $juego->paisL->fase_id = Historia::select(DB::raw('max(fase_id) as max_fase'))->where('tag', 'like', '%'.$juego->paisL->siglas.'%')->first();
+            $juego->paisL->fase = Fase::where('id', $juego->paisL->fase_id->max_fase)->first();
+
+            $juego->paisV->fase_id = Historia::select(DB::raw('max(fase_id) as max_fase'))->where('tag', 'like', '%'.$juego->paisV->siglas.'%')->first();
+            $juego->paisV->fase = Fase::where('id', $juego->paisV->fase_id->max_fase)->first();
         }
         return $juego;
     }
@@ -1207,7 +1214,7 @@ class MundialResources {
             ->join('jugadors', 'jugadors.id', '=', 'log_juegos.jugador_id')
             ->join('pais', 'pais.id', '=', 'jugadors.pais_id')
             ->join('acciones', 'acciones.id', '=', 'log_juegos.accion_id')
-            ->select('log_juegos.minuto', 'pais.nombre as pais', DB::raw('REPLACE(acciones.accion, "{name}", jugadors.nombre) as accion'), 'log_juegos.gol', 'log_juegos.posesion', 'acciones.grupo')
+            ->select('log_juegos.minuto', 'pais.nombre as pais', DB::raw('REPLACE(acciones.accion, "{name}", jugadors.nombre) as accion'), 'log_juegos.gol', 'log_juegos.posesion', 'acciones.grupo','jugadors.id as jugador_id')
             ->where('log_juegos.historia_id', $partido->id)
             ->orderBy('log_juegos.minuto', 'ASC')
             ->get();
@@ -1215,6 +1222,8 @@ class MundialResources {
         foreach ($relato as $linea) {
             $linea->pais = Pais::where('nombre', $linea->pais)->first();
             $linea->pais->images = Image::where('pais_id', $linea->pais->id)->first();
+            $linea->pais->jugador = Jugador::where('id', $linea->jugador_id)->first();
+            $linea->pais->jugador->posicion = $linea->pais->jugador->posicion;
         }
         return $relato;
     }

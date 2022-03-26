@@ -1,9 +1,15 @@
 <template>
     <div>
         <!-- Button trigger modal -->
-        <div data-toggle="modal" :data-target="'#exampleModal_'+objPais.id" @click="getDetails()">
-            <img :src="objImages.escudo" alt="" style="width: 100px;">
+        <div class="text-center" data-toggle="modal" :data-target="'#exampleModal_'+objPais.id" @click="getDetails()">
+            <div class="card p-3 mx-auto" style="width: 50%;">
+                <img class="mx-auto" :src="objImages.escudo" alt="" style="width: 100px;">
+            </div>
+
             <h3 class="text-secondary mt-2">{{ objPais.nombre }}</h3>
+            <h5>
+                <small class="text-gray">{{objPais.fase.lista}}</small>
+            </h5>
         </div>
 
         <!-- Modal -->
@@ -69,7 +75,7 @@ export default {
     },
     mounted()  {
         //console.log(this.objPais);
-        console.log(this.objGrupo);
+        console.log(this.objPais);
     },
     methods: {
         getDetails() {
@@ -83,5 +89,7 @@ export default {
 </script>
 
 <style>
-
+    .text-gray{
+        color: gray !important;
+    }
 </style>

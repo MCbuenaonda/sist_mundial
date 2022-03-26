@@ -1,35 +1,114 @@
 <template>
     <div>
-        <div class="row text-center text-white">
-            <div class="col-md-2">
-                <img :src="juego.paisL.images.jersey" alt="" style="width: 85%;">
-            </div>
-            <div class="col-md-3 my-auto">
-                <h1>{{juego.paisL.nombre}}</h1>
-            </div>
-            <div class="col-md-2 my-auto">
-                <h1 class="text-white" style="font-size: 4rem;">
-                    <span :class="class_gol_l">{{gol_l}}</span> - <span :class="class_gol_v">{{gol_v}}</span>
-                </h1>
-            </div>
-            <div class="col-md-3 my-auto">
-                <h1>{{juego.paisV.nombre}}</h1>
-            </div>
-            <div class="col-md-2">
-                <img :src="juego.paisV.images.jersey" alt="" style="width: 85%;">
-            </div>
+        <div class="text-center">
+            <span class="badge badge-dark badge-pill">
+                <h4 class="m-0 text-gray">{{mingame}}'</h4>
+            </span>
         </div>
 
-        <div class="conf-dark-mode p-2 text-center" style="height: 9rem;">
-            <h4 v-for="line in list_view" :key="line.id">
-                <div :id="'line-'+line.minuto" :class="class_view">
-                    <img v-if="line.pais != null" :src="line.pais.images.jersey" alt="" style="width: 8%;">
-                    {{line.minuto}}' {{line.accion}}
+        <div v-if="viewtable">
+            <div class="row text-center text-white">
+                <div class="col-md-2">
+                    <img :src="juego.paisL.images.jersey" alt="" style="width: 47%;">
                 </div>
-            </h4>
+                <div class="col-md-3 my-auto">
+                    <h5>{{juego.paisL.nombre}}</h5>
+                </div>
+                <div class="col-md-2 my-auto">
+                    <h5 class="text-white" style="font-size: 4rem;">
+                        <span class="text-sky" :class="class_gol_l">{{gol_l}}</span> - <span class="text-sky" :class="class_gol_v">{{gol_v}}</span>
+                    </h5>
+                </div>
+                <div class="col-md-3 my-auto">
+                    <h5>{{juego.paisV.nombre}}</h5>
+                </div>
+                <div class="col-md-2">
+                    <img :src="juego.paisV.images.jersey" alt="" style="width: 47%;">
+                </div>
+            </div>
+
+            <table class="table table-dark">
+                <tr>
+                    <td class="text-left">POR</td>
+                    <td id="por-l"></td>
+                    <td id="por-v"></td>
+                    <td class="text-right">POR</td>
+                </tr>
+                <tr>
+                    <td class="text-left">DFI</td>
+                    <td id="dfi-l"></td>
+                    <td id="dfi-v"></td>
+                    <td class="text-right">DFI</td>
+                </tr>
+                <tr>
+                    <td class="text-left">DFD</td>
+                    <td id="dfd-l"></td>
+                    <td id="dfd-v"></td>
+                    <td class="text-right">DFD</td>
+                </tr>
+                <tr>
+                    <td class="text-left">LI</td>
+                    <td id="li-l"></td>
+                    <td id="li-v"></td>
+                    <td class="text-right">LI</td>
+                </tr>
+                <tr>
+                    <td class="text-left">LD</td>
+                    <td id="ld-l"></td>
+                    <td id="ld-v"></td>
+                    <td class="text-right">LD</td>
+                </tr>
+                <tr>
+                    <td class="text-left">MI</td>
+                    <td id="mi-l"></td>
+                    <td id="mi-v"></td>
+                    <td class="text-right">MI</td>
+                </tr>
+                <tr>
+                    <td class="text-left">MC</td>
+                    <td id="mc-l"></td>
+                    <td id="mc-v"></td>
+                    <td class="text-right">MC</td>
+                </tr>
+                <tr>
+                    <td class="text-left">MD</td>
+                    <td id="md-l"></td>
+                    <td id="md-v"></td>
+                    <td class="text-right">MD</td>
+                </tr>
+                <tr>
+                    <td class="text-left">EI</td>
+                    <td id="ei-l"></td>
+                    <td id="ei-v"></td>
+                    <td class="text-right">EI</td>
+                </tr>
+                <tr>
+                    <td class="text-left">DC</td>
+                    <td id="dc-l"></td>
+                    <td id="dc-v"></td>
+                    <td class="text-right">DC</td>
+                </tr>
+                <tr>
+                    <td class="text-left">ED</td>
+                    <td id="ed-l"></td>
+                    <td id="ed-v"></td>
+                    <td class="text-right">ED</td>
+                </tr>
+            </table>
         </div>
 
-        <GChart type="LineChart" :data="chartData" :options="chartOptions" />
+        <div v-if="viewline">
+            <div class="conf-dark-mode p-2 text-center" style="height: 9rem;">
+                <h4 v-for="line in list_view" :key="line.id">
+                    <div :id="'line-'+line.minuto" :class="class_view">
+                        <img v-if="line.pais != null" :src="line.pais.images.jersey" alt="" style="width: 8%;">
+                        {{line.minuto}}' {{line.accion}}
+                    </div>
+                </h4>
+            </div>
+
+            <GChart type="LineChart" :data="chartData" :options="chartOptions" />
+        </div>
     </div>
 </template>
 
@@ -55,6 +134,7 @@ export default {
             class_out: 'animate__animated animate__fadeOutUp',
             dominioL: 0,
             dominioV: 0,
+            mingame: 0,
             labels: [],
             dataL: [],
             dataV: [],
@@ -63,6 +143,8 @@ export default {
             class_gol_l: '',
             class_gol_v: '',
             loaded: false,
+            viewline: false,
+            viewtable: true,
             chartData: [],
             chartOptions: {
                 backgroundColor: '#1A202B',
@@ -119,6 +201,19 @@ export default {
         const tiempo = setInterval(() => {
             this.list_view = this.list_view.slice(0,0);
             const linea = this.page[this.list_lines.length];
+            const linea_id = linea.pais.jugador.posicion.siglas.toLowerCase()+'-'+linea.posesion.toLowerCase()
+            const txt_aln = (linea.posesion == 'L') ? 'text-left' : 'text-right'
+            const txt_clr = (linea.gol == 1) ? 'text-sky' : 'text-white'
+            this.mingame = linea.minuto
+            let animation = (linea.posesion == 'L') ? 'animate__slideInRight' : 'animate__slideInLeft'
+            animation = (linea.gol == 1) ? 'animate__bounceIn' : animation
+            if (linea.posesion == 'L') {
+                $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.minuto}' ${linea.accion}</p>`);
+            }else{
+                $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.accion} ${linea.minuto}'</p>`);
+            }
+
+
             this.loaded = false;
             this.list_lines.push(linea)
             this.list_view.push(linea)

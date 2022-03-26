@@ -4,6 +4,7 @@
 .caf { background-image: url(images/CAF.png); }
 .ofc { background-image: url(images/OFC.png); }
 .afc { background-image: url(images/AFC.png); }
+.repechaje, .mundial { background-image: url(images/fifa/Fifa.png); }
 
 .card-hover {
     text-align: center;
@@ -42,6 +43,10 @@
 
 .text-sky {
     color: skyblue !important;
+}
+
+.text-gray {
+    color: gray !important;
 }
 
 .bg-selected{
@@ -387,7 +392,6 @@
     pre {
          color: blue;
     }
-
 }
 
 

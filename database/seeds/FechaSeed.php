@@ -117,14 +117,14 @@ class FechaSeed extends Seeder
         DB::table('fechas')->insert(['confederacion_id' => 6, 'fase_id' => 3, 'jornada_id' => 10]);
         DB::table('fechas')->insert(['confederacion_id' => 6, 'fase_id' => 4, 'jornada_id' => 1]);
         DB::table('fechas')->insert(['confederacion_id' => 6, 'fase_id' => 4, 'jornada_id' => 2]);
-        DB::table('fechas')->insert(['confederacion_id' => 7, 'fase_id' => 1, 'jornada_id' => 1]);
-        DB::table('fechas')->insert(['confederacion_id' => 7, 'fase_id' => 1, 'jornada_id' => 2]);
-        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 1, 'jornada_id' => 1]);
-        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 1, 'jornada_id' => 2]);
-        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 1, 'jornada_id' => 3]);
-        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 2, 'jornada_id' => 1]);
-        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 3, 'jornada_id' => 1]);
-        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 4, 'jornada_id' => 1]);
-        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 5, 'jornada_id' => 1]);
+        DB::table('fechas')->insert(['confederacion_id' => 7, 'fase_id' => 6, 'jornada_id' => 1]);
+        DB::table('fechas')->insert(['confederacion_id' => 7, 'fase_id' => 6, 'jornada_id' => 2]);
+        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 7, 'jornada_id' => 1]);
+        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 7, 'jornada_id' => 2]);
+        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 7, 'jornada_id' => 3]);
+        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 8, 'jornada_id' => 1]);
+        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 9, 'jornada_id' => 1]);
+        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 10, 'jornada_id' => 1]);
+        DB::table('fechas')->insert(['confederacion_id' => 8, 'fase_id' => 11, 'jornada_id' => 1]);
     }
 }

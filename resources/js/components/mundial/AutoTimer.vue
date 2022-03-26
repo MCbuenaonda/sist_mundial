@@ -1,6 +1,6 @@
 <template>
     <div v-if="viewlock">
-        <p v-if="this.tipo == 'ini'" id='label-ini'> El juego comienza en {{sec}}s </p>
+        <p v-if="this.tipo == 'ini'" id='label-ini'> El juego comienza en <span class="text-sky">{{sec}}</span>s </p>
         <p v-if="this.tipo == 'fin'" id='label-fin'> continuando... </p>
     </div>
 </template>

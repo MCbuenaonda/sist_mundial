@@ -8,7 +8,7 @@
                         <small><b>{{ item.fecha }}</b></small>
                     </p>
                     <p class="m-0" v-if="item.activo == 1">
-                        <small>{{ item.fase.descripcion }}</small>
+                        <small>{{ item.fase.lista }}</small>
                     </p>
                 </div>
                 <div class="row text-center">

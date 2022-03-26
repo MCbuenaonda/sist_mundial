@@ -20,7 +20,7 @@ class CreateMundialsTable extends Migration
             $table->integer('anio');
             $table->integer('campeon')->default(0);
             $table->tinyInteger('activo')->default(1);
-            $table->tinyInteger('botin')->default(0);
+            $table->integer('botin')->default(0);
             $table->integer('por')->default(0);
             $table->integer('dfi')->default(0);
             $table->integer('dfd')->default(0);

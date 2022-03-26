@@ -26,16 +26,15 @@ class FasesConfederacionSeed extends Seeder
         DB::table('fases_confederacions')->insert(['confederacion_id' => 5, 'fase_id' => 2]);
         DB::table('fases_confederacions')->insert(['confederacion_id' => 5, 'fase_id' => 3]);
         DB::table('fases_confederacions')->insert(['confederacion_id' => 6, 'fase_id' => 1]);
-
         DB::table('fases_confederacions')->insert(['confederacion_id' => 6, 'fase_id' => 2]);
         DB::table('fases_confederacions')->insert(['confederacion_id' => 6, 'fase_id' => 3]);
         DB::table('fases_confederacions')->insert(['confederacion_id' => 6, 'fase_id' => 4]);
-        DB::table('fases_confederacions')->insert(['confederacion_id' => 7, 'fase_id' => 1]);
-        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 1]);
-        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 2]);
-        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 3]);
-        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 4]);
-        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 5]);
+        DB::table('fases_confederacions')->insert(['confederacion_id' => 7, 'fase_id' => 6]);
+        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 7]);
+        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 8]);
+        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 9]);
+        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 10]);
+        DB::table('fases_confederacions')->insert(['confederacion_id' => 8, 'fase_id' => 11]);
 
     }
 }

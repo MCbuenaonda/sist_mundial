@@ -58,6 +58,11 @@ class MundialController extends Controller
     */
     public function index() {
         $config = Configuracion::where('rol_id', 1)->first();
+        $campeon = null;
+        $historia = null;
+        $grupo = null;
+        $juegoGlobal = null;
+
         $mundial = Mundial::where('activo', $this->const->true )->first();
         if (!$mundial) {
             $this->lib->createMundial();
@@ -80,26 +85,39 @@ class MundialController extends Controller
             if ($repechaje) {
                 $this->_crearRepechaje();
                 $this->_activarFaseRepechaje();
-                //$this->_asignarFaseEnConfederaciones();
                 $this->lib->asignarFaseEnConfederaciones();
                 $this->_asignarGruposDeFaseRepechaje();
-                //$this->_crearPartidos();
                 $this->lib->crearPartidos();
                 //$this->_jugarPartidos();
             }else{
-                $mundial = FasesConfederacion::where(['confederacion_id' => 8, 'activo' => 0])->first();
-                if ($mundial) {
+                $mundial_fase = FasesConfederacion::where(['confederacion_id' => 8, 'activo' => 0])->first();
+                if ($mundial_fase) {
                     $this->_crearBiombos();
                     $this->_crearInternacionals();
                     $this->_activarFaseMundial();
-                    //$this->_asignarFaseEnConfederaciones();
                     $this->lib->asignarFaseEnConfederaciones();
-                    //$this->_crearPartidos();
                     $this->lib->crearPartidos();
                     //$this->_jugarPartidos();
                 }else{
                     $campeon = Internacional::whereNull('posicion')->first();
-                    Mundial::where('activo', 1)->update([ 'activo' => 0, 'campeon' => $campeon->pais_id]);
+                    $teamog = $this->lib->getTeamog();
+                    $dataJugador = $this->lib->getDataJugador();
+                    Mundial::where('activo', 1)->update([
+                        'activo' => 0,
+                        'campeon' => $campeon->pais_id,
+                        'botin' => $dataJugador->jugador_id,
+                        'por' => $teamog['POR'][0]->jugador_id,
+                        'dfi' => $teamog['DFI'][0]->jugador_id,
+                        'dfd' => $teamog['DFD'][0]->jugador_id,
+                        'li' => $teamog['LI'][0]->jugador_id,
+                        'ld' => $teamog['LD'][0]->jugador_id,
+                        'mi' => $teamog['MI'][0]->jugador_id,
+                        'mc' => $teamog['MC'][0]->jugador_id,
+                        'md' => $teamog['MD'][0]->jugador_id,
+                        'ei' => $teamog['EI'][0]->jugador_id,
+                        'dc' => $teamog['DC'][0]->jugador_id,
+                        'ed' => $teamog['ED'][0]->jugador_id
+                    ]);
                     Uefa::truncate();
                     Conmebol::truncate();
                     Concacaf::truncate();
@@ -116,7 +134,6 @@ class MundialController extends Controller
                         $newFecha = $this->_ajustarNuevaFecha($fecha->fecha);
                         FechaLimite::where('tipo', $fecha->tipo)->update([ 'fecha' => $newFecha ]);
                     }
-                    echo 'Se acabo el mundial'; exit;
                 }
             }
         }
@@ -125,13 +142,16 @@ class MundialController extends Controller
         $anterior = Historia::where('activo', 1)->orderBy('fecha', 'DESC')->orderBy('id', 'DESC')->first();
         $logJuego = $this->lib->getAnterior($anterior);
         $dataJugador = $this->lib->getDataJugador();
-        $grupo = $this->lib->getGrupoPartido($juego);
         $podio = $this->lib->getPodio();
         $teamog = $this->lib->getTeamog();
-        $historia = $this->lib->getHistoria($juego);
-        $juegoGlobal = $this->lib->getJuegoGlobal($grupo, $juego);
 
-        return view('mundial.index', compact('mundial','confederaciones','juego','anterior','grupo','juegos','logJuego','dataJugador','podio','juegoGlobal','config','teamog','historia'));
+        if ($campeon == null) {
+            $historia = $this->lib->getHistoria($juego);
+            $grupo = $this->lib->getGrupoPartido($juego);
+            $juegoGlobal = $this->lib->getJuegoGlobal($grupo, $juego);
+        }
+
+        return view('mundial.index', compact('mundial','confederaciones','juego','anterior','grupo','juegos','logJuego','dataJugador','podio','juegoGlobal','config','teamog','historia','campeon'));
     }
 
     /*
@@ -139,6 +159,7 @@ class MundialController extends Controller
     */
     public function show(Historia $partido) {
         $config = Configuracion::where('rol_id', 1)->first();
+        $mundial = Mundial::where('activo', $this->const->true )->first();
         $partidoGlobal = null;
         $grupoGlobal = null;
         $grupo = $this->lib->getGrupoPartido($partido);
@@ -289,7 +310,7 @@ class MundialController extends Controller
         Pais::where('id', $partido->pais_id_v)->update( ['poder' => $podV->poder] );
         $this->lib->checarGrupo($partido);
 
-        return view('mundial.show', compact('relato','game','poderIniL','poderIniV','grupoGlobal','config'));
+        return view('mundial.show', compact('relato','game','poderIniL','poderIniV','grupoGlobal','config','mundial'));
     }
 
     public function next(Historia $partido) {
@@ -810,14 +831,14 @@ class MundialController extends Controller
     protected function _activarFaseRepechaje() {
         $fase_activa = FasesConfederacion::where([ ['confederacion_id', 7], ['activo', 1] ])->get();
         if ( count($fase_activa) == 0) {
-            FasesConfederacion::where(['confederacion_id' => 7, 'fase_id' => 1])->update(['activo' => 1]);
+            FasesConfederacion::where(['confederacion_id' => 7, 'fase_id' => 6])->update(['activo' => 1]);
         }
     }
 
     protected function _activarFaseMundial() {
         $fase_activa = FasesConfederacion::where([ ['confederacion_id', 8], ['activo', 1] ])->get();
         if ( count($fase_activa) == 0) {
-            FasesConfederacion::where(['confederacion_id' => 8, 'fase_id' => 1])->update(['activo' => 1]);
+            FasesConfederacion::where(['confederacion_id' => 8, 'fase_id' => 7])->update(['activo' => 1]);
         }
     }
 

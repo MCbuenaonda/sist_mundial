@@ -24,6 +24,11 @@
   background-image: url(/images/AFC.png?a1cde2105187f23a8d24f2ec4a15b00b);
 }
 
+.repechaje,
+.mundial {
+  background-image: url(/images/Fifa.png?ce7235dcf290bc831044bb05a00ee23d);
+}
+
 .card-hover {
   text-align: center;
   background-position: center center;
@@ -62,6 +67,10 @@
 
 .text-sky {
   color: skyblue !important;
+}
+
+.text-gray {
+  color: gray !important;
 }
 
 .bg-selected {
