@@ -13,4 +13,8 @@ class LogJuego extends Model
     public function jugador() {
         return $this->belongsTo(Jugador::class);
     }
+
+    public function accion() {
+        return $this->belongsTo(Acciones::class, 'accion_id', 'id');
+    }
 }

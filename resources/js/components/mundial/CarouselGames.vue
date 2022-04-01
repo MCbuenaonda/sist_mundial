@@ -5,10 +5,7 @@
                 <div class="text-center">
                     <h5 class="card-title" v-if="item.activo == 0">Grupo {{ item.grupo.nombre }}</h5>
                     <p class="m-0" v-if="item.activo == 1">
-                        <small><b>{{ item.fecha }}</b></small>
-                    </p>
-                    <p class="m-0" v-if="item.activo == 1">
-                        <small>{{ item.fase.lista }}</small>
+                        <small class="text-lightgray">{{ item.fase.lista }}</small> | <small class="text-lightgray"><b>{{ item.fecha }}</b></small>
                     </p>
                 </div>
                 <div class="row text-center">
@@ -16,7 +13,7 @@
                         <img :src="item.paisL.images.bandera" class="img-fluid rounded-circle mx-auto" alt="" style="width: 65%">
                     </div>
                     <div class="col-md-4">
-                        <h4 class="mt-3" v-if="item.activo == 1">{{item.gol_l}} - {{item.gol_v}}</h4>
+                        <h4 class="mt-3" v-if="item.activo == 1"><span class="text-lightgray">{{item.gol_l}} - {{item.gol_v}}</span></h4>
                     </div>
                     <div class="col-md-4">
                         <img :src="item.paisV.images.bandera" class="img-fluid rounded-circle mx-auto" alt="" style="width: 65%">

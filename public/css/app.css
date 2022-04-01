@@ -69,8 +69,24 @@
   color: skyblue !important;
 }
 
+.text-lightcyan {
+  color: lightcyan !important;
+}
+
+.text-green {
+  color: #2D572C !important;
+}
+
+.text-orange {
+  color: #FF8000 !important;
+}
+
 .text-gray {
   color: gray !important;
+}
+
+.text-lightgray {
+  color: lightgray !important;
 }
 
 .bg-selected {

@@ -17,4 +17,8 @@ class Mundial extends Model
     public function partidos() {
         return $this->hasMany(Historia::class);
     }
+
+    public function logfases() {
+        return $this->hasMany(FasesLog::class);
+    }
 }

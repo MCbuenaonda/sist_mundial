@@ -12,6 +12,7 @@ use stdClass;
 use App\Fecha;
 use App\Image;
 use App\Ciudad;
+use App\Jornada;
 use App\Jugador;
 use App\Mundial;
 use App\Concacaf;
@@ -1078,6 +1079,12 @@ class MundialResources {
                 $grupo = Internacional::where('grupo_id', $juego->grupo_id)->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
                 break;
         }
+
+        foreach ($grupo as $key => $value) {
+            $value->grupo = $value->grupo;
+            $value->pais = Pais::where('id', $value->pais_id)->first();
+            $value->pais->images = $value->pais->images;
+        }
         return $grupo;
     }
 
@@ -1102,6 +1109,7 @@ class MundialResources {
             $dataJugador = new stdClass;
             $dataJugador->nombre = $jugador->nombre;
             $dataJugador->pais = Pais::where('id', $jugador->pais_id)->first();
+            $dataJugador->pais->images = $dataJugador->pais->images;
             $dataJugador->goles = $jugadorTemp->goles;
             $dataJugador->posicion = Posicion::where('id', $jugador->posicion_id)->first();
             $dataJugador->jugador_id = $jugador->id;
@@ -1173,12 +1181,17 @@ class MundialResources {
         $juego = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
         if (isset($juego->fecha)){
             $juego->fecha = $this->_parseFecha($juego->fecha);
-
+            $juego->paisL = $juego->paisL;
+            $juego->paisL->images = $juego->paisL->images;
             $juego->paisL->fase_id = Historia::select(DB::raw('max(fase_id) as max_fase'))->where('tag', 'like', '%'.$juego->paisL->siglas.'%')->first();
             $juego->paisL->fase = Fase::where('id', $juego->paisL->fase_id->max_fase)->first();
-
+            $juego->paisV = $juego->paisV;
+            $juego->paisV->images = $juego->paisV->images;
             $juego->paisV->fase_id = Historia::select(DB::raw('max(fase_id) as max_fase'))->where('tag', 'like', '%'.$juego->paisV->siglas.'%')->first();
             $juego->paisV->fase = Fase::where('id', $juego->paisV->fase_id->max_fase)->first();
+            $juego->ciudad = Ciudad::where('id', $juego->ciudad_id)->first();
+            $juego->jornada = $juego->jornada;
+            $juego->fase = $juego->fase;
         }
         return $juego;
     }
@@ -1187,6 +1200,7 @@ class MundialResources {
         $podio = Pais::orderBy('rankin', 'DESC')->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->limit(3)->get();
         foreach ($podio as $key => $pod) {
             $pod->pais = Pais::where('id', $pod->id)->first();
+            $pod->pais->images = $pod->pais->images;
         }
         return $podio;
     }
@@ -1235,5 +1249,47 @@ class MundialResources {
             $conf->activo = count($time);
         }
         return $confederaciones;
+    }
+
+    public function getPosicionRankin($pais){
+        $listado = Pais::orderBy('rankin', 'DESC')->orderBy('puntos', 'DESC')->orderBy('gf', 'DESC')->orderBy('gc', 'ASC')->get();
+        foreach ($listado as $key => $item) {
+            if ($item->id == $pais->id) {
+                $lugar = $key + 1;
+                return $lugar;
+            }
+        }
+    }
+
+    public function getEstrella($pais){
+        $jugador = DB::table('log_juegos')
+        ->join('jugadors', 'jugadors.id', '=', 'log_juegos.jugador_id')
+        ->join('pais', 'pais.id', '=', 'jugadors.pais_id')
+        ->join('acciones', 'acciones.id', '=', 'log_juegos.accion_id')
+        ->join('posicions', 'posicions.id', '=', 'jugadors.posicion_id')
+        ->select(DB::raw('sum(log_juegos.gol) as goles'), 'jugadors.nombre','posicions.nombre as posicion',DB::raw('count(*) as pct'),'jugadors.id')
+        ->where('pais.id', $pais->id)
+        ->whereNotIn('acciones.grupo', ['G','C'])
+        ->groupBy('log_juegos.jugador_id')->groupBy('jugadors.nombre')->groupBy('posicions.nombre')->groupBy('jugadors.id')
+        ->orderBy('goles','DESC')
+        ->orderBy('pct','DESC')
+        ->first();
+
+        return $jugador;
+    }
+
+    public function getPartidosJugador($jugador){
+        $juegos = DB::table('log_juegos')
+        /*->join('jugadors', 'jugadors.id', '=', 'log_juegos.jugador_id')
+        ->join('pais', 'pais.id', '=', 'jugadors.pais_id')
+        ->join('acciones', 'acciones.id', '=', 'log_juegos.accion_id')
+        ->join('posicions', 'posicions.id', '=', 'jugadors.posicion_id')*/
+        ->select('log_juegos.historia_id')
+        ->where('log_juegos.jugador_id', $jugador->id)
+        ->groupBy('log_juegos.historia_id')
+        ->orderBy('log_juegos.historia_id')
+        ->get();
+
+        return $juegos;
     }
 }

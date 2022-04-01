@@ -14,6 +14,37 @@
  import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 import Vue from 'vue';
 import VueGoogleCharts from 'vue-google-charts'
+/*import * as firebase from 'firebase';
+
+const firebaseConfig = {
+    apiKey: "api-key",
+    authDomain: "project-id.firebaseapp.com",
+    databaseURL: "https://project-id.firebaseio.com",
+    projectId: "project-id",
+    storageBucket: "project-id.appspot.com",
+    messagingSenderId: "sender-id",
+    appId: "app-id",
+    measurementId: "G-measurement-id"
+}
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+export const db = firebaseApp.database();*/
+
+import firebase from 'firebase/app';
+import 'firebase/database';
+const firebaseConfig = {
+    apiKey: "api-key",
+    authDomain: "project-id.firebaseapp.com",
+    databaseURL: "https://project-id.firebaseio.com",
+    projectId: "project-id",
+    storageBucket: "project-id.appspot.com",
+    messagingSenderId: "sender-id",
+    appId: "app-id",
+    measurementId: "G-measurement-id"
+}
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+export const db = firebaseApp.database();
 
 Vue.use(VueGoogleCharts)
 /**
@@ -35,6 +66,13 @@ Vue.component('acciones-list', require('./components/mundial/AccionesList.vue').
 Vue.component('calendario-view', require('./components/mundial/CalendarioView.vue').default);
 Vue.component('auto-timer', require('./components/mundial/AutoTimer.vue').default);
 Vue.component('carousel-games', require('./components/mundial/CarouselGames.vue').default);
+Vue.component('data-jugador', require('./components/mundial/DataJugador.vue').default);
+Vue.component('data-podio', require('./components/mundial/DataPodio.vue').default);
+Vue.component('normal-body', require('./components/mundial/NormalBody.vue').default);
+Vue.component('campeon-body', require('./components/mundial/CampeonBody.vue').default);
+Vue.component('juego-anterior', require('./components/mundial/JuegoAnterior.vue').default);
+Vue.component('grupo-index', require('./components/mundial/GrupoIndex.vue').default);
+Vue.component('dream-team', require('./components/mundial/DreamTeam.vue').default);
 Vue.component('v-calendar', Calendar);
 //Vue.component('v-date-picker', DatePicker);
 /**

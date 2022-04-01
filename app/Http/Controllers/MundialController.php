@@ -75,6 +75,7 @@ class MundialController extends Controller
             //$this->_jugarPartidos();
             $mundial = Mundial::where('activo', $this->const->true )->first();
         }
+        $mundial->pais = $mundial->pais;
 
         $confederaciones = $this->lib->getconfederaciones();
         $juegos = $this->lib->getJuegos();
@@ -140,6 +141,13 @@ class MundialController extends Controller
 
         $juego = $this->lib->getJuego();
         $anterior = Historia::where('activo', 1)->orderBy('fecha', 'DESC')->orderBy('id', 'DESC')->first();
+        if (isset($anterior->PaisL)) {
+            $anterior->PaisL = $anterior->PaisL;
+            $anterior->PaisL->images = $anterior->PaisL->images;
+            $anterior->PaisV = $anterior->PaisV;
+            $anterior->PaisV->images = $anterior->PaisV->images;
+        }
+
         $logJuego = $this->lib->getAnterior($anterior);
         $dataJugador = $this->lib->getDataJugador();
         $podio = $this->lib->getPodio();
@@ -370,6 +378,12 @@ class MundialController extends Controller
                 if ($tiro) {
                     $gol_l++;
                     $jugador = Jugador::where('pais_id', $partido->pais_id_l)->inRandomOrder()->first();
+                    if ($jugador->posicion_id == 1) {
+                        $flag = $this->lib->random(0, 4);
+                        if ($flag != 2) {
+                            $jugador = Jugador::where('pais_id', $partido->pais_id_l)->whereNotIn('posicion_id', [1,2,3,4,5])->inRandomOrder()->first();
+                        }
+                    }
                     $accion->gol = 1;
                     $accion->jugador_id = $jugador->id;
                 }
@@ -378,6 +392,12 @@ class MundialController extends Controller
                 if ($tiro) {
                     $gol_v++;
                     $jugador = Jugador::where('pais_id', $partido->pais_id_v)->inRandomOrder()->first();
+                    if ($jugador->posicion_id == 1) {
+                        $flag = $this->lib->random(0, 4);
+                        if ($flag != 2) {
+                            $jugador = Jugador::where('pais_id', $partido->pais_id_v)->whereNotIn('posicion_id', [1,2,3,4,5])->inRandomOrder()->first();
+                        }
+                    }
                     $accion->gol = 1;
                     $accion->jugador_id = $jugador->id;
                 }

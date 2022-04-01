@@ -29,5 +29,14 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'firebase' => [
+        'api_key' => 'AIzaSyCgyKjTlL3yFyrqAuyTM5oZBrAEZzGQnjY',
+        'auth_domain' => 'myapp-7ca51.firebaseapp.com',
+        'database_url' => 'https://myapp-7ca51.firebaseio.com',
+        'project_id' => 'myapp-7ca51',
+        'storage_bucket' => 'myapp-7ca51.appspot.com',
+        'messaging_sender_id' => '747344295568',
+        'app_id' => '1:747344295568:web:3c6f68e803c92c98654a15',
+    ],
 
 ];

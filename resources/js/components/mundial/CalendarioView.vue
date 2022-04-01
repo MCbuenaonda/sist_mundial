@@ -1,6 +1,10 @@
 <template>
-    <div class="text-center section">
-        <v-calendar :attributes="attributes" :from-date="new Date(parseInt(fromDate[0]), (parseInt(fromDate[1]) - 1), parseInt(fromDate[2]))" is-expanded is-dark/>
+    <div>
+        <h4 class="text-sky">Calendario de partidos</h4>
+
+        <div class="text-center section">
+            <v-calendar :attributes="attributes" :from-date="new Date(parseInt(fromDate[0]), (parseInt(fromDate[1]) - 1), parseInt(fromDate[2]))" is-expanded is-dark/>
+        </div>
     </div>
 </template>
 

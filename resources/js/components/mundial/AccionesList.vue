@@ -201,16 +201,32 @@ export default {
         const tiempo = setInterval(() => {
             this.list_view = this.list_view.slice(0,0);
             const linea = this.page[this.list_lines.length];
-            const linea_id = linea.pais.jugador.posicion.siglas.toLowerCase()+'-'+linea.posesion.toLowerCase()
-            const txt_aln = (linea.posesion == 'L') ? 'text-left' : 'text-right'
-            const txt_clr = (linea.gol == 1) ? 'text-sky' : 'text-white'
+            let linea_id = linea.pais.jugador.posicion.siglas.toLowerCase()+'-'+linea.posesion.toLowerCase()
+            let txt_aln = (linea.posesion == 'L') ? 'text-left' : 'text-right'
+            const txt_clr = (linea.gol == 1) ? 'text-orange' : 'text-lightgray'
             this.mingame = linea.minuto
             let animation = (linea.posesion == 'L') ? 'animate__slideInRight' : 'animate__slideInLeft'
+            let idtemp = linea_id.split('-');
             animation = (linea.gol == 1) ? 'animate__bounceIn' : animation
+
             if (linea.posesion == 'L') {
-                $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.minuto}' ${linea.accion}</p>`);
+                animation = (linea.grupo == 'G') ? 'animate__slideInLeft' : animation
+                txt_aln = (linea.grupo == 'G') ? 'text-right' : txt_aln
+                if (linea.grupo == 'G') {
+                    linea_id = idtemp[0]+'-v'
+                    $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.accion} ${linea.minuto}'</p>`);
+                }else{
+                    $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.minuto}' ${linea.accion}</p>`);
+                }
             }else{
-                $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.accion} ${linea.minuto}'</p>`);
+                animation = (linea.grupo == 'G') ? 'animate__slideInRight' : animation
+                txt_aln = (linea.grupo == 'G') ? 'text-left' : txt_aln
+                if (linea.grupo == 'G') {
+                    linea_id = idtemp[0]+'-l'
+                    $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.minuto}' ${linea.accion}</p>`);
+                }else{
+                    $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.accion} ${linea.minuto}'</p>`);
+                }
             }
 
 

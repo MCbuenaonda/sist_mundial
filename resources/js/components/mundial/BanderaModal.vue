@@ -65,10 +65,7 @@ export default {
             infoGrupo: {}
         }
     },
-    mounted()  {
-        //console.log(this.objPais);
-        console.log(this.objGrupo);
-    },
+    mounted()  {},
     methods: {
         getDetails() {
             axios.get(`/api/detalles/${this.objJuego.id}`).then(res => {

@@ -3,10 +3,11 @@
 @section('content')
     <div class="mx-5 justify-content-center">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <p style="margin: 0; font-size: 18px;"><b>{{$game->fecha}}</b></p>
-                <p style="margin: 0; font-size: 17px;">
+            <div class="col-md-4">
+                <p style="margin: 0; font-size: 16px;"><b>{{$game->fecha}}</b></p>
+            </div>
+            <div class="col-md-4 text-center">
+                <p style="margin: 0; font-size: 18px;">
                     Estadio {{$game->ciudad->estadio}} {{$game->ciudad->nombre}},
                     @if ($game->confederacion_id < 8)
                         {{$game->paisL->nombre}}
@@ -14,9 +15,11 @@
                         {{$mundial->pais->nombre}}
                     @endif
                 </p>
-                <p style="margin: 0; font-size: 16px;">{{$game->fase->descripcion}}</p>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-4 text-right">
+                <p style="margin: 0; font-size: 16px;">{{$game->fase->descripcion}}</p>
+                <p style="margin: 0; font-size: 16px;">{{$game->jornada->nombre}}</p>
+            </div>
         </div>
         <hr>
     </div>
