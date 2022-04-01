@@ -1178,7 +1178,12 @@ class MundialResources {
     }
 
     public function getJuego(){
-        $juego = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
+        $juego = Historia::where('activo', 2)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
+
+        if (!$juego) {
+            $juego = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
+        }
+        
         if (isset($juego->fecha)){
             $juego->fecha = $this->_parseFecha($juego->fecha);
             $juego->paisL = $juego->paisL;
@@ -1192,7 +1197,12 @@ class MundialResources {
             $juego->ciudad = Ciudad::where('id', $juego->ciudad_id)->first();
             $juego->jornada = $juego->jornada;
             $juego->fase = $juego->fase;
+            
+            if ($juego->activo == 0) {
+                Historia::where('id', $juego->id)->update(['activo' => 2]);
+            }
         }
+
         return $juego;
     }
 

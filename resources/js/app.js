@@ -3,57 +3,26 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
- import 'animate.css';
+import 'animate.css';
 
- require('./bootstrap');
+require('./bootstrap');
 
- window.Vue = require('vue');
+window.Vue = require('vue');
 
- import router from './router'
- import Calendar from 'v-calendar/lib/components/calendar.umd'
- import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+import router from './router'
+import Calendar from 'v-calendar/lib/components/calendar.umd'
+import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 import Vue from 'vue';
 import VueGoogleCharts from 'vue-google-charts'
-/*import * as firebase from 'firebase';
-
-const firebaseConfig = {
-    apiKey: "api-key",
-    authDomain: "project-id.firebaseapp.com",
-    databaseURL: "https://project-id.firebaseio.com",
-    projectId: "project-id",
-    storageBucket: "project-id.appspot.com",
-    messagingSenderId: "sender-id",
-    appId: "app-id",
-    measurementId: "G-measurement-id"
-}
-
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-
-export const db = firebaseApp.database();*/
-
-import firebase from 'firebase/app';
-import 'firebase/database';
-const firebaseConfig = {
-    apiKey: "api-key",
-    authDomain: "project-id.firebaseapp.com",
-    databaseURL: "https://project-id.firebaseio.com",
-    projectId: "project-id",
-    storageBucket: "project-id.appspot.com",
-    messagingSenderId: "sender-id",
-    appId: "app-id",
-    measurementId: "G-measurement-id"
-}
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-export const db = firebaseApp.database();
 
 Vue.use(VueGoogleCharts)
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+    /**
+     * The following block of code may be used to automatically register your
+     * Vue components. It will recursively scan this directory for the Vue
+     * components and automatically register them with their "basename".
+     *
+     * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+     */
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))

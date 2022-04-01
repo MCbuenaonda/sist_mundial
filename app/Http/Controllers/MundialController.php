@@ -77,9 +77,10 @@ class MundialController extends Controller
         }
         $mundial->pais = $mundial->pais;
 
+        $juego = $this->lib->getJuego();
+                
         $confederaciones = $this->lib->getconfederaciones();
         $juegos = $this->lib->getJuegos();
-
         if(count($juegos) == 0){
             $repechaje = FasesConfederacion::where(['confederacion_id' => 7, 'activo' => 0])->first();
 
@@ -139,7 +140,6 @@ class MundialController extends Controller
             }
         }
 
-        $juego = $this->lib->getJuego();
         $anterior = Historia::where('activo', 1)->orderBy('fecha', 'DESC')->orderBy('id', 'DESC')->first();
         if (isset($anterior->PaisL)) {
             $anterior->PaisL = $anterior->PaisL;

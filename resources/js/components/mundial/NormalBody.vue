@@ -48,7 +48,7 @@
 </template>
 
 <script>
-//import db from '../../app'
+
 export default {
     props:['datajuego','datamundial','datajuegoglobal','dataconfig'],
     data() {
@@ -60,31 +60,7 @@ export default {
             paisjuego: ''
         }
     },
-    created() {
-        this.setJuego();
-        /*this.db.ref('users/' + userID).set({
-		    first_name: 'laslo',
-		    last_name: 'losla',
-	    });*/
-    },
-    methods: {
-        async setJuego() {
-            try {
-                const res = await fetch('https://myapp-7ca51.firebaseio.com/juego.json', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type':'application/json'
-                    },
-                    body: JSON.stringify(this.juego)
-                })
-
-                const dataDB = await res.json()
-                console.log(dataDB);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    },
+    created() {},
     computed: {
         pais() {
             if (this.juego.confederacion_id < 8) {

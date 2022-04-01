@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-5 justify-content-center">
+    <div class="mx-1 justify-content-center">
         <div class="row">
             <div class="col-md-6">
                 <h3 class="mt-2 main-title">Configuración</h3>
@@ -10,15 +10,22 @@
         <hr>
 
         <section>
-            <div class="row my-5 py-5">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
+            <div class="row my-1 py-1">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
                     <div class="card conf-dark-mode">
                         <div class="card-body">
                             <div class="m-5">
                                 <form method="POST" action="{{ route('configuracion.update', $conf->id) }}">
                                     @method('PUT')
                                     @csrf
+
+                                    <div class="form-check">
+                                      <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="" id="" value="checkedValue" checked>
+                                        Modo Manual
+                                      </label>
+                                    </div>
 
                                     <div class="form-group row">
                                         <label for="tiempo_juego" class="col-md-6 col-form-label text-right">
@@ -66,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
         </section>
     </div>
