@@ -3,11 +3,11 @@
 @section('content')
     <div class="mx-5 justify-content-center">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12 mb-3">
                 <h3 class="mt-2 main-title">{{$mundial->id}}ª Copa del Mundo - {{$mundial->pais->nombre}} {{$mundial->anio}}</h3>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="clearfix animate__animated animate__fadeIn">
                     <div class="float-left">
                         @if($dataJugador != null)

@@ -70,7 +70,7 @@ export default {
     methods: {
         async setJuego() {
             try {
-                const res = await fetch('https://project-id.firebaseio.com/myapp-7ca51.json', {
+                const res = await fetch('https://myapp-7ca51.firebaseio.com/juego.json', {
                     method: 'PUT',
                     headers: {
                         'Content-Type':'application/json'
