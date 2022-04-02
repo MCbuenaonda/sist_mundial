@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import { db } from "../firebase";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -8,9 +8,9 @@ export default new Vuex.Store({
         paises: [],
         pais: {},
         confederaciones: [],
-        mundial: {},
+        mundial: {},        
     },
-    mutations: {
+    mutations: {        
         obtener_paises(state, paises) {
             state.paises = paises;
         },
@@ -24,7 +24,7 @@ export default new Vuex.Store({
             state.mundial = payload;
         },
     },
-    getters: {
+    getters: {        
         obtenerPais: state => {
             return state.pais;
         },

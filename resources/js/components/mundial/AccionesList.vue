@@ -114,6 +114,8 @@
 
 <script>
 import { GChart } from 'vue-google-charts'
+import { db } from "../../firebase";
+
 export default {
     props: ['relato','game','poderl','poderv','config'],
     components: {
@@ -178,6 +180,16 @@ export default {
         }
     },
     created(){
+        db.ref('/relato').remove();
+
+        db.ref('/relato').on('value', function(items) {
+            console.log(items.val());
+        });
+        /*this.page.forEach(item => {
+            db.ref('/relato').set(this.page);            
+        });*/
+
+
         this.chartData.push(['Minuto', `'${this.juego.paisL.nombre}'`, `'${this.juego.paisV.nombre}'`])
         this.chartData.push(["0'",this.poderiniL,this.poderiniV]);
         this.dominioL = this.poderiniL;
@@ -189,6 +201,7 @@ export default {
             accion: 'Inicia el partido',
             pais: null
         }
+        db.ref('/relato').child(0).set(linea);
 
         this.list_view.push(linea)
 
@@ -200,7 +213,9 @@ export default {
 
         const tiempo = setInterval(() => {
             this.list_view = this.list_view.slice(0,0);
-            const linea = this.page[this.list_lines.length];
+            const key = this.list_lines.length
+            const linea = this.page[key];
+            db.ref('/relato').child(key).set(linea);                        
             let linea_id = linea.pais.jugador.posicion.siglas.toLowerCase()+'-'+linea.posesion.toLowerCase()
             let txt_aln = (linea.posesion == 'L') ? 'text-left' : 'text-right'
             const txt_clr = (linea.gol == 1) ? 'text-orange' : 'text-lightgray'

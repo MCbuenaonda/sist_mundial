@@ -48,6 +48,7 @@
 </template>
 
 <script>
+//import { db } from "../../firebase";
 
 export default {
     props:['datajuego','datamundial','datajuegoglobal','dataconfig'],
@@ -61,7 +62,11 @@ export default {
         }
     },
     created() {},
+    methods: {
+        //...mapActions(['getCnfData'])
+    },
     computed: {
+        //...mapState(['cnfdata']),
         pais() {
             if (this.juego.confederacion_id < 8) {
                 return this.juego.paisL.siglas
