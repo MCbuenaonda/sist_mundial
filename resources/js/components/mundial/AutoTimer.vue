@@ -19,6 +19,7 @@ export default {
         }
     },
     created() {
+        const tiempo_juego = (this.cnf.tiempo_juego / 1000)
         const _tipo = this.tipo;
         const _id = this.id;
 
@@ -26,8 +27,8 @@ export default {
             const _cnfdata = items.val();
             
             if (_cnfdata.timer_ini == 0) {                
-                _cnfdata.timer_ini = 30;
-                db.ref('/config').update({ timer_ini: 30 });
+                _cnfdata.timer_ini = tiempo_juego;
+                db.ref('/config').update({ timer_ini: tiempo_juego });
             }
             
             $('#seconds').html(_cnfdata.timer_ini);

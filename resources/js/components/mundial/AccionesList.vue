@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <table class="table table-dark">
+            <table v-if="viewline" class="table table-dark">
                 <tr>
                     <td class="text-left">POR</td>
                     <td id="por-l"></td>
@@ -95,19 +95,23 @@
                     <td class="text-right">ED</td>
                 </tr>
             </table>
+
+            
         </div>
 
-        <div v-if="viewline">
+        <div >
             <div class="conf-dark-mode p-2 text-center" style="height: 9rem;">
-                <h4 v-for="line in list_view" :key="line.id">
+                
+            </div>
+
+            <h4 v-for="line in list_view" :key="line.id" >
                     <div :id="'line-'+line.minuto" :class="class_view">
                         <img v-if="line.pais != null" :src="line.pais.images.jersey" alt="" style="width: 8%;">
                         {{line.minuto}}' {{line.accion}}
                     </div>
                 </h4>
-            </div>
 
-            <GChart type="LineChart" :data="chartData" :options="chartOptions" />
+            <GChart type="LineChart" :data="chartData" :options="chartOptions"/>
         </div>
     </div>
 </template>
@@ -130,6 +134,7 @@ export default {
             poderiniV: parseInt(this.poderv),
             list_lines: [],
             list_view: [],
+            line_temp: {},
             gol_l: 0,
             gol_v: 0,
             class_view: 'animate__animated animate__fadeInUp',
@@ -182,40 +187,110 @@ export default {
     created(){
         db.ref('/relato').remove();
 
-        db.ref('/relato').on('value', function(items) {
-            console.log(items.val());
-        });
+        db.ref('/relato').set(this.page);            
         /*this.page.forEach(item => {
-            db.ref('/relato').set(this.page);            
         });*/
 
-
+        /*db.ref('/relato').on('value', function(items) {
+            console.log(items.val());
+            let lines_pages = items.val()
+            let ind = (items.val().length) - 1
+            lines_pages[ind];
+        });*/
+        
         this.chartData.push(['Minuto', `'${this.juego.paisL.nombre}'`, `'${this.juego.paisV.nombre}'`])
         this.chartData.push(["0'",this.poderiniL,this.poderiniV]);
-        this.dominioL = this.poderiniL;
-        this.dominioV = this.poderiniV;
+        this._setDominio(this.poderiniL, this.poderiniV)
 
-        let linea = {
+        /*let linea = {
             id: 0,
             minuto: 0,
             accion: 'Inicia el partido',
             pais: null
-        }
-        db.ref('/relato').child(0).set(linea);
+        }*/
+        //db.ref('/relato').child(0).set(linea);
 
-        this.list_view.push(linea)
+        //this.list_view.push(linea)
 
-        setTimeout(() => {
+        /*setTimeout(() => {
             this.list_view = this.list_view.slice(0,0);
-            console.log('Quito el incio del partido');
-        }, 2000);
+        }, 2000);*/
 
 
         const tiempo = setInterval(() => {
             this.list_view = this.list_view.slice(0,0);
             const key = this.list_lines.length
-            const linea = this.page[key];
-            db.ref('/relato').child(key).set(linea);                        
+            const linea = this.page[key]
+            let ind = 0
+            //db.ref('/relato').child(key).set(linea);                        
+            db.ref('/relato').on('value', function(items) {
+                const lines_size = items.numChildren()               
+                const lines_pages = items.val()                
+                const linea_temp = lines_pages[key];
+                console.log(linea_temp);
+                db.ref('/relato').child(key).remove();
+
+                //console.log(items.val());
+                //let ind = (items.val().length) - 1
+            });        
+            
+            this.setAnimation(linea)
+
+            this.loaded = false;
+            this.list_lines.push(linea)
+            this.list_view.push(linea)
+            
+            this.setDominio(linea)
+
+            this.chartData.push([`${linea.minuto}'`,this.dominioL,this.dominioV]);
+
+            if (this.list_lines.length == this.page.length) {
+                this.endGame(tiempo)                
+            }
+        }, this.cnf.tiempo_lapso);
+    },
+    methods: {
+        _setDominio(ptsL, ptsV){
+            this.dominioL += ptsL
+            this.dominioV += ptsV
+        },
+        setDominio(linea){
+            if (linea.gol == 1) {
+                this.class_gol_l = ""
+                this.class_gol_v = ""
+                if (linea.posesion == 'L') {
+                    this.gol_l++
+                    this._setDominio(2, 0)
+                    this.class_gol_l = "animate__animated animate__bounceIn"
+                }
+                if (linea.posesion == 'V') {
+                    this.gol_v++
+                    this._setDominio(0, 2)
+                    this.class_gol_v = "animate__animated animate__bounceIn"
+                }
+            }
+
+            if (linea.grupo == 'A') {
+                if (linea.posesion == 'V') { this._setDominio(-1, 2) }
+            }
+
+            if (linea.grupo == 'B') {
+                if (linea.posesion == 'L') { this._setDominio(1, -1) }
+            }
+
+            if (linea.grupo == 'C' || linea.grupo == 'G') {                
+                (linea.posesion == 'L') ?  this._setDominio(-1, 1) : this._setDominio(1, -1)
+
+                if (linea.grupo == 'G') {
+                    (linea.posesion == 'L') ? this._setDominio(0, 1) : this._setDominio(1, 0) 
+                }
+            }
+
+            if (linea.grupo == 'D' || linea.grupo == 'E' || linea.grupo == 'F') {
+                (linea.posesion == 'L') ? this._setDominio(1, -1) : this._setDominio(-1, 1)
+            }
+        },
+        setAnimation(linea){
             let linea_id = linea.pais.jugador.posicion.siglas.toLowerCase()+'-'+linea.posesion.toLowerCase()
             let txt_aln = (linea.posesion == 'L') ? 'text-left' : 'text-right'
             const txt_clr = (linea.gol == 1) ? 'text-orange' : 'text-lightgray'
@@ -242,94 +317,26 @@ export default {
                 }else{
                     $('#'+linea_id).append(`<p class="m-0 animate__animated ${animation} ${txt_aln} ${txt_clr}">${linea.accion} ${linea.minuto}'</p>`);
                 }
-            }
-
-
-            this.loaded = false;
-            this.list_lines.push(linea)
-            this.list_view.push(linea)
-
-            if (linea.gol == 1) {
-                this.class_gol_l = ""
-                this.class_gol_v = ""
-                if (linea.posesion == 'L') {
-                    this.gol_l++
-                    this.dominioL += 2
-                    //this.dominioV--
-                    this.class_gol_l = "animate__animated animate__bounceIn"
+            }   
+        },
+        endGame(tiempo){
+            setTimeout(() => {
+                this.list_view = this.list_view.slice(-1);
+                const linea = {
+                    id: 0,
+                    minuto: 0,
+                    accion: 'El arbitro marca el final del partido! ...un momento...',
+                    pais: null
                 }
-                if (linea.posesion == 'V') {
-                    this.gol_v++
-                    //this.dominioL--
-                    this.dominioV += 2
-                    this.class_gol_v = "animate__animated animate__bounceIn"
-                }
-            }
+                this.list_view.push(linea);
+                this.list_view = this.list_view.slice(-1);
+                clearInterval(tiempo);
 
-            if (linea.grupo == 'A') {
-                if (linea.posesion == 'V') {
-                    this.dominioL--
-                    this.dominioV += 2
-                }
-            }
-
-            if (linea.grupo == 'B') {
-                if (linea.posesion == 'L') {
-                    this.dominioL++
-                    this.dominioV--
-                }
-            }
-
-            if (linea.grupo == 'C' || linea.grupo == 'G') {
-                if (linea.posesion == 'L') {
-                    this.dominioL--
-                    this.dominioV++
-                }
-
-                if (linea.posesion == 'V') {
-                    this.dominioL++
-                    this.dominioV--
-                }
-
-                if (linea.grupo == 'G') {
-                    if (linea.posesion == 'L') { this.dominioV++ }
-                    if (linea.posesion == 'V') { this.dominioL++ }
-                }
-            }
-
-            if (linea.grupo == 'D' || linea.grupo == 'E' || linea.grupo == 'F') {
-                if (linea.posesion == 'L') {
-                    this.dominioL++
-                    this.dominioV--
-                }
-
-                if (linea.posesion == 'V') {
-                    this.dominioL--
-                    this.dominioV++
-                }
-            }
-
-            this.chartData.push([`${linea.minuto}'`,this.dominioL,this.dominioV]);
-
-            if (this.list_lines.length == this.page.length) {
                 setTimeout(() => {
-                    this.list_view = this.list_view.slice(-1);
-                    const linea = {
-                        id: 0,
-                        minuto: 0,
-                        accion: 'El arbitro marca el final del partido! ...un momento...',
-                        pais: null
-                    }
-                    this.list_view.push(linea);
-                    this.list_view = this.list_view.slice(-1);
-                    clearInterval(tiempo);
-
-                    setTimeout(() => {
-                        window.location.href = `/mundial/${this.juego.id}/next`;
-                    }, this.cnf.tiempo_siguiente);
-                }, this.cnf.tiempo_lapso);
-            }
-        }, this.cnf.tiempo_lapso);
+                    window.location.href = `/mundial/${this.juego.id}/next`;
+                }, this.cnf.tiempo_siguiente);
+            }, this.cnf.tiempo_lapso);
+        }
     }
 }
 </script>
