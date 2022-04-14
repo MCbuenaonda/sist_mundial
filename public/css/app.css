@@ -1,5 +1,207 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.card-hover {
+  text-align: center;
+  background-position: center center;
+  background-size: inherit;
+  background-repeat: no-repeat;
+  height: 5rem;
+}
+
+.card-hover div {
+  display: none;
+}
+
+.card-hover:hover {
+  content: "";
+  position: absolute;
+  top: 11px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.card-hover:hover div {
+  color: white;
+  display: block;
+}
+
+.main-title {
+  font-size: -webkit-xxx-large;
+  color: skyblue !important;
+}
+
+.bg-sky {
+  background-color: skyblue;
+}
+
+.text-sky {
+  color: skyblue !important;
+}
+
+.text-lightcyan {
+  color: lightcyan !important;
+}
+
+.text-green {
+  color: #2D572C !important;
+}
+
+.text-orange {
+  color: #FF8000 !important;
+}
+
+.text-gray {
+  color: gray !important;
+}
+
+.text-lightgray {
+  color: lightgray !important;
+}
+
+.bg-selected {
+  background-color: #cffadf;
+}
+
+.card-pais {
+  text-align: center;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 5rem;
+}
+
+.card-pais div {
+  display: none;
+}
+
+.card-pais:hover {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.card-pais:hover div {
+  color: white;
+  display: block;
+}
+
+.card-img-sm {
+  background-size: cover;
+  width: 33% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.card-img-md {
+  background-size: cover;
+  width: 48% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.label-pais {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: relative;
+  bottom: 90%;
+}
+
+.col-5 {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.country div {
+  display: none;
+}
+
+.country {
+  text-align: center;
+  background-position: center center;
+  background-size: 115%;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 8rem;
+}
+
+.country:hover div {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+.conf-stats {
+  font-size: 20px;
+  color: skyblue;
+}
+
+.table-head {
+  background-color: skyblue;
+  color: white;
+}
+
+.text-sky {
+  color: skyblue;
+}
+
+.bg-sky {
+  background-color: skyblue;
+}
+
+.center-align {
+  display: flex;
+  align-items: center;
+}
+
+.text-especial {
+  text-shadow: 0 0 15px #000;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;
+}
+
+.bg-lightgreen {
+  background-color: #8fffbd;
+}
+
+.dark-mode {
+  background-color: #343a40 !important;
+}
+
+.dark-mode label,
+.dark-mode h5,
+.dark-mode h4,
+.dark-mode h3,
+.dark-mode b,
+.dark-mode td,
+.dark-mode p,
+.dark-mode small,
+.dark-mode a,
+.dark-mode ul > li {
+  color: white;
+}
+
+.dark-mode .conf-dark-mode,
+.dark-mode .table-head {
+  background-color: #1a202b !important;
+}
+
+.dark-mode .text-secondary {
+  color: white !important;
+}
+
+.dark-mode hr {
+  border-color: darkgray;
+}
+
+.dark-mode pre {
+  color: blue;
+}
+
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors

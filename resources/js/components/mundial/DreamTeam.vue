@@ -5,7 +5,7 @@
         <div class="conf-dark-mode text-white p-2">
             <div class="row" v-for="(jug, index) in teamog" :key="index">
                 <div class="col-md-9" data-toggle="tooltip" data-placement="top" :title="jug[0].pais.nombre">
-                    <a :href="'/jugador/'+jug[0].jugador_id">
+                    <a :href="'/jugador/'+jug[0].jugador_id" target="_blank">
                         <img :src="jug[0].image.bandera" alt="" style="width: 12%">
                         {{jug[0].nombre}}
                     </a>

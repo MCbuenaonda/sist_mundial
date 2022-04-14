@@ -100,16 +100,12 @@
         </div>
 
         <div >
-            <div class="conf-dark-mode p-2 text-center" style="height: 9rem;">
-                
-            </div>
-
             <h4 v-for="line in list_view" :key="line.id" >
-                    <div :id="'line-'+line.minuto" :class="class_view">
-                        <img v-if="line.pais != null" :src="line.pais.images.jersey" alt="" style="width: 8%;">
-                        {{line.minuto}}' {{line.accion}}
-                    </div>
-                </h4>
+                <div :id="'line-'+line.minuto" :class="class_view">
+                    <img v-if="line.pais != null" :src="line.pais.images.jersey" alt="" style="width: 8%;">
+                    {{line.minuto}}' {{line.accion}}
+                </div>
+            </h4>
 
             <GChart type="LineChart" :data="chartData" :options="chartOptions"/>
         </div>

@@ -11,7 +11,9 @@
                 <table class="table table-bordered table-sm mb-0 conf-dark-mode">
                     <tr>
                         <td>
-                            {{dataJugador.nombre}}
+                            <a :href="'/jugador/'+dataJugador.jugador_id" target="_blank">
+                                {{dataJugador.nombre}}
+                            </a>
                         </td>
                         <td>
                             {{dataJugador.goles}} Goles

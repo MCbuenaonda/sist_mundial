@@ -1,17 +1,9 @@
-.uefa { background-image: url(images/UEFA.png); }
-.conmebol { background-image: url(images/CONMEBOL.png); }
-.concacaf { background-image: url(images/CONCACAF.png); }
-.caf { background-image: url(images/CAF.png); }
-.ofc { background-image: url(images/OFC.png); }
-.afc { background-image: url(images/AFC.png); }
-.repechaje, .mundial { background-image: url(images/fifa/Fifa.png); }
-
 .card-hover {
     text-align: center;
-	background-position: center center;
-	background-size: inherit;
-	background-repeat: no-repeat;
-	//position: relative;
+    background-position: center center;
+    background-size: inherit;
+    background-repeat: no-repeat;
+    //position: relative;
     height: 5rem;
     div {
         display: none;
@@ -20,24 +12,24 @@
 
 .card-hover:hover {
     content: '';
-	position: absolute;
+    position: absolute;
     top: 11px;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgba(0,0,0,0.6);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
     div {
         color: white;
         display: block;
     }
 }
 
-.main-title{
+.main-title {
     font-size: -webkit-xxx-large;
     color: skyblue !important;
 }
 
-.bg-sky{
+.bg-sky {
     background-color: skyblue;
 }
 
@@ -45,7 +37,7 @@
     color: skyblue !important;
 }
 
-.text-lightcyan{
+.text-lightcyan {
     color: lightcyan !important;
 }
 
@@ -65,17 +57,16 @@
     color: lightgray !important;
 }
 
-
-.bg-selected{
+.bg-selected {
     background-color: rgb(207, 250, 223);
 }
 
 .card-pais {
     text-align: center;
-	background-position: center center;
-	background-size: contain;
-	background-repeat: no-repeat;
-	position: relative;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
     height: 5rem;
     div {
         display: none;
@@ -84,12 +75,12 @@
 
 .card-pais:hover {
     content: '';
-	position: absolute;
+    position: absolute;
     top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgba(0,0,0,0.6);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
     div {
         color: white;
         display: block;
@@ -110,8 +101,8 @@
     margin-right: auto !important;
 }
 
-.label-pais{
-    background-color: rgba(0,0,0,0.6);
+.label-pais {
+    background-color: rgba(0, 0, 0, 0.6);
     position: relative;
     bottom: 90%;
 }
@@ -121,11 +112,11 @@
     max-width: 20%;
 }
 
-.country div{
+.country div {
     display: none;
 }
 
-.country{
+.country {
     text-align: center;
     background-position: center center;
     background-size: 115%;
@@ -134,241 +125,28 @@
     height: 8rem;
 }
 
-.country:hover{
+.country:hover {
     div {
-        background-color: rgba(0,0,0, 0.5);
+        background-color: rgba(0, 0, 0, 0.5);
         display: block;
     }
 }
 
-.conf-stats{
+.conf-stats {
     font-size: 20px;
     color: skyblue;
 }
 
-.afg{ background-image: url('images/Afganistán.png'); }
-.alb{ background-image: url('images/Albania.png'); }
-.ger{ background-image: url('images/Alemania.png'); }
-.and{ background-image: url('images/Andorra.png'); }
-.ang{ background-image: url('images/Angola.png'); }
-.aia{ background-image: url('images/Anguila.png'); }
-.atg{ background-image: url('images/Antigua y Barbuda.png'); }
-.ksa{ background-image: url('images/Arabia Saudita.png'); }
-.alg{ background-image: url('images/Argelia.png'); }
-.arg{ background-image: url('images/Argentina.png'); }
-.arm{ background-image: url('images/Armenia.png'); }
-.aru{ background-image: url('images/Aruba.png'); }
-.aus{ background-image: url('images/Australia.png'); }
-.aut{ background-image: url('images/Austria.png'); }
-.aze{ background-image: url('images/Azerbaiyán.png'); }
-.bah{ background-image: url('images/Bahamas.png'); }
-.bhr{ background-image: url('images/Bahréin.png'); }
-.ban{ background-image: url('images/Bangladesh.png'); }
-.brb{ background-image: url('images/Barbados.png'); }
-.bel{ background-image: url('images/Bélgica.png'); }
-.blz{ background-image: url('images/Belice.png'); }
-.ben{ background-image: url('images/Benín.png'); }
-.ber{ background-image: url('images/Bermudas.png'); }
-.blr{ background-image: url('images/Bielorrusia.png'); }
-.bol{ background-image: url('images/Bolivia.png'); }
-.bih{ background-image: url('images/Bosnia y Herzegovina.png'); }
-.bot{ background-image: url('images/Botsuana.png'); }
-.bra{ background-image: url('images/Brasil.png'); }
-.bru{ background-image: url('images/Brunéi Darussalam.png'); }
-.bul{ background-image: url('images/Bulgaria.png'); }
-.bfa{ background-image: url('images/Burkina Faso.png'); }
-.bdi{ background-image: url('images/Burundi.png'); }
-.bhu{ background-image: url('images/Bután.png'); }
-.cpv{ background-image: url('images/Cabo Verde.png'); }
-.cam{ background-image: url('images/Camboya.png'); }
-.cmr{ background-image: url('images/Camerún.png'); }
-.can{ background-image: url('images/Canadá.png'); }
-.cha{ background-image: url('images/Chad.png'); }
-.chi{ background-image: url('images/Chile.png'); }
-.chn{ background-image: url('images/China.png'); }
-.cyp{ background-image: url('images/Chipre.png'); }
-.col{ background-image: url('images/Colombia.png'); }
-.com{ background-image: url('images/Comoras.png'); }
-.cgo{ background-image: url('images/Congo.png'); }
-.prk{ background-image: url('images/Corea del Norte.png'); }
-.kor{ background-image: url('images/Corea del Sur.png'); }
-.civ{ background-image: url('images/Costa de Marfil.png'); }
-.crc{ background-image: url('images/Costa Rica.png'); }
-.cro{ background-image: url('images/Croacia.png'); }
-.cub{ background-image: url('images/Cuba.png'); }
-.cuw{ background-image: url('images/Curazao.png'); }
-.den{ background-image: url('images/Dinamarca.png'); }
-.dma{ background-image: url('images/Dominica.png'); }
-.ecu{ background-image: url('images/Ecuador.png'); }
-.usa{ background-image: url('images/EE UU.png'); }
-.egy{ background-image: url('images/Egipto.png'); }
-.slv{ background-image: url('images/El Salvador.png'); }
-.uae{ background-image: url('images/Emiratos Árabes Unidos.png'); }
-.eri{ background-image: url('images/Eritrea.png'); }
-.sco{ background-image: url('images/Escocia.png'); }
-.svk{ background-image: url('images/Eslovaquia.png'); }
-.svn{ background-image: url('images/Eslovenia.png'); }
-.esp{ background-image: url('images/España.png'); }
-.est{ background-image: url('images/Estonia.png'); }
-.eth{ background-image: url('images/Etiopía.png'); }
-.phi{ background-image: url('images/Filipinas.png'); }
-.fin{ background-image: url('images/Finlandia.png'); }
-.fij{ background-image: url('images/Fiyi.png'); }
-.fra{ background-image: url('images/Francia.png'); }
-.gab{ background-image: url('images/Gabón.png'); }
-.wal{ background-image: url('images/Gales.png'); }
-.gam{ background-image: url('images/Gambia.png'); }
-.geo{ background-image: url('images/Georgia.png'); }
-.gha{ background-image: url('images/Ghana.png'); }
-.gib{ background-image: url('images/Gibraltar.png'); }
-.grn{ background-image: url('images/Granada.png'); }
-.gre{ background-image: url('images/Grecia.png'); }
-.gum{ background-image: url('images/Guam.png'); }
-.gua{ background-image: url('images/Guatemala.png'); }
-.gui{ background-image: url('images/Guinea.png'); }
-.eqg{ background-image: url('images/Guinea Ecuatorial.png'); }
-.gnb{ background-image: url('images/Guinea-Bissáu.png'); }
-.guy{ background-image: url('images/Guyana.png'); }
-.hai{ background-image: url('images/Haití.png'); }
-.hon{ background-image: url('images/Honduras.png'); }
-.hkg{ background-image: url('images/Hong Kong.png'); }
-.hun{ background-image: url('images/Hungría.png'); }
-.ind{ background-image: url('images/India.png'); }
-.idn{ background-image: url('images/Indonesia.png'); }
-.eng{ background-image: url('images/Inglaterra.png'); }
-.irq{ background-image: url('images/Irak.png'); }
-.irn{ background-image: url('images/Irán.png'); }
-.irl{ background-image: url('images/Irlanda.png'); }
-.nir{ background-image: url('images/Irlanda del Norte.png'); }
-.isl{ background-image: url('images/Islandia.png'); }
-.cay{ background-image: url('images/Islas Caimán.png'); }
-.cok{ background-image: url('images/Islas Cook.png'); }
-.fro{ background-image: url('images/Islas Feroe.png'); }
-.sol{ background-image: url('images/Islas Salomón.png'); }
-.vgb{ background-image: url('images/Islas Vírgenes Británicas.png'); }
-.vir{ background-image: url('images/Islas Vírgenes Estadounidenses.png'); }
-.isr{ background-image: url('images/Israel.png'); }
-.ita{ background-image: url('images/Italia.png'); }
-.jam{ background-image: url('images/Jamaica.png'); }
-.jpn{ background-image: url('images/Japón.png'); }
-.jor{ background-image: url('images/Jordania.png'); }
-.kaz{ background-image: url('images/Kazajstán.png'); }
-.ken{ background-image: url('images/Kenia.png'); }
-.kgz{ background-image: url('images/Kirguistán.png'); }
-.kvx{ background-image: url('images/Kosovo.png'); }
-.kuw{ background-image: url('images/Kuwait.png'); }
-.lao{ background-image: url('images/Laos.png'); }
-.les{ background-image: url('images/Lesoto.png'); }
-.lva{ background-image: url('images/Letonia.png'); }
-.lib{ background-image: url('images/Líbano.png'); }
-.lbr{ background-image: url('images/Liberia.png'); }
-.lby{ background-image: url('images/Libia.png'); }
-.lie{ background-image: url('images/Liechtenstein.png'); }
-.ltu{ background-image: url('images/Lituania.png'); }
-.lux{ background-image: url('images/Luxemburgo.png'); }
-.mac{ background-image: url('images/Macao.png'); }
-.mkd{ background-image: url('images/Macedonia.png'); }
-.mad{ background-image: url('images/Madagascar.png'); }
-.mas{ background-image: url('images/Malasia.png'); }
-.mwi{ background-image: url('images/Malaui.png'); }
-.mdv{ background-image: url('images/Maldivas.png'); }
-.mli{ background-image: url('images/Mali.png'); }
-.mlt{ background-image: url('images/Malta.png'); }
-.mar{ background-image: url('images/Marruecos.png'); }
-.mri{ background-image: url('images/Mauricio.png'); }
-.mtn{ background-image: url('images/Mauritania.png'); }
-.mex{ background-image: url('images/México.png'); }
-.mda{ background-image: url('images/Moldavia.png'); }
-.mng{ background-image: url('images/Mongolia.png'); }
-.mne{ background-image: url('images/Montenegro.png'); }
-.msr{ background-image: url('images/Montserrat.png'); }
-.moz{ background-image: url('images/Mozambique.png'); }
-.mya{ background-image: url('images/Myanmar.png'); }
-.nam{ background-image: url('images/Namibia.png'); }
-.nep{ background-image: url('images/Nepal.png'); }
-.nca{ background-image: url('images/Nicaragua.png'); }
-.nig{ background-image: url('images/Níger.png'); }
-.nga{ background-image: url('images/Nigeria.png'); }
-.nor{ background-image: url('images/Noruega.png'); }
-.ncl{ background-image: url('images/Nueva Caledonia.png'); }
-.nzl{ background-image: url('images/Nueva Zelanda.png'); }
-.oma{ background-image: url('images/Omán.png'); }
-.ned{ background-image: url('images/Países Bajos.png'); }
-.pak{ background-image: url('images/Pakistán.png'); }
-.ple{ background-image: url('images/Palestina.png'); }
-.pan{ background-image: url('images/Panamá.png'); }
-.png{ background-image: url('images/Papúa Nueva Guinea.png'); }
-.par{ background-image: url('images/Paraguay.png'); }
-.per{ background-image: url('images/Perú.png'); }
-.pol{ background-image: url('images/Polonia.png'); }
-.por{ background-image: url('images/Portugal.png'); }
-.pur{ background-image: url('images/Puerto Rico.png'); }
-.qat{ background-image: url('images/Qatar.png'); }
-.cod{ background-image: url('images/RD del Congo.png'); }
-.cta{ background-image: url('images/República Centroafricana.png'); }
-.cze{ background-image: url('images/República Checa.png'); }
-.dom{ background-image: url('images/República Dominicana.png'); }
-.rwa{ background-image: url('images/Ruanda.png'); }
-.rou{ background-image: url('images/Rumanía.png'); }
-.rus{ background-image: url('images/Rusia.png'); }
-.sam{ background-image: url('images/Samoa.png'); }
-.asa{ background-image: url('images/Samoa Estadounidense.png'); }
-.skn{ background-image: url('images/San Cristóbal y Nieves.png'); }
-.smr{ background-image: url('images/San Marino.png'); }
-.vin{ background-image: url('images/San Vicente y las Granadinas.png'); }
-.lca{ background-image: url('images/Santa Lucía.png'); }
-.stp{ background-image: url('images/Santo Tomé y Príncipe.png'); }
-.sen{ background-image: url('images/Senegal.png'); }
-.srb{ background-image: url('images/Serbia.png'); }
-.sey{ background-image: url('images/Seychelles.png'); }
-.sle{ background-image: url('images/Sierra Leona.png'); }
-.sin{ background-image: url('images/Singapur.png'); }
-.syr{ background-image: url('images/Siria.png'); }
-.som{ background-image: url('images/Somalia.png'); }
-.sri{ background-image: url('images/Sri Lanka.png'); }
-.swz{ background-image: url('images/Suazilandia.png'); }
-.rsa{ background-image: url('images/Sudáfrica.png'); }
-.sdn{ background-image: url('images/Sudán.png'); }
-.ssd{ background-image: url('images/Sudán del Sur.png'); }
-.swe{ background-image: url('images/Suecia.png'); }
-.sui{ background-image: url('images/Suiza.png'); }
-.sur{ background-image: url('images/Surinam.png'); }
-.tah{ background-image: url('images/Tahití.png'); }
-.tha{ background-image: url('images/Tailandia.png'); }
-.tpe{ background-image: url('images/Taipei.png'); }
-.tan{ background-image: url('images/Tanzania.png'); }
-.tjk{ background-image: url('images/Tayikistán.png'); }
-.tls{ background-image: url('images/Timor Oriental.png'); }
-.tog{ background-image: url('images/Togo.png'); }
-.tga{ background-image: url('images/Tonga.png'); }
-.tri{ background-image: url('images/Trinidad y Tobago.png'); }
-.tun{ background-image: url('images/Túnez.png'); }
-.tca{ background-image: url('images/Turcas y Caicos.png'); }
-.tkm{ background-image: url('images/Turkmenistán.png'); }
-.tur{ background-image: url('images/Turquía.png'); }
-.ukr{ background-image: url('images/Ucrania.png'); }
-.uga{ background-image: url('images/Uganda.png'); }
-.uru{ background-image: url('images/Uruguay.png'); }
-.uzb{ background-image: url('images/Uzbekistán.png'); }
-.van{ background-image: url('images/Vanuatu.png'); }
-.ven{ background-image: url('images/Venezuela.png'); }
-.vie{ background-image: url('images/Vietnam.png'); }
-.yem{ background-image: url('images/Yemen.png'); }
-.dji{ background-image: url('images/Yibuti.png'); }
-.zam{ background-image: url('images/Zambia.png'); }
-.zim{ background-image: url('images/Zimbabue.png'); }
-
-
-.table-head{
+.table-head {
     background-color: skyblue;
     color: white;
 }
 
-.text-sky{
+.text-sky {
     color: skyblue;
 }
 
-.bg-sky{
+.bg-sky {
     background-color: skyblue;
 }
 
@@ -389,27 +167,29 @@
 
 .dark-mode {
     background-color: #343a40 !important;
-
-    label, h5, h4, h3, b, td, p, small, a, ul > li{
+    label,
+    h5,
+    h4,
+    h3,
+    b,
+    td,
+    p,
+    small,
+    a,
+    ul>li {
         color: white;
     }
-
-    .conf-dark-mode, .table-head {
+    .conf-dark-mode,
+    .table-head {
         background-color: #1a202b !important;
     }
-
     .text-secondary {
         color: white !important;
     }
-
     hr {
         border-color: darkgray;
     }
-
     pre {
-         color: blue;
+        color: blue;
     }
 }
-
-
-

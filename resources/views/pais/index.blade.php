@@ -32,10 +32,12 @@
                         <div class="card text-center conf-dark-mode">
                           <div class="card-body">
                             <h4 class="card-title">Mejor Jugador</h4>
-                            <a href="{{route('jugador.index', $goleador->id)}}">
-                                <p class="m-0 text-sky">{{$goleador->nombre}}</p>
-                            </a>
-                            <p class="m-0"><small class="text-gray">{{$goleador->posicion}} [{{$goleador->goles}} goles]</small></p>
+                            @if (isset($goleador->id))                                
+                                <a href="{{route('jugador.index', $goleador->id)}}">
+                                    <p class="m-0 text-sky">{{$goleador->nombre}}</p>
+                                </a>
+                                <p class="m-0"><small class="text-gray">{{$goleador->posicion}} [{{$goleador->goles}} goles]</small></p>
+                            @endif
                           </div>
                         </div>
                     </div>

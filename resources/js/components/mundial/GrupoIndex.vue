@@ -16,8 +16,10 @@
             <tbody>
                 <tr v-for="(data, index) in grupo" :key="index" :class="((data.pais.nombre == juego.paisL.nombre) || (data.pais.nombre == juego.paisV.nombre)) ? 'bg-success' : ''">
                     <td scope="row">
-                        <img :src="data.pais.images.icono" alt="" style="width: 35px;">
-                        {{data.pais.nombre}}
+                        <a :href="'/pais/'+data.pais.id" target="_blank">
+                            <img :src="data.pais.images.icono" alt="" style="width: 35px;">
+                            {{data.pais.nombre}}
+                        </a>
                     </td>
                     <td class="font-weight-bold">{{data.puntos}}</td>
                     <td>{{data.jj}}</td>

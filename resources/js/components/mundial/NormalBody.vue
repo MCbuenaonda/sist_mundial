@@ -21,7 +21,7 @@
 
                 <div class="row">
                     <div class="col-md-5">
-                        <a :href="'/pais/'+juego.paisL.id">
+                        <a :href="'/pais/'+juego.paisL.id" target="_blank">
                             <pais-modal :juego="JSON.stringify(juego)" :pais="JSON.stringify(juego.paisL)" :images="JSON.stringify(juego.paisL.images)"></pais-modal>
                         </a>
                     </div>
@@ -30,7 +30,7 @@
                         <p v-if="juegoGlobal != null">({{juegoGlobal.gol_v}} - {{juegoGlobal.gol_l}})</p>
                     </div>
                     <div class="col-md-5">
-                        <a :href="'/pais/'+juego.paisV.id">
+                        <a :href="'/pais/'+juego.paisV.id" target="_blank">
                             <pais-modal :juego="JSON.stringify(juego)" :pais="JSON.stringify(juego.paisV)" :images="JSON.stringify(juego.paisV.images)"></pais-modal>
                         </a>
                     </div>
