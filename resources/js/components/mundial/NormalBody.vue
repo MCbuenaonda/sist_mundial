@@ -22,8 +22,12 @@
                 <div class="row">
                     <div class="col-md-5">
                         <a :href="'/pais/'+juego.paisL.id" target="_blank">
-                            <pais-modal :juego="JSON.stringify(juego)" :pais="JSON.stringify(juego.paisL)" :images="JSON.stringify(juego.paisL.images)"></pais-modal>
+                            <pais-modal v-on:tengo_cuentas="onCuentas" :juego="JSON.stringify(juego)" :pais="JSON.stringify(juego.paisL)" :images="JSON.stringify(juego.paisL.images)"></pais-modal>
                         </a>
+
+                        <div id="div-btn-sell-l">
+                            <button type="button" name="" @click="getCompra(juego.paisL.id, juego.paisL.bolsa.precio)" id="btn-accion-l" class="btn-sell btn btn-outline-primary btn-sm btn-block">Comprar - $ {{juego.paisL.bolsa.precio}}</button>
+                        </div>
                     </div>
                     <div class="col-md-2">
                         <h4 class="mt-5">VS</h4>
@@ -31,8 +35,12 @@
                     </div>
                     <div class="col-md-5">
                         <a :href="'/pais/'+juego.paisV.id" target="_blank">
-                            <pais-modal :juego="JSON.stringify(juego)" :pais="JSON.stringify(juego.paisV)" :images="JSON.stringify(juego.paisV.images)"></pais-modal>
+                            <pais-modal v-on:tengo_cuentas="onCuentas" :juego="JSON.stringify(juego)" :pais="JSON.stringify(juego.paisV)" :images="JSON.stringify(juego.paisV.images)"></pais-modal>
                         </a>
+
+                        <div id="div-btn-sell-v">
+                            <button type="button" name="" @click="getCompra(juego.paisV.id, juego.paisL.bolsa.precio)" id="btn-accion-v" class="btn-sell btn btn-outline-primary btn-sm btn-block">Comprar - $ {{juego.paisV.bolsa.precio}}</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -51,19 +59,55 @@
 //import { db } from "../../firebase";
 
 export default {
-    props:['datajuego','datamundial','datajuegoglobal','dataconfig'],
+    props:['datajuego','datamundial','datajuegoglobal','dataconfig','datacuenta'],
     data() {
         return {
             juego: JSON.parse(this.datajuego),
             mundial: JSON.parse(this.datamundial),
             juegoGlobal: JSON.parse(this.datajuegoglobal),
             config: JSON.parse(this.dataconfig),
+            cuenta: JSON.parse(this.datacuenta),
             paisjuego: ''
         }
     },
     created() {},
     methods: {
         //...mapActions(['getCnfData'])
+        onCuentas(datos){
+            if (datos.length > 0) {
+                datos.forEach(element => {
+                    if (element.pais_id == this.juego.pais_id_l) {
+                        $('.btn-sell').attr('hidden', true);
+                        $('#div-btn-sell-l').append(`<p><small class="text-success">Comprado</small></p>`);
+                    }
+
+                    if (element.pais_id == this.juego.pais_id_v) {
+                        $('.btn-sell').attr('hidden', true);
+                        $('#div-btn-sell-v').append(`<p><small class="text-success">Comprado</small></p>`);
+                    }
+                });
+            }
+        },
+        getCompra(pais_id, pais_precio){
+            if (pais_precio <= this.cuenta.disponible) {
+                const inversion = {
+                    pais_id: pais_id,
+                    cuenta_id: this.cuenta.id,
+                    inversion: pais_precio
+                }
+
+                axios.post(`/api/compra`, inversion).then(res => {
+                    console.log(res);
+                }).catch(e => console.log(e.message));
+                /*
+                axios.get(`/api/detalles/${this.objJuego.id}`).then(res => {
+                    this.infoGrupo = res.data;
+                    this.infoPais = this.infoGrupo.find(i => i.pais.nombre === this.objPais.nombre);
+                    this.$emit('tengo_cuentas', this.infoPais.pais.cuentas);
+                }).catch(e => console.log(e.message));*/
+            }
+
+        }
     },
     computed: {
         //...mapState(['cnfdata']),

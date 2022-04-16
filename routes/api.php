@@ -31,3 +31,5 @@ Route::get('/juegos/play', 'ApiController@juego')->name('juego');
 Route::get('/juegos/{juego}', 'ApiController@juegoword');
 Route::post('/juegos', 'ApiController@store')->name('store');
 Route::get('/detalles/{juego}', 'ApiController@grupopais');
+
+Route::post('/compra', 'ApiController@storesell')->name('storesell');

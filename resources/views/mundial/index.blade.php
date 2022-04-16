@@ -58,13 +58,27 @@
                     <div class="col-md-7">
                         <div class="row animate__animated animate__fadeIn">
                             <div class="col-md-12">
+                            <div class="card shadow conf-dark-mode mb-2">
+                                <div class="container">
+                                    <div class="row pt-2">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <h5>Disponible: $ {{$cuenta->disponible}}</h5>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h5>Invertido: $ {{$cuenta->invertido}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                                 <div class="card shadow conf-dark-mode">
                                     @if ($campeon == null)
                                         <carousel-games partidos="{{$historia}}"></carousel-games>
                                     @endif
 
                                     @if ($campeon == null)
-                                        <normal-body datajuego="{{json_encode($juego)}}" datamundial="{{json_encode($mundial)}}" datajuegoglobal="{{json_encode($juegoGlobal)}}" dataconfig="{{json_encode($config)}}"></normal-body>
+                                        <normal-body datacuenta="{{json_encode($cuenta)}}" datajuego="{{json_encode($juego)}}" datamundial="{{json_encode($mundial)}}" datajuegoglobal="{{json_encode($juegoGlobal)}}" dataconfig="{{json_encode($config)}}"></normal-body>
                                     @else
                                         <div class="card-body text-center">
                                             <h1 class="text-sky mb-4">CAMPEON</h1>

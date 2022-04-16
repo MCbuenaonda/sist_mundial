@@ -7,6 +7,7 @@ use App\Caf;
 use App\Ofc;
 use App\Pais;
 use App\Uefa;
+use App\User;
 use stdClass;
 use App\Fecha;
 use App\Image;
@@ -39,6 +40,7 @@ use App\JornadasGrupo;
 use App\FasesConfederacion;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
+use App\Resources\UserResources;
 use Illuminate\Support\Facades\DB;
 use App\Resources\MundialConstants;
 use App\Resources\MundialResources;
@@ -46,10 +48,12 @@ use App\Resources\MundialResources;
 class MundialController extends Controller
 {
     public $const;
+    protected $user;
 
     public function __construct(){
         $this->const = new MundialConstants;
         $this->lib = new MundialResources;
+        $this->userlib = new UserResources;
         $this->middleware(['auth', 'verified']);
     }
 
@@ -57,6 +61,11 @@ class MundialController extends Controller
     * Obtiene todos los datos que se mostraran en la vista principal y renderiza la vista principal
     */
     public function index() {
+        ini_set('max_execution_time', '300');
+        $user = auth()->user();
+
+        $cuenta = $this->userlib->getCuenta($user->id);
+
         $inGame = Historia::where('activo',3)->first();
         if ($inGame) {
             return redirect('mundial/'.$inGame->id.'/detalle')->with('message', 'Go to!!!');
@@ -83,7 +92,7 @@ class MundialController extends Controller
         $mundial->pais = $mundial->pais;
 
         $juego = $this->lib->getJuego();
-                
+
         $confederaciones = $this->lib->getconfederaciones();
         $juegos = $this->lib->getJuegos();
         if(count($juegos) == 0){
@@ -164,7 +173,7 @@ class MundialController extends Controller
             $juegoGlobal = $this->lib->getJuegoGlobal($grupo, $juego);
         }
 
-        return view('mundial.index', compact('mundial','confederaciones','juego','anterior','grupo','juegos','logJuego','dataJugador','podio','juegoGlobal','config','teamog','historia','campeon'));
+        return view('mundial.index', compact('mundial','confederaciones','juego','anterior','grupo','juegos','logJuego','dataJugador','podio','juegoGlobal','config','teamog','historia','campeon','cuenta','user'));
     }
 
     /*
@@ -191,8 +200,8 @@ class MundialController extends Controller
 
         $poderIniL = 0;//$podL->poder;
         $poderIniV = 0;//$podV->poder;
-        
-        $relato = $this->lib->getRelato($partido);        
+
+        $relato = $this->lib->getRelato($partido);
         return view('mundial.show', compact('relato','game','poderIniL','poderIniV','grupoGlobal','config','mundial'));
     }
 
@@ -517,7 +526,7 @@ class MundialController extends Controller
         $podV->poder = $powerV + $podV->poder;
         Pais::where('id', $partido->pais_id_l)->update( ['poder' => $podL->poder] );
         Pais::where('id', $partido->pais_id_v)->update( ['poder' => $podV->poder] );
-
+        $this->userlib->updateInversion($partido->id);
         return redirect('mundial/'.$partido->id.'/detalle')->with('message', 'State saved correctly!!!');
     }
 

@@ -13,15 +13,19 @@ use App\Conmebol;
 use App\Historia;
 use App\LogJuego;
 use App\Confederacion;
+use App\Cuenta;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Resources\MundialResources;
 use App\Http\Controllers\MundialController;
+use App\Inversion;
+use App\Resources\UserResources;
 
 class ApiController extends Controller {
 
     public function __construct(){
         $this->lib = new MundialResources;
+        $this->libuser = new UserResources;
     }
 
     // confederaciones
@@ -68,6 +72,7 @@ class ApiController extends Controller {
         foreach ($data as $key => $item) {
             $item->pais = $item->pais;
             $item->pais->images = $item->pais->images;
+            $item->pais->cuentas = $item->pais->cuentas;
             $item->pais->juegos = Historia::whereRaw('tag in (?, ?) AND activo = 1', [$historia->paisL->siglas.$historia->paisV->siglas, $historia->paisV->siglas.$historia->paisL->siglas])->get();
             foreach ($item->pais->juegos as $k => $juego) {
                 $juego->paisL = $juego->paisL;
@@ -258,6 +263,28 @@ class ApiController extends Controller {
         }
 
         return $juegos;
+    }
+
+    public function storesell(Request $request) {
+        $pais = Pais::find($request['pais_id']);
+
+        $cuenta = Cuenta::find($request['cuenta_id']);
+        $cuenta->disponible -= $request['inversion'];
+        $cuenta->invertido += $request['inversion'];
+        Cuenta::where('id', $cuenta->id)->update([
+            'disponible' => $cuenta->disponible,
+            'invertido' => $cuenta->invertido,
+        ]);
+
+        $this->libuser->createLogCuenta($cuenta, 0, $request['inversion'], 'Compra seleccion de '.$pais->nombre);
+
+        Inversion::create([
+            'pais_id' => $request['pais_id'],
+            'cuenta_id' => $request['cuenta_id'],
+            'inversion' => $request['inversion']
+        ]);
+
+        return response()->json($request);
     }
 
 }

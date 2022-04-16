@@ -27,12 +27,15 @@ export default {
             juegosAnt: []
         }
     },
-    mounted()  {},
+    mounted()  {
+        this.getDetails()
+    },
     methods: {
         getDetails() {
             axios.get(`/api/detalles/${this.objJuego.id}`).then(res => {
                 this.infoGrupo = res.data;
                 this.infoPais = this.infoGrupo.find(i => i.pais.nombre === this.objPais.nombre);
+                this.$emit('tengo_cuentas', this.infoPais.pais.cuentas);
             }).catch(e => console.log(e.message));
         }
     },

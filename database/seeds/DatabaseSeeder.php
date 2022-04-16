@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DiezEquipoSeed::class);
         $this->call(AccionSeed::class);
         $this->call(ConfiguracionSeed::class);
+        $this->call(BolsaSeed::class);
     }
 }

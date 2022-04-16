@@ -10,6 +10,10 @@ class Pais extends Model
         return $this->belongsTo(Confederacion::class, 'confederacion_id', 'id');
     }
 
+    public function bolsa() {
+        return $this->hasOne(Bolsa::class);
+    }
+
     public function ciudades() {
         return $this->hasMany(Ciudad::class);
     }
@@ -32,5 +36,9 @@ class Pais extends Model
 
     public function images() {
         return $this->hasOne(Image::class, 'pais_id', 'id');
+    }
+
+    public function cuentas() {
+        return $this->hasMany(Inversion::class, 'pais_id', 'id');
     }
 }

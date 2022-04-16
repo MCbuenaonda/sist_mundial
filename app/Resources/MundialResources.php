@@ -1183,21 +1183,23 @@ class MundialResources {
         if (!$juego) {
             $juego = Historia::where('activo', 0)->orderBy('fecha', 'ASC')->orderBy('id', 'ASC')->first();
         }
-        
+
         if (isset($juego->fecha)){
             $juego->fecha = $this->_parseFecha($juego->fecha);
             $juego->paisL = $juego->paisL;
             $juego->paisL->images = $juego->paisL->images;
             $juego->paisL->fase_id = Historia::select(DB::raw('max(fase_id) as max_fase'))->where('tag', 'like', '%'.$juego->paisL->siglas.'%')->first();
             $juego->paisL->fase = Fase::where('id', $juego->paisL->fase_id->max_fase)->first();
+            $juego->paisL->bolsa = $juego->paisL->bolsa;
             $juego->paisV = $juego->paisV;
             $juego->paisV->images = $juego->paisV->images;
             $juego->paisV->fase_id = Historia::select(DB::raw('max(fase_id) as max_fase'))->where('tag', 'like', '%'.$juego->paisV->siglas.'%')->first();
             $juego->paisV->fase = Fase::where('id', $juego->paisV->fase_id->max_fase)->first();
+            $juego->paisV->bolsa = $juego->paisV->bolsa;
             $juego->ciudad = Ciudad::where('id', $juego->ciudad_id)->first();
             $juego->jornada = $juego->jornada;
             $juego->fase = $juego->fase;
-            
+
             if ($juego->activo == 0) {
                 Historia::where('id', $juego->id)->update(['activo' => 2]);
             }
