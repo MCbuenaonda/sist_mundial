@@ -22,16 +22,16 @@ export default {
         const tiempo_juego = (this.cnf.tiempo_juego / 1000)
         const _tipo = this.tipo;
         const _id = this.id;
-        
-        db.ref('/config').update({ timer_ini: tiempo_juego });
+
+        //db.ref('/config').update({ timer_ini: tiempo_juego });
         db.ref('/config').once("value", function(items) {
             const _cnfdata = items.val();
-            
-            if (_cnfdata.timer_ini == 0) {                
+
+            if (_cnfdata.timer_ini == 0) {
                 _cnfdata.timer_ini = tiempo_juego;
                 db.ref('/config').update({ timer_ini: tiempo_juego });
             }
-            
+
             $('#seconds').html(_cnfdata.timer_ini);
 
             const tiempo = setInterval(() => {
@@ -46,14 +46,14 @@ export default {
                     if (_tipo == 'ini') {
                         window.location.href = `/mundial/${_id}`;
                     }
-    
+
                     if (_tipo == 'fin') {
                         window.location.href = `/mundial/${_id}/next`;
                     }
-                    
+
                 }
-            }, 1000);            
-        });      
+            }, 1000);
+        });
     },
     methods: {},
     computed:{}

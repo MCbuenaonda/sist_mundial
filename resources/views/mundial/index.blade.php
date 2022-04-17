@@ -3,11 +3,13 @@
 @section('content')
     <div class="mx-5 justify-content-center">
         <div class="row">
-            <div class="col-md-12 mb-3">
-                <h3 class="mt-2 main-title">{{$mundial->id}}ª Copa del Mundo - {{$mundial->pais->nombre}} {{$mundial->anio}}</h3>
+            <div class="col-md-6">
+                <div class="pt-4">
+                    <h3 class="mt-2 main-title">{{$mundial->id}}ª Copa del Mundo - {{$mundial->pais->nombre}} {{$mundial->anio}}</h3>
+                </div>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="clearfix animate__animated animate__fadeIn">
                     <div class="float-left">
                         @if($dataJugador != null)
@@ -58,20 +60,6 @@
                     <div class="col-md-7">
                         <div class="row animate__animated animate__fadeIn">
                             <div class="col-md-12">
-                            <div class="card shadow conf-dark-mode mb-2">
-                                <div class="container">
-                                    <div class="row pt-2">
-                                        <div class="col-md-4"></div>
-                                        <div class="col-md-4">
-                                            <h5>Disponible: $ {{$cuenta->disponible}}</h5>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <h5>Invertido: $ {{$cuenta->invertido}}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                                 <div class="card shadow conf-dark-mode">
                                     @if ($campeon == null)
                                         <carousel-games partidos="{{$historia}}"></carousel-games>

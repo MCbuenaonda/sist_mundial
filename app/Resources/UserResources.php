@@ -55,6 +55,7 @@ class UserResources {
             $factorV = $bolsaV->cotiza + 10;
             $gananciaV = $bolsaV->precio * ($factorV / 100);
             $bolsaV->precio -= ceil($gananciaV);
+            $bolsaV->precio = ($bolsaV->precio < 100) ? 100 : $bolsaV->precio;
             $cotizaV = $bolsaV->cotiza - 1;
             $cotizaV = ($cotizaV < 0) ? 0 : $cotizaV ;
 
@@ -66,6 +67,7 @@ class UserResources {
             $factorL = $bolsaL->cotiza + 10;
             $gananciaL = $bolsaL->precio * ($factorL / 100);
             $bolsaL->precio -= ceil($gananciaL);
+            $bolsaL->precio = ($bolsaL->precio < 100) ? 100 : $bolsaL->precio;
             $cotizaL = $bolsaL->cotiza - 1;
             $cotizaL = ($cotizaL < 0) ? 0 : $cotizaL ;
 

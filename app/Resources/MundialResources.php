@@ -1142,7 +1142,7 @@ class MundialResources {
         ->orderBy('jugadors.posicion_id')
         ->orderBy('pts', 'DESC')
         ->get();
-
+        //dd($team);
         $teamog = $team->groupBy('posicion');
         foreach ($teamog as $key => $value) {
             $value[0]->image = Image::where('pais_id', $value[0]->pais_id)->first();
