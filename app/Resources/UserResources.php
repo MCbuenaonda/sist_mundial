@@ -47,15 +47,10 @@ class UserResources {
 
         /** Actualiza su estatus en la bolsa */
         if ($juego->gol_l > $juego->gol_v) {
-            $factorL = $bolsaL->cotiza + 10;
-            $gananciaL = $bolsaL->precio * ($factorL / 100);
-            $bolsaL->precio += ceil($gananciaL);
+            $bolsaL->precio = $this->_getPrecio($bolsaL->cotiza);
             $cotizaL = $bolsaL->cotiza + 1;
 
-            $factorV = $bolsaV->cotiza + 10;
-            $gananciaV = $bolsaV->precio * ($factorV / 100);
-            $bolsaV->precio -= ceil($gananciaV);
-            $bolsaV->precio = ($bolsaV->precio < 100) ? 100 : $bolsaV->precio;
+            $bolsaV->precio = $this->_getPrecio($bolsaV->cotiza);
             $cotizaV = $bolsaV->cotiza - 1;
             $cotizaV = ($cotizaV < 0) ? 0 : $cotizaV ;
 
@@ -64,20 +59,13 @@ class UserResources {
         }
 
         if ($juego->gol_v > $juego->gol_l) {
-            $factorL = $bolsaL->cotiza + 10;
-            $gananciaL = $bolsaL->precio * ($factorL / 100);
-            $bolsaL->precio -= ceil($gananciaL);
-            $bolsaL->precio = ($bolsaL->precio < 100) ? 100 : $bolsaL->precio;
+            $bolsaL->precio = $this->_getPrecio($bolsaL->cotiza);
             $cotizaL = $bolsaL->cotiza - 1;
             $cotizaL = ($cotizaL < 0) ? 0 : $cotizaL ;
 
-            $factorV = $bolsaV->cotiza + 10;
-            $gananciaV = $bolsaV->precio * ($factorV / 100);
-            $bolsaV->precio += ceil($gananciaV);
+            $bolsaV->precio = $this->_getPrecio($bolsaV->cotiza);
             $cotizaV = $bolsaV->cotiza + 1;
 
-            $bolsaL->precio = ($bolsaL->precio < 100) ? 100 : $bolsaL->precio ;
-            $bolsaV->precio = ($bolsaV->precio < 100) ? 100 : $bolsaV->precio ;
             Bolsa::where('pais_id', $juego->pais_id_l)->update(['precio' => $bolsaL->precio,'cotiza' => $cotizaL]);
             Bolsa::where('pais_id', $juego->pais_id_v)->update(['precio' => $bolsaV->precio,'cotiza' => $cotizaV]);
         }
@@ -86,10 +74,11 @@ class UserResources {
         $inversionesL = Inversion::where('pais_id', $juego->pais_id_l)->get();
         foreach ($inversionesL as $inversion) {
             $cuenta = Cuenta::where('id', $inversion->cuenta_id)->first();
-            $factor = $inversion->factor + 10;
-            $monto = $inversion->inversion * ($factor / 100);
+            $monto = 0;
 
+            /** Cuando gana */
             if ($juego->gol_l > $juego->gol_v) {
+                $monto = $this->_getGanacia($inversion->factor);
                 $cuenta->disponible += $monto;
                 $inversion->factor += 1;
                 Cuenta::where('id', $inversion->cuenta_id)->update([ 'disponible' => $cuenta->disponible ]);
@@ -97,7 +86,9 @@ class UserResources {
                 $this->createLogCuenta($cuenta, $monto, 0, 'Ganancias de '.$paisL->nombre);
             }
 
+            /** Cuando pierde */
             if ($juego->gol_v > $juego->gol_l) {
+                $monto = $this->_getPerdida($inversion->factor);
                 $cuenta->invertido -= $monto;
                 $inversion->inversion -= $monto;
                 $inversion->factor -= 1;
@@ -112,10 +103,10 @@ class UserResources {
         $inversionesV = Inversion::where('pais_id', $juego->pais_id_v)->get();
         foreach ($inversionesV as $inversion) {
             $cuenta = Cuenta::where('id', $inversion->cuenta_id)->first();
-            $factor = $inversion->factor + 10;
-            $monto = $inversion->inversion * ($factor / 100);
+            $monto = 0;
 
             if ($juego->gol_v > $juego->gol_l) {
+                $monto = $this->_getGanacia($inversion->factor);
                 $cuenta->disponible += $monto;
                 $inversion->factor += 1;
                 Cuenta::where('id', $inversion->cuenta_id)->update([ 'disponible' => $cuenta->disponible ]);
@@ -124,6 +115,7 @@ class UserResources {
             }
 
             if ($juego->gol_l > $juego->gol_v) {
+                $monto = $this->_getPerdida($inversion->factor);
                 $cuenta->invertido -= $monto;
                 $inversion->inversion -= $monto;
                 $inversion->factor -= 1;
@@ -133,5 +125,46 @@ class UserResources {
                 $this->createLogCuenta($cuenta, 0, $monto, 'Perdidas de '.$paisV->nombre);
             }
         }
+    }
+
+    public function _getPrecio($cotiza){
+        $precio = 100;
+        if ($cotiza == 2 || $cotiza == 3) { $precio = 110; }
+        if ($cotiza == 4) { $precio = 120; }
+        if ($cotiza == 5) { $precio = 130; }
+        if ($cotiza == 6) { $precio = 150; }
+        if ($cotiza == 7) { $precio = 170; }
+        if ($cotiza == 8) { $precio = 200; }
+        if ($cotiza == 9) { $precio = 300; }
+        if ($cotiza >= 10) { $precio = 500; }
+        return $precio;
+    }
+
+    public function _getGanacia($factor){
+        $monto = 10;
+        if ($factor == 1) { $monto = 20; }
+        if ($factor == 2) { $monto = 40; }
+        if ($factor == 3) { $monto = 50; }
+        if ($factor == 4) { $monto = 60; }
+        if ($factor == 5) { $monto = 70; }
+        if ($factor == 6) { $monto = 80; }
+        if ($factor == 7) { $monto = 90; }
+        if ($factor == 8) { $monto = 100; }
+        if ($factor == 9) { $monto = 120; }
+        if ($factor >= 10) { $monto = 150; }
+        return $monto;
+    }
+
+    public function _getPerdida($factor){
+        $monto = 10;
+        if ($factor == 2 || $factor == 3) { $monto = 20; }
+        if ($factor == 4) { $monto = 30; }
+        if ($factor == 5) { $monto = 40; }
+        if ($factor == 6) { $monto = 60; }
+        if ($factor == 7) { $monto = 80; }
+        if ($factor == 8) { $monto = 90; }
+        if ($factor == 9) { $monto = 100; }
+        if ($factor >= 10) { $monto = 120; }
+        return $monto;
     }
 }

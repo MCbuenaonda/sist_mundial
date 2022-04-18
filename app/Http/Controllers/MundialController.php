@@ -230,303 +230,306 @@ class MundialController extends Controller
         $gol_l = 0;
         $gol_v = 0;
 
-        for ($i=1; $i < 11; $i++) {
-            $accion = new StdClass;
-            $accion->gol = 0;
-            $accion->jugador_id = 0;
-            $accion->juego_id = $partido->id;
+        if ($partido->activo == 2) {
+            for ($i=1; $i < 11; $i++) {
+                $accion = new StdClass;
+                $accion->gol = 0;
+                $accion->jugador_id = 0;
+                $accion->juego_id = $partido->id;
 
-            $lov = $this->lib->random(0, 1);
-            $tiro = $this->lib->random(0, 1);
+                $lov = $this->lib->random(0, 1);
+                $tiro = $this->lib->random(0, 1);
 
-            $min = 0;
-            $max = 0;
-            switch ($i) {
-                case 1: $max = 9; $min = 1; break;
-                case 2: $max = 10; $min = 19; break;
-                case 3: $max = 20; $min = 29; break;
-                case 4: $max = 30; $min = 39; break;
-                case 5: $max = 40; $min = 49; break;
-                case 6: $max = 50; $min = 59; break;
-                case 7: $max = 60; $min = 69; break;
-                case 8: $max = 70; $min = 79; break;
-                case 9: $max = 80; $min = 89; break;
-                case 10: $max = 90; $min = 95; break;
-                default: break;
-            }
-
-            $minute = $this->lib->random($min, $max);
-
-            $accion->minuto = $minute;
-
-            if ($lov) {
-                $accion->posesion = 'L';
-                if ($tiro) {
-                    $gol_l++;
-                    $jugador = Jugador::where('pais_id', $partido->pais_id_l)->inRandomOrder()->first();
-                    if ($jugador->posicion_id == 1) {
-                        $flag = $this->lib->random(0, 4);
-                        if ($flag != 2) {
-                            $jugador = Jugador::where('pais_id', $partido->pais_id_l)->whereNotIn('posicion_id', [1,2,3,4,5])->inRandomOrder()->first();
-                        }
-                    }
-                    $accion->gol = 1;
-                    $accion->jugador_id = $jugador->id;
+                $min = 0;
+                $max = 0;
+                switch ($i) {
+                    case 1: $max = 9; $min = 1; break;
+                    case 2: $max = 10; $min = 19; break;
+                    case 3: $max = 20; $min = 29; break;
+                    case 4: $max = 30; $min = 39; break;
+                    case 5: $max = 40; $min = 49; break;
+                    case 6: $max = 50; $min = 59; break;
+                    case 7: $max = 60; $min = 69; break;
+                    case 8: $max = 70; $min = 79; break;
+                    case 9: $max = 80; $min = 89; break;
+                    case 10: $max = 90; $min = 95; break;
+                    default: break;
                 }
-            } else {
-                $accion->posesion = 'V';
-                if ($tiro) {
-                    $gol_v++;
-                    $jugador = Jugador::where('pais_id', $partido->pais_id_v)->inRandomOrder()->first();
-                    if ($jugador->posicion_id == 1) {
-                        $flag = $this->lib->random(0, 4);
-                        if ($flag != 2) {
-                            $jugador = Jugador::where('pais_id', $partido->pais_id_v)->whereNotIn('posicion_id', [1,2,3,4,5])->inRandomOrder()->first();
+
+                $minute = $this->lib->random($min, $max);
+
+                $accion->minuto = $minute;
+
+                if ($lov) {
+                    $accion->posesion = 'L';
+                    if ($tiro) {
+                        $gol_l++;
+                        $jugador = Jugador::where('pais_id', $partido->pais_id_l)->inRandomOrder()->first();
+                        if ($jugador->posicion_id == 1) {
+                            $flag = $this->lib->random(0, 4);
+                            if ($flag != 2) {
+                                $jugador = Jugador::where('pais_id', $partido->pais_id_l)->whereNotIn('posicion_id', [1,2,3,4,5])->inRandomOrder()->first();
+                            }
                         }
+                        $accion->gol = 1;
+                        $accion->jugador_id = $jugador->id;
                     }
-                    $accion->gol = 1;
-                    $accion->jugador_id = $jugador->id;
-                }
-            }
-
-            array_push($juego->acciones, $accion);
-            //echo $i . '.- ' . $minute . '.'. $lov .'.'.$tiro.'<br>';
-        }
-
-        foreach ($juego->acciones as $accion) {
-            LogJuego::create([
-                'historia_id' => $accion->juego_id,
-                'minuto' => $accion->minuto,
-                'posesion' => $accion->posesion,
-                'jugador_id' => $accion->jugador_id,
-                'gol' => $accion->gol
-            ]);
-        }
-
-        Historia::where('id', $partido->id)->update(['gol_l' => $gol_l, 'gol_v' => $gol_v, 'activo' => 3]);
-
-        $puntosL = 1;
-        $puntosV = 1;
-        $rankinL = 0;
-        $rankinV = 0;
-
-        if ($gol_l > $gol_v) {
-            $puntosL = 3;
-            $puntosV = 0;
-            $local->pais->rankin++;
-            $visita->pais->rankin--;
-            $local->pais->jg++;
-            $visita->pais->jp++;
-            $local->jg++;
-            $visita->jp++;
-        }
-        if ($gol_l < $gol_v) {
-            $puntosL = 0;
-            $puntosV = 3;
-            $local->pais->rankin--;
-            $visita->pais->rankin++;
-            $local->pais->jp++;
-            $visita->pais->jg++;
-            $local->jp++;
-            $visita->jg++;
-        }
-        if ($gol_l == $gol_v) {
-            $local->pais->je++;
-            $visita->pais->je++;
-            $local->je++;
-            $visita->je++;
-        }
-
-
-        $local->pais->jj++;
-        $visita->pais->jj++;
-
-        $local->puntos = $local->puntos + $puntosL;
-        $local->pais->puntos = $local->pais->puntos + $puntosL;
-        $local->jj = $local->jj + 1;
-        $local->gf = $local->gf + $gol_l;
-        $local->gc = $local->gc + $gol_v;
-        $local->pais->gf = $gol_l + $local->pais->gf;
-        $local->pais->gc = $gol_v + $local->pais->gc;
-
-        $confederacion::where('pais_id', $partido->pais_id_l)->update([
-            'puntos' => $local->puntos,
-            'jj' => $local->jj,
-            'jg' => $local->jg,
-            'je' => $local->je,
-            'jp' => $local->jp,
-            'gf' => $local->gf,
-            'gc' => $local->gc]);
-
-        Pais::where('id', $partido->pais_id_l)->update([
-            'rankin' => $local->pais->rankin,
-            'puntos' => $local->pais->puntos ,
-            'jj' => $local->pais->jj,
-            'jg' => $local->pais->jg,
-            'je' => $local->pais->je,
-            'jp' => $local->pais->jp,
-            'gf' => $local->pais->gf,
-            'gc' => $local->pais->gc]);
-
-        $visita->puntos = $visita->puntos + $puntosV;
-        $visita->pais->puntos = $visita->pais->puntos + $puntosV;
-        $visita->jj = $visita->jj + 1;
-        $visita->gf = $visita->gf + $gol_v;
-        $visita->gc = $visita->gc + $gol_l;
-        $visita->pais->gf = $gol_v + $visita->pais->gf;
-        $visita->pais->gc = $gol_l + $visita->pais->gc;
-
-        $confederacion::where('pais_id', $partido->pais_id_v)->update([
-            'puntos' => $visita->puntos,
-            'jj' => $visita->jj,
-            'jj' => $visita->jj,
-            'jg' => $visita->jg,
-            'je' => $visita->je,
-            'jp' => $visita->jp,
-            'gf' => $visita->gf,
-            'gc' => $visita->gc
-        ]);
-
-        Pais::where('id', $partido->pais_id_v)->update([
-            'rankin' => $visita->pais->rankin,
-            'puntos' => $visita->pais->puntos ,
-            'jj' => $visita->pais->jj,
-            'jg' => $visita->pais->jg,
-            'je' => $visita->pais->je,
-            'jp' => $visita->pais->jp,
-            'gf' => $visita->pais->gf,
-            'gc' => $visita->pais->gc
-        ]);
-
-        /* SECCION: creacion de logs adicionales */
-        $powerL = 0;
-        $powerV = 0;
-
-        $listlog = LogJuego::where('historia_id', $partido->id)->get();
-
-        $dataCreate = [
-            'historia_id' => $partido->id,
-            'minuto' => 0,
-            'posesion' => '',
-            'jugador_id' => 0,
-            'gol' => 0,
-            'accion_id' => 0
-        ];
-
-        foreach ($listlog as $key => $log) {
-            $accion = null;
-            $jugador = null;
-            $jugador_id = null;
-            $minuto = 0;
-            $base = ($key*10) + 4;
-
-            if ($log->minuto <= $base) {
-                $minuto = $log->minuto - 1;
-                $grupo_base = ($log->posesion == 'L') ? 'B' : 'A';
-                $accion = Acciones::where('grupo', $grupo_base)->inRandomOrder()->first();
-                $jugador = $this->lib->getJugador($log,$partido);
-
-                if ($grupo_base == 'A') {
-                    $powerL += -1;
-                    $powerV += 2;
                 } else {
-                    $powerL += 1;
-                    $powerV += -1;
+                    $accion->posesion = 'V';
+                    if ($tiro) {
+                        $gol_v++;
+                        $jugador = Jugador::where('pais_id', $partido->pais_id_v)->inRandomOrder()->first();
+                        if ($jugador->posicion_id == 1) {
+                            $flag = $this->lib->random(0, 4);
+                            if ($flag != 2) {
+                                $jugador = Jugador::where('pais_id', $partido->pais_id_v)->whereNotIn('posicion_id', [1,2,3,4,5])->inRandomOrder()->first();
+                            }
+                        }
+                        $accion->gol = 1;
+                        $accion->jugador_id = $jugador->id;
+                    }
                 }
 
-                $dataCreate = $this->lib->setLogJuego($dataCreate, $accion->id, $jugador->id, $minuto, $log->posesion);
-                LogJuego::create($dataCreate);
+                array_push($juego->acciones, $accion);
+                //echo $i . '.- ' . $minute . '.'. $lov .'.'.$tiro.'<br>';
+            }
 
-                if ($log->gol == 1) {
-                    $accion = Acciones::where('grupo', 'D')->inRandomOrder()->first();
-                    if ($log->posesion == 'L') {
-                        $powerL += 3;
-                        $powerV += -1;
-                    } else {
+            Historia::where('id', $partido->id)->update(['gol_l' => $gol_l, 'gol_v' => $gol_v, 'activo' => 3]);
+
+            foreach ($juego->acciones as $accion) {
+                LogJuego::create([
+                    'historia_id' => $accion->juego_id,
+                    'minuto' => $accion->minuto,
+                    'posesion' => $accion->posesion,
+                    'jugador_id' => $accion->jugador_id,
+                    'gol' => $accion->gol
+                ]);
+            }
+
+            $puntosL = 1;
+            $puntosV = 1;
+            $rankinL = 0;
+            $rankinV = 0;
+
+            if ($gol_l > $gol_v) {
+                $puntosL = 3;
+                $puntosV = 0;
+                $local->pais->rankin++;
+                $visita->pais->rankin--;
+                $local->pais->jg++;
+                $visita->pais->jp++;
+                $local->jg++;
+                $visita->jp++;
+            }
+            if ($gol_l < $gol_v) {
+                $puntosL = 0;
+                $puntosV = 3;
+                $local->pais->rankin--;
+                $visita->pais->rankin++;
+                $local->pais->jp++;
+                $visita->pais->jg++;
+                $local->jp++;
+                $visita->jg++;
+            }
+            if ($gol_l == $gol_v) {
+                $local->pais->je++;
+                $visita->pais->je++;
+                $local->je++;
+                $visita->je++;
+            }
+
+
+            $local->pais->jj++;
+            $visita->pais->jj++;
+
+            $local->puntos = $local->puntos + $puntosL;
+            $local->pais->puntos = $local->pais->puntos + $puntosL;
+            $local->jj = $local->jj + 1;
+            $local->gf = $local->gf + $gol_l;
+            $local->gc = $local->gc + $gol_v;
+            $local->pais->gf = $gol_l + $local->pais->gf;
+            $local->pais->gc = $gol_v + $local->pais->gc;
+
+            $confederacion::where('pais_id', $partido->pais_id_l)->update([
+                'puntos' => $local->puntos,
+                'jj' => $local->jj,
+                'jg' => $local->jg,
+                'je' => $local->je,
+                'jp' => $local->jp,
+                'gf' => $local->gf,
+                'gc' => $local->gc]);
+
+            Pais::where('id', $partido->pais_id_l)->update([
+                'rankin' => $local->pais->rankin,
+                'puntos' => $local->pais->puntos ,
+                'jj' => $local->pais->jj,
+                'jg' => $local->pais->jg,
+                'je' => $local->pais->je,
+                'jp' => $local->pais->jp,
+                'gf' => $local->pais->gf,
+                'gc' => $local->pais->gc]);
+
+            $visita->puntos = $visita->puntos + $puntosV;
+            $visita->pais->puntos = $visita->pais->puntos + $puntosV;
+            $visita->jj = $visita->jj + 1;
+            $visita->gf = $visita->gf + $gol_v;
+            $visita->gc = $visita->gc + $gol_l;
+            $visita->pais->gf = $gol_v + $visita->pais->gf;
+            $visita->pais->gc = $gol_l + $visita->pais->gc;
+
+            $confederacion::where('pais_id', $partido->pais_id_v)->update([
+                'puntos' => $visita->puntos,
+                'jj' => $visita->jj,
+                'jj' => $visita->jj,
+                'jg' => $visita->jg,
+                'je' => $visita->je,
+                'jp' => $visita->jp,
+                'gf' => $visita->gf,
+                'gc' => $visita->gc
+            ]);
+
+            Pais::where('id', $partido->pais_id_v)->update([
+                'rankin' => $visita->pais->rankin,
+                'puntos' => $visita->pais->puntos ,
+                'jj' => $visita->pais->jj,
+                'jg' => $visita->pais->jg,
+                'je' => $visita->pais->je,
+                'jp' => $visita->pais->jp,
+                'gf' => $visita->pais->gf,
+                'gc' => $visita->pais->gc
+            ]);
+
+            /* SECCION: creacion de logs adicionales */
+            $powerL = 0;
+            $powerV = 0;
+
+            $listlog = LogJuego::where('historia_id', $partido->id)->get();
+
+            $dataCreate = [
+                'historia_id' => $partido->id,
+                'minuto' => 0,
+                'posesion' => '',
+                'jugador_id' => 0,
+                'gol' => 0,
+                'accion_id' => 0
+            ];
+
+            foreach ($listlog as $key => $log) {
+                $accion = null;
+                $jugador = null;
+                $jugador_id = null;
+                $minuto = 0;
+                $base = ($key*10) + 4;
+
+                if ($log->minuto <= $base) {
+                    $minuto = $log->minuto - 1;
+                    $grupo_base = ($log->posesion == 'L') ? 'B' : 'A';
+                    $accion = Acciones::where('grupo', $grupo_base)->inRandomOrder()->first();
+                    $jugador = $this->lib->getJugador($log,$partido);
+
+                    if ($grupo_base == 'A') {
                         $powerL += -1;
-                        $powerV += 3;
-                    }
-                    $jugador_id = $log->jugador_id;
-                }else{
-                    $accion = Acciones::where('grupo', 'C')->inRandomOrder()->first();
-                    if ($log->posesion == 'L') {
-                        $powerL += -1;
-                        $powerV += 1;
-                        $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_l)->inRandomOrder()->first();
+                        $powerV += 2;
                     } else {
                         $powerL += 1;
                         $powerV += -1;
-                        $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_v)->inRandomOrder()->first();
                     }
 
-                    $jugador_id = $jugador_tmp->id;
-                }
+                    $dataCreate = $this->lib->setLogJuego($dataCreate, $accion->id, $jugador->id, $minuto, $log->posesion);
+                    LogJuego::create($dataCreate);
 
-                LogJuego::where('id', $log->id)->update([
-                    'jugador_id' => $jugador_id,
-                    'accion_id' => $accion->id
-                ]);
-            } else {
-                $min_tmp = $log->minuto - ($this->lib->random(3, 4));
-                $accion = Acciones::where('grupo', 'E')->inRandomOrder()->first();
-                $jugador = $this->lib->getJugador($log,$partido);
-                $dataCreate = $this->lib->setLogJuego($dataCreate, $accion->id, $jugador->id, $min_tmp, $log->posesion);
-                LogJuego::create($dataCreate);
+                    if ($log->gol == 1) {
+                        $accion = Acciones::where('grupo', 'D')->inRandomOrder()->first();
+                        if ($log->posesion == 'L') {
+                            $powerL += 3;
+                            $powerV += -1;
+                        } else {
+                            $powerL += -1;
+                            $powerV += 3;
+                        }
+                        $jugador_id = $log->jugador_id;
+                    }else{
+                        $accion = Acciones::where('grupo', 'C')->inRandomOrder()->first();
+                        if ($log->posesion == 'L') {
+                            $powerL += -1;
+                            $powerV += 1;
+                            $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_l)->inRandomOrder()->first();
+                        } else {
+                            $powerL += 1;
+                            $powerV += -1;
+                            $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_v)->inRandomOrder()->first();
+                        }
 
-                $min_tmp = $min_tmp + ($this->lib->random(1, 2));
-                $accion = Acciones::where('grupo', 'F')->inRandomOrder()->first();
-                $jugador = $this->lib->getJugador($log,$partido);
-                $dataCreate = $this->lib->setLogJuego($dataCreate, $accion->id, $jugador->id, $min_tmp, $log->posesion);
-                LogJuego::create($dataCreate);
+                        $jugador_id = $jugador_tmp->id;
+                    }
 
-                if ($log->posesion == 'L') {
-                    $powerL += 2;
-                    $powerV += -2;
+                    LogJuego::where('id', $log->id)->update([
+                        'jugador_id' => $jugador_id,
+                        'accion_id' => $accion->id
+                    ]);
                 } else {
-                    $powerL += -2;
-                    $powerV += 2;
-                }
+                    $min_tmp = $log->minuto - ($this->lib->random(3, 4));
+                    $accion = Acciones::where('grupo', 'E')->inRandomOrder()->first();
+                    $jugador = $this->lib->getJugador($log,$partido);
+                    $dataCreate = $this->lib->setLogJuego($dataCreate, $accion->id, $jugador->id, $min_tmp, $log->posesion);
+                    LogJuego::create($dataCreate);
 
-                if ($log->gol == 1) {
-                    $accion = Acciones::where('grupo', 'D')->inRandomOrder()->first();
-                    $jugador_id = $log->jugador_id;
+                    $min_tmp = $min_tmp + ($this->lib->random(1, 2));
+                    $accion = Acciones::where('grupo', 'F')->inRandomOrder()->first();
+                    $jugador = $this->lib->getJugador($log,$partido);
+                    $dataCreate = $this->lib->setLogJuego($dataCreate, $accion->id, $jugador->id, $min_tmp, $log->posesion);
+                    LogJuego::create($dataCreate);
 
                     if ($log->posesion == 'L') {
-                        $powerL += 3;
-                        $powerV += -1;
-                    } else {
-                        $powerL += -1;
-                        $powerV += 3;
-                    }
-                }else{
-                    $accion = Acciones::where('grupo', 'G')->inRandomOrder()->first();
-                    if ($log->posesion == 'L') {
-                        $powerL += -1;
-                        $powerV += 2;
-                        $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_v)->inRandomOrder()->first();
-                    } else {
                         $powerL += 2;
-                        $powerV += -1;
-                        $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_l)->inRandomOrder()->first();
+                        $powerV += -2;
+                    } else {
+                        $powerL += -2;
+                        $powerV += 2;
                     }
 
-                    $jugador_id = $jugador_tmp->id;
-                }
+                    if ($log->gol == 1) {
+                        $accion = Acciones::where('grupo', 'D')->inRandomOrder()->first();
+                        $jugador_id = $log->jugador_id;
 
-                LogJuego::where('id', $log->id)->update([
-                    'jugador_id' => $jugador_id,
-                    'accion_id' => $accion->id
-                ]);
+                        if ($log->posesion == 'L') {
+                            $powerL += 3;
+                            $powerV += -1;
+                        } else {
+                            $powerL += -1;
+                            $powerV += 3;
+                        }
+                    }else{
+                        $accion = Acciones::where('grupo', 'G')->inRandomOrder()->first();
+                        if ($log->posesion == 'L') {
+                            $powerL += -1;
+                            $powerV += 2;
+                            $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_v)->inRandomOrder()->first();
+                        } else {
+                            $powerL += 2;
+                            $powerV += -1;
+                            $jugador_tmp = Jugador::where('pais_id', $partido->pais_id_l)->inRandomOrder()->first();
+                        }
+
+                        $jugador_id = $jugador_tmp->id;
+                    }
+
+                    LogJuego::where('id', $log->id)->update([
+                        'jugador_id' => $jugador_id,
+                        'accion_id' => $accion->id
+                    ]);
+                }
             }
+
+            $podL = Pais::where('id', $partido->pais_id_l)->first();
+            $podV = Pais::where('id', $partido->pais_id_v)->first();
+            $podL->poder = $powerL + $podL->poder;
+            $podV->poder = $powerV + $podV->poder;
+            Pais::where('id', $partido->pais_id_l)->update( ['poder' => $podL->poder] );
+            Pais::where('id', $partido->pais_id_v)->update( ['poder' => $podV->poder] );
+            $this->userlib->updateInversion($partido->id);
         }
 
-        $podL = Pais::where('id', $partido->pais_id_l)->first();
-        $podV = Pais::where('id', $partido->pais_id_v)->first();
-        $podL->poder = $powerL + $podL->poder;
-        $podV->poder = $powerV + $podV->poder;
-        Pais::where('id', $partido->pais_id_l)->update( ['poder' => $podL->poder] );
-        Pais::where('id', $partido->pais_id_v)->update( ['poder' => $podV->poder] );
-        $this->userlib->updateInversion($partido->id);
         return redirect('mundial/'.$partido->id.'/detalle')->with('message', 'State saved correctly!!!');
     }
 
