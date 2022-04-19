@@ -19,7 +19,9 @@ class CuentaController extends Controller
         $cuenta = Cuenta::where('user_id', $user->id)->first();
 
         foreach ($cuenta->inversiones as $inversion) {
-            $historia = [...$inversion->pais->partidosL, ...$inversion->pais->partidosV];
+            //$historia = [...$inversion->pais->partidosL, ...$inversion->pais->partidosV];
+            $inversion->pais->partidosL->merge($inversion->pais->partidosV);
+            $historia = $inversion->pais->partidosL;
             $inversion->historia = $historia;
 
             foreach ($inversion->historia as $hist) {
