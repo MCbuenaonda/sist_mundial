@@ -10,4 +10,8 @@ class Inversion extends Model
         'pais_id','cuenta_id','inversion'
     ];
 
+    public function pais() {
+        return $this->belongsTo(Pais::class);
+    }
+
 }

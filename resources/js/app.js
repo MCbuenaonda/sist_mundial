@@ -42,6 +42,7 @@ Vue.component('campeon-body', require('./components/mundial/CampeonBody.vue').de
 Vue.component('juego-anterior', require('./components/mundial/JuegoAnterior.vue').default);
 Vue.component('grupo-index', require('./components/mundial/GrupoIndex.vue').default);
 Vue.component('dream-team', require('./components/mundial/DreamTeam.vue').default);
+Vue.component('cuenta-section', require('./components/mundial/CuentaSection.vue').default);
 Vue.component('v-calendar', Calendar);
 //Vue.component('v-date-picker', DatePicker);
 /**

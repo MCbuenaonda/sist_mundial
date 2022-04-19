@@ -41,7 +41,7 @@
                             </a>
 
                             <div id="div-btn-sell-l">
-                                <button type="button" name="" @click="getCompra(juego.paisL.id, juego.paisL.bolsa.precio)" id="btn-accion-l" class="btn-sell btn btn-outline-primary btn-sm btn-block">Comprar - $ {{juego.paisL.bolsa.precio}}</button>
+                                <button type="button" name="" @click="getCompra(juego.paisL.id, juego.paisL.bolsa.precio)" id="btn-accion-l" class="btn-sell btn btn-outline-primary btn-sm btn-block">Invertir - $ {{juego.paisL.bolsa.precio}}</button>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -54,7 +54,7 @@
                             </a>
 
                             <div id="div-btn-sell-v">
-                                <button type="button" name="" @click="getCompra(juego.paisV.id, juego.paisL.bolsa.precio)" id="btn-accion-v" class="btn-sell btn btn-outline-primary btn-sm btn-block">Comprar - $ {{juego.paisV.bolsa.precio}}</button>
+                                <button type="button" name="" @click="getCompra(juego.paisV.id, juego.paisL.bolsa.precio)" id="btn-accion-v" class="btn-sell btn btn-outline-primary btn-sm btn-block">Invertir - $ {{juego.paisV.bolsa.precio}}</button>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ export default {
                     Swal.fire({
                         icon: 'success',
                         title: 'Hecho',
-                        text: 'Tu compra se ha realizado!',
+                        text: 'Tu inversion se ha realizado!',
                     })
                 }).catch(e => console.log(e.message));
                 /*

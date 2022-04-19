@@ -2,19 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Cuenta;
 use Illuminate\Http\Request;
+use App\Resources\MundialResources;
 
 class CuentaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+
+    public function __construct(){
+        $this->lib = new MundialResources;
+        $this->middleware(['auth', 'verified']);
+    }
+
+    public function index(User $user){
+        $cuenta = Cuenta::where('user_id', $user->id)->first();
+
+        foreach ($cuenta->inversiones as $inversion) {
+            $historia = [...$inversion->pais->partidosL, ...$inversion->pais->partidosV];
+            $inversion->historia = $historia;
+
+            foreach ($inversion->historia as $hist) {
+                $hist->fase = $hist->fase;
+                $hist->ciudad = $hist->Ciudad;
+                $hist->fecha = $this->lib->_parseFecha($hist->fecha);
+                $hist->paisL = $hist->paisL;
+                $hist->paisL->images = $hist->paisL->images;
+                $hist->paisV = $hist->paisV;
+                $hist->paisV->images = $hist->paisV->images;
+            }
+        }
+
+        return view('cuenta.index', compact('cuenta'));
     }
 
     /**

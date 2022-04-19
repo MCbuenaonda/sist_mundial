@@ -32,5 +32,6 @@ Route::group([ 'middleware' => ['auth', 'verified'] ], function() {
     Route::get('/confederacion/{confederacion}', 'ConfederacionController@index')->name('confederacion.index');
     Route::get('/pais/{pais}', 'PaisController@index')->name('pais.index');
     Route::get('/jugador/{jugador}', 'JugadorController@index')->name('jugador.index');
+    Route::get('/cuenta/{user}', 'CuentaController@index')->name('cuenta.index');
 });
 

@@ -58,6 +58,9 @@
                                     <a class="dropdown-item" href="{{ route('mundial.index') }}">
                                         Mundial
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('cuenta.index', Auth::user()->id) }}" target="_blank">
+                                        Mi Cuenta
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('configuracion.index') }}">
                                         Configuraciòn
                                     </a>
