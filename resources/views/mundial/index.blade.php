@@ -39,7 +39,7 @@
 
                                     @if ($juego->fase_id < 6 && $confederacion->id < 7)
                                         <div class="col-md-12 p-3 animate__animated animate__slideInLeft" style="height: 100px;">
-                                            <a href="{{ route( 'confederacion.index', ['confederacion' => $confederacion->id] ) }}">
+                                            <a href="{{ route( 'confederacion.index', ['confederacion' => $confederacion->id] ) }}" target="_blank">
                                                 <confederacion-card confederacion="{{$confederacion}}"></confederacion-card>
                                             </a>
                                         </div>
@@ -47,7 +47,7 @@
 
                                     @if ($juego->fase_id >= 6 && $confederacion->id >= 7)
                                         <div class="col-md-12 p-3 animate__animated animate__slideInLeft" style="height: 100px;">
-                                            <a href="{{ route( 'confederacion.index', ['confederacion' => $confederacion->id] ) }}">
+                                            <a href="{{ route( 'confederacion.index', ['confederacion' => $confederacion->id] ) }}" target="_blank">
                                                 <confederacion-card confederacion="{{$confederacion}}"></confederacion-card>
                                             </a>
                                         </div>

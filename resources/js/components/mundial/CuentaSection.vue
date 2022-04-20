@@ -59,7 +59,8 @@ export default {
     },
     created(){
         this.dataCuenta.inversiones.forEach(element => {
-            element.historia = element.historia.filter(s => s.activo > 0).sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+            element.historia = element.historia.filter(s => s.activo > 0).sort((a, b) => a.fecha - b.fecha);
+            console.log();
         });
     }
 

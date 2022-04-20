@@ -20,8 +20,9 @@ class CuentaController extends Controller
 
         foreach ($cuenta->inversiones as $inversion) {
             //$historia = [...$inversion->pais->partidosL, ...$inversion->pais->partidosV];
-            $inversion->pais->partidosL->merge($inversion->pais->partidosV);
-            $historia = $inversion->pais->partidosL;
+            $historia = $inversion->pais->partidosL->merge($inversion->pais->partidosV);
+            //dd($hist);
+            //$historia = $inversion->pais->partidosL;
             $inversion->historia = $historia;
 
             foreach ($inversion->historia as $hist) {
